@@ -1,0 +1,24 @@
+{
+  "username": "dineth_katanwala",
+  "email": "a1868070@adelaide.edu.au",
+  "recipe": {
+    "recipe_id": "rec_001_butter_chicken",
+    "title": "High protein butter chicken",
+    "prep_time_minutes": 15,
+    "cook_time_minutes": 30,
+    "servings": 4,
+    "instructions": [
+      "Dice onion and tomato",
+      "Season chicken breast with salt, pepper, and garam masala",
+      "Heat oil in a pan medium-high heat",
+      "Sear chicken for 3-4 minutes per side until golden brown",
+      "Take the chicken out and saute the tomatoes and onions until soft",
+      "Blend them along with fresh cream",
+      "Dice the chicken, and add to the sauce and enjoy"
+    ]
+  },
+  "rating": 9,
+  "comments": "Absolutely delicious. Very simple and healthy",
+  "cooking_notes": "Cherry tomatoes worked better than regular tomatoes",
+  "would_make_again": true
+}

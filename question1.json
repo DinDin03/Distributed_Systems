@@ -1,0 +1,23 @@
+{
+  "username": "dineth_katanwala",
+  "email": "a1868070@adelaide.edu.au",
+  "preferences": {
+    "dietary_restrictions": "N/A",
+    "allergies": "nuts",
+    "cuisine_preference": "high protein",
+    "spice_level": "high"
+  },
+  "ingredients": [
+    {
+      "ingredient_name": "chicken breast",
+      "ingredient_qty": 500
+    },
+    {
+      "ingredient_name": "tomatoes",
+      "ingredient_qty": 200
+    },
+    {
+      "ingredient_name": "butter"
+    }
+  ]
+}

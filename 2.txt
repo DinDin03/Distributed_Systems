@@ -1,0 +1,106 @@
+function requestRecipes(username, email, preferences, ingredients){
+    // prepare the request data
+    requestData = {
+        username: username,
+        email: email,
+        preferences: preferences,
+        ingredients: ingredients
+    }
+
+    // serialise the object
+    jsonString = JSON.serialise(requestData)
+
+    // Create HTTP GET request with json in request body
+    httpRequest = CreateHttpRequest()
+    httpRequest.method = "GET"
+    httpRequest.url = "https://api.genmyrecipe.com/recipes"
+    httpRequest.headers["Content-Type"] = "application/json"
+    httpRequest.headers["Accept"] = application/json
+    httpRequest.body = jsonString
+
+    // send request and handle response
+    try{
+        response = sendRequest(httpRequest)
+
+        if(response.status == 200){
+            recipeData = JSON.deserialise(response.body)
+            return recipeData
+        }else{
+            handleError(response.status, response.body)
+        }
+    }catch(Exception e){
+        handleNetworkError(e)
+    }
+}
+
+function handleGetRecipes(httpRequest){
+    try{
+        // Deserialise incoming JSON
+        requestData = JSON.deserialise(httpRequest.body)
+
+        // Validate request data
+        if not validateRecipeRequest(requestData):
+            return createErrorResponse(400, "Invalid request format")
+
+        // Extract data
+        username = requestData.username
+        preferences = requestData.preferences
+        ingredients = requestData.ingredients
+
+        // Generate recipes using AI service
+        recipes = aiRecipeGenerator.generateRecipes(ingredients, preferences)
+
+        // Create response data
+        responseData = {
+            recipes: recipes,
+            request_id: generateRequestId(),
+            generated_at: getCurrentTimestamp()
+        }
+
+        // Serialise response
+        responseJson = JSON.serialize(responseData)
+
+        // Send HTTP response
+        response = createHTTPResponse()
+        response.statusCode = 200
+        response.headers["Content-Type"] = "application/json"
+        response.body = responseJson
+
+        return response
+    }
+    catch JSONException e{
+        return createErrorResponse(400, "Invalid JSON format")
+    }
+    catch Exception e{
+        logError(e)
+        return createErrorResponse(500, "Internal server error")
+    }
+}
+
+function submitFeedback(feedbackData):
+    // Serialise feedback to JSON
+    jsonString = JSON.serialise(feedbackData)
+
+    // Create HTTP PUT request
+    httpRequest = createHTTPRequest()
+    httpRequest.method = "PUT"
+    httpRequest.url = "https://api.genmyrecipe.com/feedback"
+    httpRequest.headers["Content-Type"] = "application/json"
+    httpRequest.headers["Accept"] = "application/json"
+    httpRequest.body = jsonString
+
+    // Send request
+    try{
+        response = sendRequest(httpRequest)
+
+        if response.statusCode == 200{
+            confirmationData = JSON.deserialize(response.body)
+            return confirmationData
+        }
+        else{
+            handleError(response.statusCode, response.body)
+        }
+    }
+    catch NetworkException e{
+        handleNetworkError(e)
+    }

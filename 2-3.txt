@@ -1,0 +1,20 @@
+class ModelServer:
+    lamportClock = 0
+    messageQueue = PriorityQueue() // Sorted by timestamp
+
+    function receiveFeedback(message):
+        receivedTimestamp = message.lamport_timestamp
+
+        // Update local clock
+        lamportClock = max(lamportClock, receivedTimestamp) + 1
+
+        // Add to ordered queue
+        messageQueue.add(message, receivedTimestamp)
+
+        // Process messages in timestamp order
+        processInOrder()
+
+    function processInOrder():
+        while messageQueue.notEmpty():
+            message = messageQueue.removeOldest()
+            updateRecipeRating(message)

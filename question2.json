@@ -1,0 +1,38 @@
+{
+  "recipes": [
+    {
+      "recipe_id": "rec_001_butter_chicken",
+      "title": "High protein butter chicken",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 30,
+      "servings": 4,
+      "instructions": [
+        "Dice onion and tomato",
+        "Season chicken breast with salt, pepper, and garam masala",
+        "Heat oil in a pan medium-high heat",
+        "Sear chicken for 3-4 minutes per side until golden brown",
+        "Take the chicken out and saute the tomatoes and onions until soft",
+        "Blend them along with fresh cream",
+        "Dice the chicken, and add to the sauce and enjoy"
+      ],
+      "estimated_rating": 4.2
+    },
+    {
+      "recipe_id": "rec_002_grilled_chicken",
+      "title": "Grilled Chicken",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 20,
+      "servings": 2,
+      "instructions": [
+        "Marinate chicken in olive oil and herbs for 30 minutes",
+        "Preheat grill to medium heat",
+        "Grill chicken for 6 to 8 minutes per side",
+        "Check internal temperature reaches 75°C",
+        "Serve with fresh tomatoes and basil garnish"
+      ],
+      "estimated_rating": 3.8
+    }
+  ],
+  "request_id": "req_20250906_001",
+  "generated_at": "2024-09-06T10:30:00Z"
+}

@@ -1,0 +1,17 @@
+class RecipeServer:
+    lamportClock = 0
+
+    function sendFeedback(feedbackData):
+        // Increment clock before sending
+        lamportClock = lamportClock + 1
+
+        // Add timestamp to message
+        message = {
+            lamport_timestamp: lamportClock,
+            username: feedbackData.username,
+            recipe: feedbackData.recipe,
+            comments: feedbackData.comments
+        }
+
+        // Send PUT request to Model Server
+        sendToModelServer(message)
