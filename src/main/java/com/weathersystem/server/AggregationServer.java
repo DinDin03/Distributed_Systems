@@ -14,22 +14,27 @@ public class AggregationServer {
         try{
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("Server listening on port " + PORT);
+            System.out.println("Press Ctrl+C to stop the server");
 
-            Socket clientSocket = serverSocket.accept();
-            System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
+            while (true) {
+                System.out.println("Waiting for client connection...");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String message = in.readLine();
-            System.out.println("Received from client: " + message);
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
 
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.println("Server received: " + message);
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String message = in.readLine();
+                System.out.println("Received: " + message);
 
-            clientSocket.close();
-            serverSocket.close();
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                out.println("Server received: " + message);
+
+                clientSocket.close();
+                System.out.println("Client disconnected\n");
+            }
+
         }catch(IOException e){
             System.out.println("Server error: " + e.getMessage());
         }
-        System.out.println("Server finished");
     }
 }
