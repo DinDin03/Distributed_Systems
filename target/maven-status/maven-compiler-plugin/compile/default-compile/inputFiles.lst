@@ -1,0 +1,13 @@
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/shared/HTTPUtils.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/server/RequestHandler.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/server/DataStore.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/client/ContentServer.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/Main.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/server/ExpiryManager.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/utils/NetworkUtils.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/utils/FileUtils.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/shared/WeatherData.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/shared/JSONUtils.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/server/AggregationServer.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/shared/LamportClock.java
+/Users/dindin/Desktop/Projects/Distributed_Systems/src/main/java/com/weathersystem/client/GETClient.java
