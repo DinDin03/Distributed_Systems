@@ -1,6 +1,7 @@
 com/weathersystem/shared/LamportClock.class
 com/weathersystem/client/GETClient.class
 com/weathersystem/shared/JSONUtils.class
+com/weathersystem/server/WeatherStationEntry.class
 com/weathersystem/utils/NetworkUtils.class
 com/weathersystem/server/DataStore.class
 com/weathersystem/shared/WeatherData.class
