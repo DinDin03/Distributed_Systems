@@ -2,14 +2,19 @@ package com.weathersystem.server;
 
 import com.weathersystem.shared.JSONUtils;
 import com.weathersystem.shared.WeatherData;
+import com.weathersystem.utils.FileUtils;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AggregationServer {
 
     private static final int PORT = 4567;
+    private static final String DATA_FILE = "data/weather.json";
+    private static final String BACKUP_FILE = "data/weather.json.backup";
 
     // Store weather data by station ID
     private static final ConcurrentHashMap<String, WeatherData> weatherDataStore =
@@ -19,13 +24,14 @@ public class AggregationServer {
 
         System.out.println("Aggregation Server starting on port " + PORT);
 
+        loadDataFromFile();
+
         try{
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("Server listening on port " + PORT);
-            System.out.println("Press Ctrl+C to stop the server");
 
             while (true) {
-                System.out.println("Waiting for client connection...");
+                System.out.println("Waiting for client connection\n");
 
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
@@ -39,6 +45,80 @@ public class AggregationServer {
         }catch(IOException e){
             System.out.println("Server error: " + e.getMessage());
         }
+    }
+
+    private static void loadDataFromFile(){
+        System.out.println("Loading weather data from persistent storage");
+
+        File dataFile = new File(DATA_FILE);
+        File backupFile = new File(BACKUP_FILE);
+
+        if(dataFile.exists()){
+            if(loadFromFile(dataFile)){
+                System.out.println("Loaded " + weatherDataStore.size() + " weather stations from " + DATA_FILE);
+                return;
+            }else{
+                System.out.println("Primary data file corrupted. Trying the backup file");
+            }
+        }
+
+        if(backupFile.exists()){
+            if(loadFromFile(backupFile)){
+                System.out.println("Loaded " + weatherDataStore.size() + " weather stations from the backup");
+                saveDataToFile();
+                return;
+            }
+        }
+
+        System.out.println("No existing weather data found. Starting with empty file.");
+    }
+
+    private static boolean loadFromFile(File file){
+
+        try{
+            String jsonContent = new String(Files.readAllBytes(file.toPath()));
+
+            if(jsonContent.trim().isEmpty()){
+                return true;
+            }
+
+            WeatherData[] weatherArray = JSONUtils.fromJSONArray(jsonContent);
+
+            weatherDataStore.clear();
+            for(WeatherData weatherData : weatherArray){
+                weatherDataStore.put(weatherData.getId(), weatherData);
+            }
+            return true;
+        }catch (Exception e) {
+            System.out.println("Error loading from " + file.getName() + ": " + e.getMessage());
+            return false;
+        }
+    }
+
+    private static void saveDataToFile(){
+        try{
+            WeatherData[] allData = weatherDataStore.values().toArray(WeatherData[]::new);
+            String jsonData = JSONUtils.toJSON(allData);
+
+            File tempFile = new File(DATA_FILE + ".tmp");
+            File dataFile = new File(DATA_FILE);
+            File backupFile = new File(BACKUP_FILE);
+
+            try (FileWriter writer = new FileWriter(tempFile)){
+                writer.write(jsonData);
+            }
+
+            if(dataFile.exists()){
+                Files.copy(dataFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            Files.move(tempFile.toPath(), dataFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Weather data saved to persistent storage");
+
+        }catch (IOException e) {
+            System.out.println("Error saving weather data: " + e.getMessage());
+        }
+
     }
 
     private static void handleClientRequest(Socket clientSocket) {
@@ -99,6 +179,7 @@ public class AggregationServer {
             System.out.println("Stored weather data for station: " + weatherData.getId());
             System.out.println("Total stations: " + weatherDataStore.size());
 
+            saveDataToFile();
             // Send success response
             sendSuccessResponse(out, 201, "Created");
 
