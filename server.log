@@ -1,0 +1,23 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< com.weathersystem:weather-aggregation-system >------------
+[INFO] Building Weather Aggregation System 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec:3.1.0:java (default-cli) @ weather-aggregation-system ---
+Aggregation Server starting on port 4567
+Loading weather data from persistent storage
+Loaded 0 weather stations from data/weather.json
+Started background cleanup service (checking every 5 seconds)
+Server listening on port 4567
+Press Ctrl+C to stop the server
+Waiting for client connection...
+Client connected from: /127.0.0.1:53939
+Request: GET /weather.json HTTP/1.1
+Header: Host: localhost:4567
+Header: User-Agent: WeatherClient/1.0
+Sending weather data for 0 stations
+Client disconnected
+
+Waiting for client connection...
