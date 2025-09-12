@@ -37,13 +37,16 @@ public class ContentServer {
         System.out.println("Weather file: " + weatherFile);
 
         try {
+            // Step 1: Read and parse weather file
             System.out.println("Reading weather data from file...");
             WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);
             System.out.println("Parsed data: " + weatherData);
 
+            // Step 2: Convert to JSON
             String jsonData = JSONUtils.toJSON(weatherData);
             System.out.println("JSON data: " + jsonData);
 
+            // Step 3: Send HTTP PUT request
             sendWeatherData(host, port, jsonData);
 
         } catch (FileNotFoundException e) {
@@ -57,15 +60,19 @@ public class ContentServer {
         System.out.println("Content Server finished");
     }
 
+    // Keep the same sendWeatherData method you already have
     private static void sendWeatherData(String host, int port, String jsonData) throws IOException {
         Socket socket = new Socket(host, port);
         System.out.println("Connected to aggregation server");
 
+        // Calculate content length
         byte[] jsonBytes = jsonData.getBytes("UTF-8");
         int contentLength = jsonBytes.length;
 
+        // Send HTTP PUT request
         PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
 
+        // HTTP request line and headers
         out.print("PUT /weather.json HTTP/1.1\r\n");
         out.print("Host: " + host + ":" + port + "\r\n");
         out.print("Content-Type: application/json\r\n");
@@ -74,12 +81,14 @@ public class ContentServer {
 
         out.flush();
 
+        // Send JSON body
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(jsonBytes);
         outputStream.flush();
 
         System.out.println("Sent HTTP PUT request with weather data");
 
+        // Read response
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String responseLine = in.readLine();
         System.out.println("Server response: " + responseLine);

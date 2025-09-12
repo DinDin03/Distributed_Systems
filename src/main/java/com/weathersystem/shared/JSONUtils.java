@@ -12,6 +12,11 @@ public class JSONUtils {
         return gson.toJson(data);
     }
 
+    // Add this method for arrays
+    public static String toJSON(WeatherData[] dataArray) {
+        return gson.toJson(dataArray);
+    }
+
     public static WeatherData fromJSON(String json) {
         return gson.fromJson(json, WeatherData.class);
     }
