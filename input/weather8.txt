@@ -1,0 +1,17 @@
+id:IDS60908
+name:Canberra
+state:ACT
+time_zone:EST
+lat:-35.3
+lon:149.2
+local_date_time:15/04:00pm
+local_date_time_full:20230715160000
+air_temp:16.4
+apparent_t:13.7
+cloud:Clear
+dewpt:5.2
+press:1022.1
+rel_hum:42
+wind_dir:W
+wind_spd_kmh:16
+wind_spd_kt:9

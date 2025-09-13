@@ -1,0 +1,17 @@
+id:IDS60909
+name:Gold Coast Seaway
+state:QLD
+time_zone:EST
+lat:-27.9
+lon:153.4
+local_date_time:15/04:00pm
+local_date_time_full:20230715160000
+air_temp:23.1
+apparent_t:21.8
+cloud:Partly cloudy
+dewpt:16.3
+press:1017.9
+rel_hum:65
+wind_dir:E
+wind_spd_kmh:11
+wind_spd_kt:6

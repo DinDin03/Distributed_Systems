@@ -1,0 +1,17 @@
+id:IDS60905
+name:Perth
+state:WA
+time_zone:WST
+lat:-31.9
+lon:115.9
+local_date_time:15/04:00pm
+local_date_time_full:20230715160000
+air_temp:19.2
+apparent_t:17.8
+cloud:Clear
+dewpt:9.4
+press:1021.3
+rel_hum:47
+wind_dir:SW
+wind_spd_kmh:22
+wind_spd_kt:12

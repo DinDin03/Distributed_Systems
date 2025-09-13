@@ -1,0 +1,17 @@
+id:IDS60906
+name:Darwin
+state:NT
+time_zone:CST
+lat:-12.4
+lon:130.8
+local_date_time:15/04:00pm
+local_date_time_full:20230715160000
+air_temp:31.8
+apparent_t:35.2
+cloud:Partly cloudy
+dewpt:22.1
+press:1012.4
+rel_hum:68
+wind_dir:N
+wind_spd_kmh:14
+wind_spd_kt:7
