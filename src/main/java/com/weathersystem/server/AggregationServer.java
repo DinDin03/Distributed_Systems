@@ -86,7 +86,8 @@ public class AggregationServer {
             return;
         }
 
-        System.out.println("Aggregation Server starting on port " + port);
+        System.out.println("\n=== Aggregation Server Starting ===");
+        System.out.println("Starting on port: " + port);
         System.out.println("Initial Lamport clock: " + lamportClock.getTime());
 
         // Initialize all services
@@ -100,7 +101,7 @@ public class AggregationServer {
         isRunning = true;
 
         System.out.println("Server listening on port " + port);
-        System.out.println("Press Ctrl+C to stop the server");
+        System.out.println("Press Ctrl+C to stop the server\n");
 
         // Main server loop
         runServerLoop();
@@ -111,7 +112,7 @@ public class AggregationServer {
             return;
         }
 
-        System.out.println("Shutting down aggregation server...");
+        System.out.println("\nShutting down aggregation server...");
         isRunning = false;
 
         // Stop accepting new connections
@@ -123,7 +124,7 @@ public class AggregationServer {
         // Final data save
         saveDataToFile();
 
-        System.out.println("Server shutdown complete");
+        System.out.println("Server shutdown complete\n");
     }
 
     private void setupRequestHandlers() {

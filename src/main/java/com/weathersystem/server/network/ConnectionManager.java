@@ -71,8 +71,12 @@ public class ConnectionManager {
             System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress() +
                     " (Thread: " + Thread.currentThread().getName() + ")");
 
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), false)) {
+            BufferedReader in = null;
+            PrintWriter out = null;
+
+            try {
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                out = new PrintWriter(clientSocket.getOutputStream(), true);
 
                 // Parse HTTP request
                 HttpRequestParser parser = new HttpRequestParser();
@@ -82,6 +86,7 @@ public class ConnectionManager {
                     httpRequest = parser.parseRequest(in);
                 } catch (Exception e) {
                     System.out.println("Failed to parse HTTP request: " + e.getMessage());
+                    closeStreams(in, out);
                     return;
                 }
 
@@ -101,6 +106,7 @@ public class ConnectionManager {
 
             } catch (Exception e) {
                 System.out.println("Error in connection handler: " + e.getMessage());
+                closeStreams(in, out);
             }
         }
 
@@ -127,6 +133,24 @@ public class ConnectionManager {
             }
         } catch (IOException e) {
             System.out.println("Error closing socket: " + e.getMessage());
+        }
+    }
+
+    private void closeStreams(BufferedReader in, PrintWriter out) {
+        try {
+            if (in != null) {
+                in.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error closing input stream: " + e.getMessage());
+        }
+
+        try {
+            if (out != null) {
+                out.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error closing output stream: " + e.getMessage());
         }
     }
 }

@@ -33,7 +33,7 @@ public abstract class HttpClientBase {
         long sendTime = lamportClock.tick();
         System.out.println("Sending " + method + " request (Lamport time: " + sendTime + ")");
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
         // Send request line and headers
         out.print(method + " " + "/weather.json" + " HTTP/1.1\r\n");
@@ -91,7 +91,7 @@ public abstract class HttpClientBase {
         }
 
         public boolean isSuccess() {
-            return statusCode < 200 || statusCode >= 300;
+            return statusCode >= 200 && statusCode < 300;
         }
     }
 }

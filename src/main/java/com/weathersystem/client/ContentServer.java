@@ -24,14 +24,14 @@ public class ContentServer extends HttpClientBase {
         ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
         ContentServer contentServer = new ContentServer(config);
 
-        System.out.println("Content Server starting");
+        System.out.println("\n=== Content Server Starting ===");
 
         try {
             contentServer.publishWeatherData(weatherFile);
             System.out.println("Weather data published successfully");
 
         } catch (Exception e) {
-            System.out.println("Failed to publish weather data: " + e.getMessage());
+            System.out.println("\nFailed to publish weather data: " + e.getMessage() + "\n");
             System.exit(1);
         }
     }
@@ -44,7 +44,7 @@ public class ContentServer extends HttpClientBase {
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try {
                 uploadWeatherFile(weatherFile);
-                System.out.println("Weather data published successfully");
+                System.out.println("\nWeather data published successfully\n");
                 return;
             } catch (Exception e) {
                 if (attempt == maxAttempts) {
@@ -60,7 +60,7 @@ public class ContentServer extends HttpClientBase {
 
     private void uploadWeatherFile(String weatherFile) throws Exception {
         long processingTime = lamportClock.tick();
-        System.out.println("Processing weather file (Lamport time: " + processingTime + ")");
+        System.out.println("\nProcessing weather file (Lamport time: " + processingTime + ")");
 
         WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);
         String jsonData = JSONUtils.toJSON(weatherData);
@@ -84,7 +84,7 @@ public class ContentServer extends HttpClientBase {
     }
 
     private void validateResponse(HttpResponse response) throws IOException {
-        if (response.isSuccess()) {
+        if (!response.isSuccess()) {
             throw new IOException("Server rejected weather data: " +
                     response.getStatusCode() + " " + response.getStatusText());
         }

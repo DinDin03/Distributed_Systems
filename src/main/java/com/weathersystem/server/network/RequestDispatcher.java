@@ -75,8 +75,8 @@ public class RequestDispatcher {
             }
 
         } finally {
-            // Close the client socket after processing
-            closeClientSocket(request);
+            // Close streams and socket after processing
+            closeConnectionResources(request);
         }
     }
 
@@ -101,7 +101,25 @@ public class RequestDispatcher {
         );
     }
 
-    private void closeClientSocket(TimestampedRequest request) {
+    private void closeConnectionResources(TimestampedRequest request) {
+        // Close streams first
+        try {
+            if (request.getInputReader() != null) {
+                request.getInputReader().close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error closing input stream: " + e.getMessage());
+        }
+
+        try {
+            if (request.getOutputWriter() != null) {
+                request.getOutputWriter().close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error closing output stream: " + e.getMessage());
+        }
+
+        // Close socket last
         try {
             if (request.getClientSocket() != null && !request.getClientSocket().isClosed()) {
                 request.getClientSocket().close();

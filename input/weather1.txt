@@ -11,7 +11,7 @@ apparent_t:9.5
 cloud:Partly cloudy
 dewpt:5.7
 press:1023.9
-rel_hum:65
+rel_hum:655
 wind_dir:S
 wind_spd_kmh:15
 wind_spd_kt:8
