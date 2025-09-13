@@ -4,6 +4,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+// defines the structure for weather data
+// uses Lombok getter, setter, no argument constructor and toString methods to reduce boilerplate code
+// I am following the JSON structure example from the assignment description
 @Getter
 @Setter
 @NoArgsConstructor

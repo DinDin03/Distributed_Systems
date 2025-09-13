@@ -14,7 +14,7 @@ public class PutRequestHandler implements RequestHandler {
 
     private final WeatherDataService weatherDataService;
     private final HttpResponseBuilder responseBuilder;
-    private final Runnable onDataChanged; // Callback for persistence trigger
+    private final Runnable onDataChanged;
 
     public PutRequestHandler(WeatherDataService weatherDataService, Runnable onDataChanged) {
         this.weatherDataService = weatherDataService;
