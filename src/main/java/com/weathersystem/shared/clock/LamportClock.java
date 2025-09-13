@@ -1,4 +1,4 @@
-package com.weathersystem.shared;
+package com.weathersystem.shared.clock;
 
 import java.util.concurrent.atomic.AtomicLong;
 

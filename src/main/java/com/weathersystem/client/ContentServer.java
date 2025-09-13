@@ -1,8 +1,9 @@
 package com.weathersystem.client;
 
 import com.weathersystem.utils.FileUtils;
-import com.weathersystem.shared.JSONUtils;
-import com.weathersystem.shared.WeatherData;
+import com.weathersystem.shared.json.JSONUtils;
+import com.weathersystem.shared.domain.WeatherData;
+import com.weathersystem.shared.clock.LamportClock;
 
 import java.io.*;
 import java.net.*;
@@ -10,19 +11,13 @@ import java.net.*;
 public class ContentServer {
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 4567;
+    private static final LamportClock lamportClock = new LamportClock();
 
     public static void main(String[] args) {
-        // Parse command line arguments
-        if (args.length < 2) {
-            System.out.println("Usage: java ContentServer <server:port> <weather_file>");
-            System.out.println("Example: java ContentServer localhost:4567 input/weather1.txt");
-            return;
-        }
 
         String serverAddress = args[0];
         String weatherFile = args[1];
 
-        // Parse server address
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
 
@@ -32,68 +27,76 @@ public class ContentServer {
             port = Integer.parseInt(parts[1]);
         }
 
-        System.out.println("Content Server starting...");
-        System.out.println("Target server: " + host + ":" + port);
-        System.out.println("Weather file: " + weatherFile);
+        System.out.println("Content Server starting");
+        System.out.println("Initial Lamport clock: " + lamportClock.getTime());
 
         try {
-            // Step 1: Read and parse weather file
-            System.out.println("Reading weather data from file...");
+            // Tick a clock for local processing
+            long currentTime = lamportClock.tick();
+            System.out.println("Processing weather file (Lamport time: " + currentTime + ")");
+
             WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);
-            System.out.println("Parsed data: " + weatherData);
-
-            // Step 2: Convert to JSON
             String jsonData = JSONUtils.toJSON(weatherData);
-            System.out.println("JSON data: " + jsonData);
 
-            // Step 3: Send HTTP PUT request
+            // Send data with Lamport timestamp
             sendWeatherData(host, port, jsonData);
 
-        } catch (FileNotFoundException e) {
-            System.out.println("Error: Weather file not found: " + weatherFile);
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("Content Server finished");
+        System.out.println("Content Server finished. Final Lamport clock: " + lamportClock.getTime());
     }
 
-    // Keep the same sendWeatherData method you already have
     private static void sendWeatherData(String host, int port, String jsonData) throws IOException {
         Socket socket = new Socket(host, port);
         System.out.println("Connected to aggregation server");
 
-        // Calculate content length
+        // Tick clock before sending request
+        long sendTime = lamportClock.tick();
+        System.out.println("Sending request (Lamport time: " + sendTime + ")");
+
         byte[] jsonBytes = jsonData.getBytes("UTF-8");
         int contentLength = jsonBytes.length;
 
-        // Send HTTP PUT request
         PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
 
-        // HTTP request line and headers
+        // Include Lamport timestamp in HTTP headers
         out.print("PUT /weather.json HTTP/1.1\r\n");
         out.print("Host: " + host + ":" + port + "\r\n");
         out.print("Content-Type: application/json\r\n");
         out.print("Content-Length: " + contentLength + "\r\n");
-        out.print("\r\n"); // Empty line separates headers from body
+        out.print("Lamport-Time: " + sendTime + "\r\n");  // NEW: Lamport timestamp
+        out.print("\r\n");
 
         out.flush();
 
-        // Send JSON body
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(jsonBytes);
         outputStream.flush();
 
-        System.out.println("Sent HTTP PUT request with weather data");
+        System.out.println("Sent HTTP PUT request with Lamport timestamp: " + sendTime);
 
-        // Read response
+        // Read response and update clock
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String responseLine = in.readLine();
-        System.out.println("Server response: " + responseLine);
 
+        // Check for Lamport timestamp in response
+        String headerLine;
+        long responseTime = -1;
+        while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
+            if (headerLine.toLowerCase().startsWith("lamport-time:")) {
+                responseTime = Long.parseLong(headerLine.split(":")[1].trim());
+            }
+        }
+
+        if (responseTime != -1) {
+            long updatedTime = lamportClock.update(responseTime);
+            System.out.println("Updated Lamport clock from server response: " + responseTime +
+                    " -> " + updatedTime);
+        }
+
+        System.out.println("Server response: " + responseLine);
         socket.close();
-        System.out.println("Connection closed");
     }
 }

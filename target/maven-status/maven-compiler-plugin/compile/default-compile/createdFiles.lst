@@ -1,14 +1,15 @@
 com/weathersystem/shared/LamportClock.class
 com/weathersystem/client/GETClient.class
 com/weathersystem/shared/JSONUtils.class
+com/weathersystem/server/AggregationServer$ConnectionHandler.class
 com/weathersystem/server/WeatherStationEntry.class
 com/weathersystem/utils/NetworkUtils.class
 com/weathersystem/server/DataStore.class
 com/weathersystem/shared/WeatherData.class
 com/weathersystem/client/ContentServer.class
-com/weathersystem/server/AggregationServer$ClientRequestHandler.class
 Main.class
 com/weathersystem/server/ExpiryManager.class
+com/weathersystem/server/TimestampedRequest.class
 com/weathersystem/server/RequestHandler.class
 com/weathersystem/shared/HTTPUtils.class
 com/weathersystem/utils/FileUtils.class

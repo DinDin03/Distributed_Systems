@@ -1,5 +1,6 @@
-package com.weathersystem.shared;
+package com.weathersystem.shared.json;
 
+import com.weathersystem.shared.domain.WeatherData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,7 +13,6 @@ public class JSONUtils {
         return gson.toJson(data);
     }
 
-    // Add this method for arrays
     public static String toJSON(WeatherData[] dataArray) {
         return gson.toJson(dataArray);
     }

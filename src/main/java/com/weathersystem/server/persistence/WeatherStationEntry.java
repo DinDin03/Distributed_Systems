@@ -1,8 +1,7 @@
-package com.weathersystem.server;
+package com.weathersystem.server.persistence;
 
-import com.weathersystem.shared.WeatherData;
+import com.weathersystem.shared.domain.WeatherData;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class WeatherStationEntry {

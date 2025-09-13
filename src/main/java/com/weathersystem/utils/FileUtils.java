@@ -1,6 +1,6 @@
 package com.weathersystem.utils;
 
-import com.weathersystem.shared.WeatherData;
+import com.weathersystem.shared.domain.WeatherData;
 
 import java.io.*;
 

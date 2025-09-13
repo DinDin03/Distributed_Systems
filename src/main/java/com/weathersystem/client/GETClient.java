@@ -1,7 +1,8 @@
 package com.weathersystem.client;
 
-import com.weathersystem.shared.JSONUtils;
-import com.weathersystem.shared.WeatherData;
+import com.weathersystem.shared.json.JSONUtils;
+import com.weathersystem.shared.domain.WeatherData;
+import com.weathersystem.shared.clock.LamportClock;
 
 import java.io.*;
 import java.net.*;
@@ -9,68 +10,70 @@ import java.net.*;
 public class GETClient {
     private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 4567;
+    private static final LamportClock lamportClock = new LamportClock();
 
     public static void main(String[] args) {
         System.out.println("GET Client starting...");
+        System.out.println("Initial Lamport clock: " + lamportClock.getTime());
 
         try {
-            // Step 1: Establish connection to server
             Socket socket = new Socket(SERVER_HOST, SERVER_PORT);
             System.out.println("Connected to server at " + SERVER_HOST + ":" + SERVER_PORT);
 
-            // Step 2: Send HTTP GET request
             sendGetRequest(socket);
-
-            // Step 3: Read and process response
             String jsonResponse = readHttpResponse(socket);
-
-            // Step 4: Parse and display weather data
             displayWeatherData(jsonResponse);
 
             socket.close();
-            System.out.println("Connection closed");
 
-        } catch (IOException e) {
-            System.out.println("Connection error: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("GET Client finished");
+        System.out.println("GET Client finished. Final Lamport clock: " + lamportClock.getTime());
     }
 
     private static void sendGetRequest(Socket socket) throws IOException {
+        // Tick clock before sending request
+        long sendTime = lamportClock.tick();
+        System.out.println("Sending GET request (Lamport time: " + sendTime + ")");
+
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-        // HTTP GET request structure
         out.print("GET /weather.json HTTP/1.1\r\n");
         out.print("Host: " + SERVER_HOST + ":" + SERVER_PORT + "\r\n");
         out.print("User-Agent: WeatherClient/1.0\r\n");
-        out.print("\r\n"); // Empty line terminates headers
+        out.print("Lamport-Time: " + sendTime + "\r\n");  // NEW: Include Lamport timestamp
+        out.print("\r\n");
 
         out.flush();
-        System.out.println("Sent HTTP GET request");
     }
 
     private static String readHttpResponse(Socket socket) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        // Read status line
         String statusLine = in.readLine();
         System.out.println("Server response: " + statusLine);
 
-        // Read headers and find Content-Length
         String headerLine;
         int contentLength = 0;
+        long responseTime = -1;
 
         while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-            System.out.println("Response header: " + headerLine);
             if (headerLine.toLowerCase().startsWith("content-length:")) {
                 contentLength = Integer.parseInt(headerLine.split(":")[1].trim());
+            } else if (headerLine.toLowerCase().startsWith("lamport-time:")) {
+                responseTime = Long.parseLong(headerLine.split(":")[1].trim());
             }
         }
 
-        // Read JSON body
+        // Update clock with server's timestamp
+        if (responseTime != -1) {
+            long updatedTime = lamportClock.update(responseTime);
+            System.out.println("Updated Lamport clock from server response: " + responseTime +
+                    " -> " + updatedTime);
+        }
+
         if (contentLength > 0) {
             char[] jsonChars = new char[contentLength];
             in.read(jsonChars, 0, contentLength);
@@ -87,14 +90,12 @@ public class GETClient {
         }
 
         try {
-            // Parse JSON array to WeatherData objects
             WeatherData[] weatherStations = JSONUtils.fromJSONArray(jsonResponse);
 
             System.out.println("\n=== CURRENT WEATHER DATA ===");
             System.out.println("Total weather stations: " + weatherStations.length);
             System.out.println();
 
-            // Display each weather station
             for (int i = 0; i < weatherStations.length; i++) {
                 WeatherData station = weatherStations[i];
 
@@ -113,7 +114,6 @@ public class GETClient {
 
         } catch (Exception e) {
             System.out.println("Error parsing weather data: " + e.getMessage());
-            System.out.println("Raw response: " + jsonResponse);
         }
     }
 }
