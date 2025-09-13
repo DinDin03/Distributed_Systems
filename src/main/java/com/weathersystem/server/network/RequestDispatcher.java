@@ -64,7 +64,6 @@ public class RequestDispatcher {
 
         } catch (Exception e) {
             System.out.println("Error dispatching request: " + e.getMessage());
-            e.printStackTrace();
 
             try {
                 responseBuilder.sendErrorResponse(request.getOutputWriter(),

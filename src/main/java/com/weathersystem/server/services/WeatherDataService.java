@@ -101,34 +101,4 @@ public class WeatherDataService {
         return weatherStationStore;
     }
 
-    public String getStatistics() {
-        readLock.lock();
-        try {
-            int stationCount = weatherStationStore.size();
-            long currentTime = System.currentTimeMillis();
-
-            if (stationCount == 0) {
-                return "No weather stations currently stored";
-            }
-
-            // Find oldest and newest data
-            long oldestTime = Long.MAX_VALUE;
-            long newestTime = Long.MIN_VALUE;
-
-            for (WeatherStationEntry entry : weatherStationStore.values()) {
-                long updateTime = entry.getLastUpdateTime();
-                oldestTime = Math.min(oldestTime, updateTime);
-                newestTime = Math.max(newestTime, updateTime);
-            }
-
-            long oldestAgeSeconds = (currentTime - oldestTime) / 1000;
-            long newestAgeSeconds = (currentTime - newestTime) / 1000;
-
-            return String.format("Weather stations: %d, Oldest data: %ds ago, Newest data: %ds ago",
-                    stationCount, oldestAgeSeconds, newestAgeSeconds);
-
-        } finally {
-            readLock.unlock();
-        }
-    }
 }

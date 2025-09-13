@@ -9,10 +9,6 @@ public class LamportClock {
         this.clock = new AtomicLong(0);
     }
 
-    public LamportClock(long initialValue) {
-        this.clock = new AtomicLong(initialValue);
-    }
-
     // Increment clock for local events
     public long tick() {
         return clock.incrementAndGet();

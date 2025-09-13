@@ -23,11 +23,6 @@ public class PutRequestHandler implements RequestHandler {
     }
 
     @Override
-    public String getSupportedMethod() {
-        return "PUT";
-    }
-
-    @Override
     public void handle(HttpRequest httpRequest, BufferedReader inputReader,
                        PrintWriter outputWriter, long lamportTime) throws Exception {
 

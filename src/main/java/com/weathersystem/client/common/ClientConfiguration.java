@@ -1,5 +1,8 @@
 package com.weathersystem.client.common;
 
+import lombok.Getter;
+
+@Getter
 public class ClientConfiguration {
 
     private final String host;
@@ -23,11 +26,6 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
-    public static ClientConfiguration defaultConfig() {
-        return new ClientConfiguration(DEFAULT_HOST, DEFAULT_PORT, DEFAULT_USER_AGENT,
-                DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
-    }
-
     public static ClientConfiguration fromServerAddress(String serverAddress) {
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
@@ -46,12 +44,6 @@ public class ClientConfiguration {
         return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,
                 DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
-
-    public String getHost() { return host; }
-    public int getPort() { return port; }
-    public String getUserAgent() { return userAgent; }
-    public int getConnectionTimeoutMs() { return connectionTimeoutMs; }
-    public int getReadTimeoutMs() { return readTimeoutMs; }
 
     public String getServerUrl() {
         return host + ":" + port;

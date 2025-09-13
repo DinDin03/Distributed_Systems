@@ -54,41 +54,6 @@ public class FileStorageManager {
         return new WeatherData[0];
     }
 
-    public boolean hasExistingData() {
-        return new File(dataFilePath).exists();
-    }
-
-    public boolean hasBackupData() {
-        return new File(backupFilePath).exists();
-    }
-
-    public void createBackup(WeatherData[] weatherData) throws IOException {
-        String jsonData = JSONUtils.toJSON(weatherData);
-        File backupFile = new File(backupFilePath);
-
-        try (FileWriter writer = new FileWriter(backupFile)) {
-            writer.write(jsonData);
-        }
-
-        System.out.println("Backup created successfully");
-    }
-
-    public WeatherData[] restoreFromBackup() throws IOException {
-        File backupFile = new File(backupFilePath);
-        if (!backupFile.exists()) {
-            throw new IOException("Backup file does not exist");
-        }
-
-        return loadFromFile(backupFile);
-    }
-
-    public boolean validateDataIntegrity() {
-        boolean mainFileValid = validateFile(new File(dataFilePath));
-        boolean backupFileValid = validateFile(new File(backupFilePath));
-
-        return mainFileValid || backupFileValid;
-    }
-
     private WeatherData[] loadFromFile(File file) throws IOException {
         String jsonContent = new String(Files.readAllBytes(file.toPath()));
 
@@ -119,22 +84,4 @@ public class FileStorageManager {
         Files.move(tempFile.toPath(), dataFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    private boolean validateFile(File file) {
-        if (!file.exists()) {
-            return false;
-        }
-
-        try {
-            String content = new String(Files.readAllBytes(file.toPath()));
-            if (content.trim().isEmpty()) {
-                return true; // Empty file is valid
-            }
-
-            // Try to parse as JSON array
-            JSONUtils.fromJSONArray(content);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

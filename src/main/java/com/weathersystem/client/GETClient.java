@@ -2,7 +2,6 @@ package com.weathersystem.client;
 
 import com.weathersystem.client.common.ClientConfiguration;
 import com.weathersystem.client.common.HttpClientBase;
-import com.weathersystem.client.common.RetryManager;
 import com.weathersystem.shared.domain.WeatherData;
 import com.weathersystem.shared.json.JSONUtils;
 
@@ -11,11 +10,8 @@ import java.net.Socket;
 
 public class GETClient extends HttpClientBase {
 
-    private final RetryManager retryManager;
-
     public GETClient(ClientConfiguration config) {
         super(config);
-        this.retryManager = RetryManager.defaultRetry();
     }
 
     public static void main(String[] args) {
@@ -40,22 +36,29 @@ public class GETClient extends HttpClientBase {
     }
 
     public WeatherData[] retrieveWeatherData() throws Exception {
-        HttpResponse response = retryManager.executeWithRetry(() -> {
+        int maxAttempts = 4;
+        long retryDelayMs = 1000;
+        double backoff = 2.0;
+
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try {
                 return requestWeatherData();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                if (attempt == maxAttempts) {
+                    throw new Exception("Weather data retrieval failed after " + maxAttempts + " attempts", e);
+                }
+                System.out.println("Weather data retrieval failed (attempt " + attempt + "/" + maxAttempts +
+                        "): " + e.getMessage() + ". Retrying in " + retryDelayMs + "ms...");
+                Thread.sleep(retryDelayMs);
+                retryDelayMs *= (long) backoff;
             }
-        }, "Weather data retrieval");
-
-        return parseWeatherResponse(response);
+        }
+        return new WeatherData[0]; // Should never reach here
     }
 
-    private HttpResponse requestWeatherData() throws IOException {
-        Socket socket = null;
-        try {
-            socket = createConnection();
-            sendHttpRequest(socket, "GET", "/weather.json", null, null);
+    private WeatherData[] requestWeatherData() throws Exception {
+        try (Socket socket = createConnection()) {
+            sendHttpRequest(socket, "GET", null, null);
             HttpResponse response = receiveHttpResponse(socket);
 
             if (!response.isSuccess()) {
@@ -63,10 +66,7 @@ public class GETClient extends HttpClientBase {
                         response.getStatusCode() + " " + response.getStatusText());
             }
 
-            return response;
-
-        } finally {
-            closeConnection(socket);
+            return parseWeatherResponse(response);
         }
     }
 

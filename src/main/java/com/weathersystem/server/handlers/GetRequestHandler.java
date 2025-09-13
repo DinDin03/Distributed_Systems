@@ -21,11 +21,6 @@ public class GetRequestHandler implements RequestHandler {
     }
 
     @Override
-    public String getSupportedMethod() {
-        return "GET";
-    }
-
-    @Override
     public void handle(HttpRequest httpRequest, BufferedReader inputReader,
                        PrintWriter outputWriter, long lamportTime) throws Exception {
 

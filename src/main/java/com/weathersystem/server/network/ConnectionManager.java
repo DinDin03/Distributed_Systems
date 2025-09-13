@@ -59,11 +59,6 @@ public class ConnectionManager {
         }
     }
 
-    public int getActiveThreadCount() {
-        return connectionHandlerPool instanceof java.util.concurrent.ThreadPoolExecutor ?
-                ((java.util.concurrent.ThreadPoolExecutor) connectionHandlerPool).getActiveCount() : 0;
-    }
-
     private class ConnectionHandler implements Runnable {
         private final Socket clientSocket;
 
@@ -106,9 +101,6 @@ public class ConnectionManager {
 
             } catch (Exception e) {
                 System.out.println("Error in connection handler: " + e.getMessage());
-            } finally {
-                // Note: Socket is closed by the request processor after handling
-                // Don't close it here as it may still be needed
             }
         }
 

@@ -1,10 +1,10 @@
 package com.weathersystem.client.common;
 
 import com.weathersystem.shared.clock.LamportClock;
+import lombok.Getter;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 
 public abstract class HttpClientBase {
 
@@ -28,7 +28,7 @@ public abstract class HttpClientBase {
         return socket;
     }
 
-    protected void sendHttpRequest(Socket socket, String method, String path,
+    protected void sendHttpRequest(Socket socket, String method,
                                    String contentType, byte[] content) throws IOException {
         long sendTime = lamportClock.tick();
         System.out.println("Sending " + method + " request (Lamport time: " + sendTime + ")");
@@ -36,7 +36,7 @@ public abstract class HttpClientBase {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
 
         // Send request line and headers
-        out.print(method + " " + path + " HTTP/1.1\r\n");
+        out.print(method + " " + "/weather.json" + " HTTP/1.1\r\n");
         out.print("Host: " + config.getServerUrl() + "\r\n");
         out.print("User-Agent: " + config.getUserAgent() + "\r\n");
         out.print("Lamport-Time: " + sendTime + "\r\n");
@@ -76,6 +76,7 @@ public abstract class HttpClientBase {
         return lamportClock.getTime();
     }
 
+    @Getter
     public static class HttpResponse {
         private final int statusCode;
         private final String statusText;
@@ -89,13 +90,8 @@ public abstract class HttpClientBase {
             this.serverLamportTime = serverLamportTime;
         }
 
-        public int getStatusCode() { return statusCode; }
-        public String getStatusText() { return statusText; }
-        public String getContent() { return content; }
-        public long getServerLamportTime() { return serverLamportTime; }
-
         public boolean isSuccess() {
-            return statusCode >= 200 && statusCode < 300;
+            return statusCode < 200 || statusCode >= 300;
         }
     }
 }
