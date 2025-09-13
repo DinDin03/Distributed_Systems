@@ -1,119 +1,119 @@
 package com.weathersystem.client;
 
-import com.weathersystem.shared.json.JSONUtils;
+import com.weathersystem.client.common.ClientConfiguration;
+import com.weathersystem.client.common.HttpClientBase;
+import com.weathersystem.client.common.RetryManager;
 import com.weathersystem.shared.domain.WeatherData;
-import com.weathersystem.shared.clock.LamportClock;
+import com.weathersystem.shared.json.JSONUtils;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.Socket;
 
-public class GETClient {
-    private static final String SERVER_HOST = "localhost";
-    private static final int SERVER_PORT = 4567;
-    private static final LamportClock lamportClock = new LamportClock();
+public class GETClient extends HttpClientBase {
+
+    private final RetryManager retryManager;
+
+    public GETClient(ClientConfiguration config) {
+        super(config);
+        this.retryManager = RetryManager.defaultRetry();
+    }
 
     public static void main(String[] args) {
+        String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
+
+        ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
+        GETClient getClient = new GETClient(config);
+
         System.out.println("GET Client starting...");
-        System.out.println("Initial Lamport clock: " + lamportClock.getTime());
+        System.out.println("Initial Lamport clock: " + getClient.getLamportTime());
 
         try {
-            Socket socket = new Socket(SERVER_HOST, SERVER_PORT);
-            System.out.println("Connected to server at " + SERVER_HOST + ":" + SERVER_PORT);
-
-            sendGetRequest(socket);
-            String jsonResponse = readHttpResponse(socket);
-            displayWeatherData(jsonResponse);
-
-            socket.close();
+            WeatherData[] weatherData = getClient.retrieveWeatherData();
+            getClient.displayWeatherData(weatherData);
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Failed to retrieve weather data: " + e.getMessage());
+            System.exit(1);
         }
 
-        System.out.println("GET Client finished. Final Lamport clock: " + lamportClock.getTime());
+        System.out.println("GET Client finished. Final Lamport clock: " + getClient.getLamportTime());
     }
 
-    private static void sendGetRequest(Socket socket) throws IOException {
-        // Tick clock before sending request
-        long sendTime = lamportClock.tick();
-        System.out.println("Sending GET request (Lamport time: " + sendTime + ")");
-
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-        out.print("GET /weather.json HTTP/1.1\r\n");
-        out.print("Host: " + SERVER_HOST + ":" + SERVER_PORT + "\r\n");
-        out.print("User-Agent: WeatherClient/1.0\r\n");
-        out.print("Lamport-Time: " + sendTime + "\r\n");  // NEW: Include Lamport timestamp
-        out.print("\r\n");
-
-        out.flush();
-    }
-
-    private static String readHttpResponse(Socket socket) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-        String statusLine = in.readLine();
-        System.out.println("Server response: " + statusLine);
-
-        String headerLine;
-        int contentLength = 0;
-        long responseTime = -1;
-
-        while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-            if (headerLine.toLowerCase().startsWith("content-length:")) {
-                contentLength = Integer.parseInt(headerLine.split(":")[1].trim());
-            } else if (headerLine.toLowerCase().startsWith("lamport-time:")) {
-                responseTime = Long.parseLong(headerLine.split(":")[1].trim());
+    public WeatherData[] retrieveWeatherData() throws Exception {
+        HttpResponse response = retryManager.executeWithRetry(() -> {
+            try {
+                return requestWeatherData();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        }
+        }, "Weather data retrieval");
 
-        // Update clock with server's timestamp
-        if (responseTime != -1) {
-            long updatedTime = lamportClock.update(responseTime);
-            System.out.println("Updated Lamport clock from server response: " + responseTime +
-                    " -> " + updatedTime);
-        }
-
-        if (contentLength > 0) {
-            char[] jsonChars = new char[contentLength];
-            in.read(jsonChars, 0, contentLength);
-            return new String(jsonChars);
-        }
-
-        return null;
+        return parseWeatherResponse(response);
     }
 
-    private static void displayWeatherData(String jsonResponse) {
-        if (jsonResponse == null || jsonResponse.trim().isEmpty()) {
-            System.out.println("No weather data available");
+    private HttpResponse requestWeatherData() throws IOException {
+        Socket socket = null;
+        try {
+            socket = createConnection();
+            sendHttpRequest(socket, "GET", "/weather.json", null, null);
+            HttpResponse response = receiveHttpResponse(socket);
+
+            if (!response.isSuccess()) {
+                throw new IOException("Server returned error: " +
+                        response.getStatusCode() + " " + response.getStatusText());
+            }
+
+            return response;
+
+        } finally {
+            closeConnection(socket);
+        }
+    }
+
+    private WeatherData[] parseWeatherResponse(HttpResponse response) throws Exception {
+        String jsonContent = response.getContent();
+
+        if (jsonContent == null || jsonContent.trim().isEmpty()) {
+            System.out.println("No weather data available from server");
+            return new WeatherData[0];
+        }
+
+        try {
+            return JSONUtils.fromJSONArray(jsonContent);
+        } catch (Exception e) {
+            throw new Exception("Failed to parse weather data from server: " + e.getMessage());
+        }
+    }
+
+    private void displayWeatherData(WeatherData[] weatherStations) {
+        System.out.println("\n=== CURRENT WEATHER DATA ===");
+
+        if (weatherStations.length == 0) {
+            System.out.println("No weather stations currently reporting data");
             return;
         }
 
-        try {
-            WeatherData[] weatherStations = JSONUtils.fromJSONArray(jsonResponse);
+        System.out.println("Total weather stations: " + weatherStations.length);
+        System.out.println();
 
-            System.out.println("\n=== CURRENT WEATHER DATA ===");
-            System.out.println("Total weather stations: " + weatherStations.length);
-            System.out.println();
-
-            for (int i = 0; i < weatherStations.length; i++) {
-                WeatherData station = weatherStations[i];
-
-                System.out.println("Station " + (i + 1) + ":");
-                System.out.println("  ID: " + station.getId());
-                System.out.println("  Name: " + station.getName());
-                System.out.println("  State: " + station.getState());
-                System.out.println("  Temperature: " + station.getAirTemp() + "°C");
-                System.out.println("  Feels like: " + station.getApparentT() + "°C");
-                System.out.println("  Conditions: " + station.getCloud());
-                System.out.println("  Humidity: " + station.getRelHum() + "%");
-                System.out.println("  Wind: " + station.getWindDir() + " " + station.getWindSpdKmh() + " km/h");
-                System.out.println("  Pressure: " + station.getPress() + " hPa");
-                System.out.println();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error parsing weather data: " + e.getMessage());
+        for (int i = 0; i < weatherStations.length; i++) {
+            displayStationData(weatherStations[i], i + 1);
         }
+    }
+
+    private void displayStationData(WeatherData station, int stationNumber) {
+        System.out.println("Station " + stationNumber + ":");
+        System.out.println("  ID: " + station.getId());
+        System.out.println("  Name: " + station.getName());
+        System.out.println("  State: " + station.getState());
+        System.out.println("  Location: " + station.getLat() + "°, " + station.getLon() + "°");
+        System.out.println("  Temperature: " + station.getAirTemp() + "°C");
+        System.out.println("  Feels like: " + station.getApparentT() + "°C");
+        System.out.println("  Conditions: " + station.getCloud());
+        System.out.println("  Humidity: " + station.getRelHum() + "%");
+        System.out.println("  Wind: " + station.getWindDir() + " " + station.getWindSpdKmh() + " km/h");
+        System.out.println("  Pressure: " + station.getPress() + " hPa");
+        System.out.println("  Time: " + station.getLocalDateTime());
+        System.out.println();
     }
 }

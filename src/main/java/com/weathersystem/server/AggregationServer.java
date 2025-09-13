@@ -1,442 +1,219 @@
 package com.weathersystem.server;
 
-import com.weathersystem.server.network.TimestampedRequest;
-import com.weathersystem.server.persistence.WeatherStationEntry;
-import com.weathersystem.shared.json.JSONUtils;
-import com.weathersystem.shared.domain.WeatherData;
+import com.weathersystem.server.handlers.GetRequestHandler;
+import com.weathersystem.server.handlers.PutRequestHandler;
+import com.weathersystem.server.network.ConnectionManager;
+import com.weathersystem.server.network.RequestDispatcher;
+import com.weathersystem.server.persistence.WeatherDataRepository;
+import com.weathersystem.server.services.DataExpiryService;
+import com.weathersystem.server.services.RequestOrderingService;
+import com.weathersystem.server.services.WeatherDataService;
 import com.weathersystem.shared.clock.LamportClock;
+import com.weathersystem.shared.domain.WeatherData;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 public class AggregationServer {
 
-    private static final int PORT = 4567;
+    // Configuration constants
+    private static final int DEFAULT_PORT = 4567;
     private static final String DATA_FILE = "data/weather.json";
     private static final String BACKUP_FILE = "data/weather.json.backup";
-    private static final long EXPIRY_TIME_MS = 30 * 1000;
-    private static final long CLEANUP_INTERVAL_MS = 5 * 1000;
+    private static final long EXPIRY_TIME_MS = 30 * 1000; // 30 seconds
+    private static final long CLEANUP_INTERVAL_MS = 5 * 1000; // 5 seconds
     private static final int THREAD_POOL_SIZE = 10;
 
-    // Lamport clock for server
-    private static final LamportClock lamportClock = new LamportClock();
+    // Core services - injected dependencies
+    private final LamportClock lamportClock;
+    private final WeatherDataService weatherDataService;
+    private final WeatherDataRepository weatherDataRepository;
+    private final ConnectionManager connectionManager;
+    private final RequestOrderingService requestOrderingService;
+    private final RequestDispatcher requestDispatcher;
+    private final DataExpiryService dataExpiryService;
 
-    // Request ordering queue
-    private static final PriorityBlockingQueue<TimestampedRequest> requestQueue =
-            new PriorityBlockingQueue<>();
+    // Server state
+    private ServerSocket serverSocket;
+    private volatile boolean isRunning = false;
 
-    // Thread-safe storage
-    private static final ConcurrentHashMap<String, WeatherStationEntry> weatherStationStore =
-            new ConcurrentHashMap<>();
+    public AggregationServer() {
+        // Initialize core services
+        this.lamportClock = new LamportClock();
+        this.weatherDataService = new WeatherDataService();
+        this.weatherDataRepository = new WeatherDataRepository(DATA_FILE, BACKUP_FILE);
 
-    private static final ReentrantReadWriteLock dataStoreLock = new ReentrantReadWriteLock();
-    private static final ReentrantReadWriteLock.ReadLock readLock = dataStoreLock.readLock();
-    private static final ReentrantReadWriteLock.WriteLock writeLock = dataStoreLock.writeLock();
+        // Initialize request processing pipeline
+        this.requestDispatcher = new RequestDispatcher();
+        this.requestOrderingService = new RequestOrderingService(this.requestDispatcher::processRequest);
+        this.connectionManager = new ConnectionManager(THREAD_POOL_SIZE, lamportClock,
+                this.requestOrderingService::submitRequest);
 
-    // Thread pools
-    private static ExecutorService requestHandlerPool;
-    private static ExecutorService requestProcessorPool;
-    private static ScheduledExecutorService cleanupService;
+        // Initialize data expiry service
+        this.dataExpiryService = new DataExpiryService(
+                EXPIRY_TIME_MS, CLEANUP_INTERVAL_MS,
+                weatherDataService.getInternalStorage(),
+                weatherDataService.getWriteLock(),
+                this::saveDataToFile
+        );
+
+        // Register request handlers
+        setupRequestHandlers();
+    }
 
     public static void main(String[] args) {
-        System.out.println("Aggregation Server starting on port " + PORT);
+        int port = parsePortFromArgs(args);
+
+        AggregationServer server = new AggregationServer();
+
+        // Setup shutdown hook for graceful termination
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("\nShutdown signal received...");
+            server.shutdown();
+        }));
+
+        try {
+            server.start(port);
+        } catch (Exception e) {
+            System.out.println("Server failed to start: " + e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    public void start(int port) throws IOException {
+        if (isRunning) {
+            System.out.println("Server is already running");
+            return;
+        }
+
+        System.out.println("Aggregation Server starting on port " + port);
         System.out.println("Initial Lamport clock: " + lamportClock.getTime());
 
-        // Initialize thread pools
-        requestHandlerPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        requestProcessorPool = Executors.newSingleThreadExecutor(); // Single processor for ordering
-        cleanupService = Executors.newSingleThreadScheduledExecutor();
+        // Initialize all services
+        initializeServices();
 
-        loadDataFromFile();
-        startCleanupService();
-        startRequestProcessor();
+        // Load existing data
+        loadPersistedData();
 
-        try {
-            ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("Server listening on port " + PORT);
-            System.out.println("Request ordering system started");
+        // Start server socket
+        serverSocket = new ServerSocket(port);
+        isRunning = true;
 
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
+        System.out.println("Server listening on port " + port);
+        System.out.println("Press Ctrl+C to stop the server");
 
-                // Submit connection handling to thread pool
-                requestHandlerPool.submit(new ConnectionHandler(clientSocket));
-            }
-
-        } catch (IOException e) {
-            System.out.println("Server error: " + e.getMessage());
-        } finally {
-            shutdownGracefully();
-        }
+        // Main server loop
+        runServerLoop();
     }
 
-    // Handles initial connection parsing and queuing
-    private static class ConnectionHandler implements Runnable {
-        private final Socket clientSocket;
-
-        public ConnectionHandler(Socket clientSocket) {
-            this.clientSocket = clientSocket;
-        }
-
-        @Override
-        public void run() {
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), false);
-
-                // Parse HTTP request
-                String requestLine = in.readLine();
-                if (requestLine == null) {
-                    return;
-                }
-
-                System.out.println("Parsing request: " + requestLine +
-                        " (Thread: " + Thread.currentThread().getName() + ")");
-
-                String[] requestParts = requestLine.split(" ");
-                String method = requestParts[0];
-
-                // Read headers
-                String headerLine;
-                int contentLength = 0;
-                long clientLamportTime = -1;
-
-                while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-                    if (headerLine.toLowerCase().startsWith("content-length:")) {
-                        contentLength = Integer.parseInt(headerLine.split(":")[1].trim());
-                    } else if (headerLine.toLowerCase().startsWith("lamport-time:")) {
-                        clientLamportTime = Long.parseLong(headerLine.split(":")[1].trim());
-                    }
-                }
-
-                // Update server's Lamport clock
-                long updatedTime;
-                if (clientLamportTime != -1) {
-                    updatedTime = lamportClock.update(clientLamportTime);
-                    System.out.println("Updated server Lamport clock: " + clientLamportTime +
-                            " -> " + updatedTime);
-                } else {
-                    updatedTime = lamportClock.tick();
-                    System.out.println("Client without Lamport timestamp, server time: " + updatedTime);
-                }
-
-                // Create timestamped request and add to priority queue
-                TimestampedRequest timestampedRequest = new TimestampedRequest(
-                        clientSocket, method, contentLength, updatedTime, in, out
-                );
-
-                requestQueue.offer(timestampedRequest);
-                System.out.println("Queued " + method + " request with timestamp: " + updatedTime +
-                        " (Queue size: " + requestQueue.size() + ")");
-
-            } catch (Exception e) {
-                System.out.println("Error in connection handler: " + e.getMessage());
-                try {
-                    clientSocket.close();
-                } catch (IOException ioException) {
-                    System.out.println("Error closing socket: " + ioException.getMessage());
-                }
-            }
-        }
-    }
-
-    // Processes requests in Lamport timestamp order
-    private static void startRequestProcessor() {
-        requestProcessorPool.submit(() -> {
-            System.out.println("Request processor started - processing in Lamport timestamp order");
-
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    // Take requests in timestamp order (blocking call)
-                    TimestampedRequest request = requestQueue.take();
-
-                    System.out.println("Processing " + request.getMethod() +
-                            " request with Lamport time: " + request.getLamportTime());
-
-                    // Process the request
-                    processTimestampedRequest(request);
-
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Error processing request: " + e.getMessage());
-                }
-            }
-        });
-    }
-
-    private static void processTimestampedRequest(TimestampedRequest request) {
-        try {
-            if ("PUT".equals(request.getMethod())) {
-                handlePutRequest(request);
-            } else if ("GET".equals(request.getMethod())) {
-                handleGetRequest(request);
-            } else {
-                sendErrorResponse(request.getOutputWriter(), 400, "Bad Request",
-                        request.getLamportTime());
-            }
-        } finally {
-            try {
-                request.getClientSocket().close();
-                System.out.println("Client disconnected after processing Lamport time: " +
-                        request.getLamportTime());
-            } catch (IOException e) {
-                System.out.println("Error closing client socket: " + e.getMessage());
-            }
-        }
-    }
-
-    private static void handlePutRequest(TimestampedRequest request) {
-        writeLock.lock();
-        try {
-            char[] jsonChars = new char[request.getContentLength()];
-            request.getInputReader().read(jsonChars, 0, request.getContentLength());
-            String jsonData = new String(jsonChars);
-
-            System.out.println("Processing PUT with Lamport time " + request.getLamportTime() +
-                    ": " + jsonData.substring(0, Math.min(50, jsonData.length())) + "...");
-
-            WeatherData weatherData = JSONUtils.fromJSON(jsonData);
-
-            // Use current server time for storage timestamp
-            long currentTime = System.currentTimeMillis();
-            WeatherStationEntry entry = new WeatherStationEntry(weatherData, currentTime);
-
-            weatherStationStore.put(weatherData.getId(), entry);
-            System.out.println("Stored weather data for station: " + weatherData.getId() +
-                    " (Lamport time: " + request.getLamportTime() + ")");
-
-        } catch (Exception e) {
-            System.out.println("Error processing PUT request: " + e.getMessage());
-            sendErrorResponse(request.getOutputWriter(), 500, "Internal Server Error",
-                    request.getLamportTime());
+    public void shutdown() {
+        if (!isRunning) {
             return;
-        } finally {
-            writeLock.unlock();
         }
 
-        // Save to file outside lock
+        System.out.println("Shutting down aggregation server...");
+        isRunning = false;
+
+        // Stop accepting new connections
+        closeServerSocket();
+
+        // Shutdown services in reverse dependency order
+        shutdownServices();
+
+        // Final data save
         saveDataToFile();
 
-        // Send response with server's Lamport time
-        sendSuccessResponse(request.getOutputWriter(), 201, "Created",
-                request.getLamportTime());
+        System.out.println("Server shutdown complete");
     }
 
-    private static void handleGetRequest(TimestampedRequest request) {
-        readLock.lock();
-        try {
-            WeatherData[] allData = weatherStationStore.values().stream()
-                    .map(WeatherStationEntry::getWeatherData)
-                    .toArray(WeatherData[]::new);
+    private void setupRequestHandlers() {
+        // Create handlers with dependencies
+        PutRequestHandler putHandler = new PutRequestHandler(weatherDataService, this::saveDataToFile);
+        GetRequestHandler getHandler = new GetRequestHandler(weatherDataService);
 
-            String jsonResponse = JSONUtils.toJSON(allData);
+        // Register handlers with dispatcher
+        requestDispatcher.registerHandler("PUT", putHandler);
+        requestDispatcher.registerHandler("GET", getHandler);
 
-            System.out.println("Processing GET with Lamport time " + request.getLamportTime() +
-                    " - returning " + allData.length + " stations");
-
-            sendJsonResponse(request.getOutputWriter(), 200, jsonResponse,
-                    request.getLamportTime());
-
-        } catch (Exception e) {
-            System.out.println("Error processing GET request: " + e.getMessage());
-            sendErrorResponse(request.getOutputWriter(), 500, "Internal Server Error",
-                    request.getLamportTime());
-        } finally {
-            readLock.unlock();
-        }
+        System.out.println("Request handlers configured for " +
+                requestDispatcher.getHandlerCount() + " HTTP methods");
     }
 
-    // Updated response methods to include Lamport timestamps
-    private static void sendSuccessResponse(PrintWriter out, int statusCode, String statusText,
-                                            long lamportTime) {
-        out.print("HTTP/1.1 " + statusCode + " " + statusText + "\r\n");
-        out.print("Lamport-Time: " + lamportTime + "\r\n");
-        out.print("Content-Length: 0\r\n");
-        out.print("\r\n");
-        out.flush();
+    private void initializeServices() {
+        connectionManager.start();
+        requestOrderingService.start();
+        dataExpiryService.start();
+
+        System.out.println("All services initialized successfully");
     }
 
-    private static void sendJsonResponse(PrintWriter out, int statusCode, String jsonData,
-                                         long lamportTime) {
-        byte[] jsonBytes = jsonData.getBytes();
-
-        out.print("HTTP/1.1 " + statusCode + " OK\r\n");
-        out.print("Content-Type: application/json\r\n");
-        out.print("Lamport-Time: " + lamportTime + "\r\n");
-        out.print("Content-Length: " + jsonBytes.length + "\r\n");
-        out.print("\r\n");
-        out.print(jsonData);
-        out.flush();
-    }
-
-    private static void sendErrorResponse(PrintWriter out, int statusCode, String statusText,
-                                          long lamportTime) {
-        out.print("HTTP/1.1 " + statusCode + " " + statusText + "\r\n");
-        out.print("Lamport-Time: " + lamportTime + "\r\n");
-        out.print("Content-Length: 0\r\n");
-        out.print("\r\n");
-        out.flush();
-    }
-
-    // Keep all your existing methods (startCleanupService, removeExpiredData,
-    // loadDataFromFile, saveDataToFile, etc.) unchanged - they work with the new architecture
-
-    private static void startCleanupService() {
-        cleanupService.scheduleAtFixedRate(
-                AggregationServer::removeExpiredData,
-                CLEANUP_INTERVAL_MS,
-                CLEANUP_INTERVAL_MS,
-                TimeUnit.MILLISECONDS
-        );
-        System.out.println("Started background cleanup service");
-    }
-
-    private static void removeExpiredData() {
-        writeLock.lock();
-        try {
-            long currentTime = System.currentTimeMillis();
-            int initialSize = weatherStationStore.size();
-
-            weatherStationStore.entrySet().removeIf(entry -> {
-                WeatherStationEntry stationEntry = entry.getValue();
-                boolean expired = stationEntry.isExpired(currentTime, EXPIRY_TIME_MS);
-
-                if (expired) {
-                    System.out.println("Removing expired weather station: " + entry.getKey());
-                }
-                return expired;
-            });
-
-            int removedCount = initialSize - weatherStationStore.size();
-            if (removedCount > 0) {
-                System.out.println("Removed " + removedCount + " expired stations");
-                saveDataToFile();
-            }
-        } finally {
-            writeLock.unlock();
-        }
-    }
-
-    private static void loadDataFromFile() {
+    private void loadPersistedData() {
         System.out.println("Loading weather data from persistent storage...");
 
-        File dataFile = new File(DATA_FILE);
-        File backupFile = new File(BACKUP_FILE);
-
-        writeLock.lock();
-        try {
-            if (dataFile.exists()) {
-                if (loadFromFile(dataFile)) {
-                    System.out.println("Loaded " + weatherStationStore.size() +
-                            " weather stations from " + DATA_FILE);
-                    return;
-                } else {
-                    System.out.println("Primary data file corrupted. Trying backup file");
-                }
-            }
-
-            if (backupFile.exists()) {
-                if (loadFromFile(backupFile)) {
-                    System.out.println("Loaded " + weatherStationStore.size() +
-                            " weather stations from backup");
-                    saveDataToFile();
-                    return;
-                }
-            }
-
-            System.out.println("No existing weather data found. Starting with empty database.");
-        } finally {
-            writeLock.unlock();
-        }
-    }
-
-    private static boolean loadFromFile(File file) {
-        try {
-            String jsonContent = new String(Files.readAllBytes(file.toPath()));
-
-            if (jsonContent.trim().isEmpty()) {
-                return true;
-            }
-
-            WeatherData[] weatherArray = JSONUtils.fromJSONArray(jsonContent);
-
-            weatherStationStore.clear();
+        WeatherData[] weatherData = weatherDataRepository.load();
+        if (weatherData.length > 0) {
             long currentTime = System.currentTimeMillis();
+            weatherDataService.loadWeatherData(weatherData, currentTime);
+        }
 
-            for (WeatherData weatherData : weatherArray) {
-                WeatherStationEntry entry = new WeatherStationEntry(weatherData, currentTime);
-                weatherStationStore.put(weatherData.getId(), entry);
+        System.out.println("Loaded " + weatherDataService.getStationCount() +
+                " weather stations from " + DATA_FILE);
+    }
+
+    private void runServerLoop() {
+        while (isRunning && !serverSocket.isClosed()) {
+            try {
+                var clientSocket = serverSocket.accept();
+                connectionManager.handleConnection(clientSocket);
+
+            } catch (IOException e) {
+                if (isRunning) {
+                    System.out.println("Error accepting client connection: " + e.getMessage());
+                }
+                // If not running, this is expected during shutdown
             }
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error loading from " + file.getName() + ": " + e.getMessage());
-            return false;
         }
     }
 
-    private static void saveDataToFile() {
-        readLock.lock();
+    private void saveDataToFile() {
         try {
-            WeatherData[] allData = weatherStationStore.values().stream()
-                    .map(WeatherStationEntry::getWeatherData)
-                    .toArray(WeatherData[]::new);
-
-            String jsonData = JSONUtils.toJSON(allData);
-            readLock.unlock();
-
-            performFileWrite(jsonData);
-
+            WeatherData[] allData = weatherDataService.getAllWeatherData();
+            weatherDataRepository.saveAsync(allData);
         } catch (Exception e) {
             System.out.println("Error saving weather data: " + e.getMessage());
-        } finally {
-            if (readLock.tryLock()) {
-                readLock.unlock();
+        }
+    }
+
+    private void shutdownServices() {
+        // Stop services that generate new work first
+        dataExpiryService.stop();
+        requestOrderingService.stop();
+        connectionManager.shutdown();
+
+        // Close repository last
+        weatherDataRepository.shutdown();
+    }
+
+    private void closeServerSocket() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error closing server socket: " + e.getMessage());
+        }
+    }
+
+    private static int parsePortFromArgs(String[] args) {
+        if (args.length > 0) {
+            try {
+                return Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid port number: " + args[0] + ", using default: " + DEFAULT_PORT);
             }
         }
+        return DEFAULT_PORT;
     }
 
-    private static void performFileWrite(String jsonData) throws IOException {
-        File dataDir = new File("data");
-        if (!dataDir.exists()) {
-            dataDir.mkdirs();
-        }
 
-        File tempFile = new File(DATA_FILE + ".tmp");
-        File dataFile = new File(DATA_FILE);
-        File backupFile = new File(BACKUP_FILE);
-
-        try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write(jsonData);
-        }
-
-        if (dataFile.exists()) {
-            Files.copy(dataFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }
-
-        Files.move(tempFile.toPath(), dataFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Weather data saved to persistent storage");
-    }
-
-    private static void shutdownGracefully() {
-        System.out.println("Shutting down server...");
-
-        if (requestHandlerPool != null) {
-            requestHandlerPool.shutdown();
-        }
-        if (requestProcessorPool != null) {
-            requestProcessorPool.shutdown();
-        }
-        if (cleanupService != null) {
-            cleanupService.shutdown();
-        }
-
-        System.out.println("Server shutdown complete.");
-    }
 }

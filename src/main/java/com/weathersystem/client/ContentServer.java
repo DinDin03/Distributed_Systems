@@ -1,102 +1,99 @@
 package com.weathersystem.client;
 
-import com.weathersystem.utils.FileUtils;
-import com.weathersystem.shared.json.JSONUtils;
+import com.weathersystem.client.common.ClientConfiguration;
+import com.weathersystem.client.common.HttpClientBase;
+import com.weathersystem.client.common.RetryManager;
 import com.weathersystem.shared.domain.WeatherData;
-import com.weathersystem.shared.clock.LamportClock;
+import com.weathersystem.shared.json.JSONUtils;
+import com.weathersystem.utils.FileUtils;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
-public class ContentServer {
-    private static final String DEFAULT_HOST = "localhost";
-    private static final int DEFAULT_PORT = 4567;
-    private static final LamportClock lamportClock = new LamportClock();
+public class ContentServer extends HttpClientBase {
+
+    private final RetryManager retryManager;
+
+    public ContentServer(ClientConfiguration config) {
+        super(config);
+        this.retryManager = RetryManager.defaultRetry();
+    }
 
     public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Usage: ContentServer <server_address> <weather_file>");
+            System.exit(1);
+        }
 
         String serverAddress = args[0];
         String weatherFile = args[1];
 
-        String host = DEFAULT_HOST;
-        int port = DEFAULT_PORT;
-
-        if (serverAddress.contains(":")) {
-            String[] parts = serverAddress.split(":");
-            host = parts[0];
-            port = Integer.parseInt(parts[1]);
-        }
+        ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
+        ContentServer contentServer = new ContentServer(config);
 
         System.out.println("Content Server starting");
-        System.out.println("Initial Lamport clock: " + lamportClock.getTime());
+        System.out.println("Initial Lamport clock: " + contentServer.getLamportTime());
 
         try {
-            // Tick a clock for local processing
-            long currentTime = lamportClock.tick();
-            System.out.println("Processing weather file (Lamport time: " + currentTime + ")");
-
-            WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);
-            String jsonData = JSONUtils.toJSON(weatherData);
-
-            // Send data with Lamport timestamp
-            sendWeatherData(host, port, jsonData);
+            contentServer.publishWeatherData(weatherFile);
+            System.out.println("Weather data published successfully");
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Failed to publish weather data: " + e.getMessage());
+            System.exit(1);
         }
 
-        System.out.println("Content Server finished. Final Lamport clock: " + lamportClock.getTime());
+        System.out.println("Content Server finished. Final Lamport clock: " + contentServer.getLamportTime());
     }
 
-    private static void sendWeatherData(String host, int port, String jsonData) throws IOException {
-        Socket socket = new Socket(host, port);
-        System.out.println("Connected to aggregation server");
-
-        // Tick clock before sending request
-        long sendTime = lamportClock.tick();
-        System.out.println("Sending request (Lamport time: " + sendTime + ")");
-
-        byte[] jsonBytes = jsonData.getBytes("UTF-8");
-        int contentLength = jsonBytes.length;
-
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
-
-        // Include Lamport timestamp in HTTP headers
-        out.print("PUT /weather.json HTTP/1.1\r\n");
-        out.print("Host: " + host + ":" + port + "\r\n");
-        out.print("Content-Type: application/json\r\n");
-        out.print("Content-Length: " + contentLength + "\r\n");
-        out.print("Lamport-Time: " + sendTime + "\r\n");  // NEW: Lamport timestamp
-        out.print("\r\n");
-
-        out.flush();
-
-        OutputStream outputStream = socket.getOutputStream();
-        outputStream.write(jsonBytes);
-        outputStream.flush();
-
-        System.out.println("Sent HTTP PUT request with Lamport timestamp: " + sendTime);
-
-        // Read response and update clock
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String responseLine = in.readLine();
-
-        // Check for Lamport timestamp in response
-        String headerLine;
-        long responseTime = -1;
-        while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-            if (headerLine.toLowerCase().startsWith("lamport-time:")) {
-                responseTime = Long.parseLong(headerLine.split(":")[1].trim());
+    public void publishWeatherData(String weatherFile) throws Exception {
+        retryManager.executeWithRetry(() -> {
+            try {
+                return uploadWeatherFile(weatherFile);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
+        }, "Weather data upload");
+    }
+
+    private HttpResponse uploadWeatherFile(String weatherFile) throws Exception {
+        long processingTime = lamportClock.tick();
+        System.out.println("Processing weather file (Lamport time: " + processingTime + ")");
+
+        WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);
+        String jsonData = JSONUtils.toJSON(weatherData);
+        byte[] jsonBytes = jsonData.getBytes(StandardCharsets.UTF_8);
+
+        System.out.println("Uploading weather data for station: " + weatherData.getId());
+
+        Socket socket = null;
+        try {
+            socket = createConnection();
+            sendHttpRequest(socket, "PUT", "/weather.json", "application/json", jsonBytes);
+            HttpResponse response = receiveHttpResponse(socket);
+
+            validateResponse(response);
+            System.out.println("Server accepted weather data with status: " +
+                    response.getStatusCode() + " " + response.getStatusText());
+
+            return response;
+
+        } finally {
+            closeConnection(socket);
+        }
+    }
+
+    private void validateResponse(HttpResponse response) throws IOException {
+        if (!response.isSuccess()) {
+            throw new IOException("Server rejected weather data: " +
+                    response.getStatusCode() + " " + response.getStatusText());
         }
 
-        if (responseTime != -1) {
-            long updatedTime = lamportClock.update(responseTime);
-            System.out.println("Updated Lamport clock from server response: " + responseTime +
-                    " -> " + updatedTime);
+        if (response.getStatusCode() == 201) {
+            System.out.println("New weather station registered");
+        } else if (response.getStatusCode() == 200) {
+            System.out.println("Existing weather station data updated");
         }
-
-        System.out.println("Server response: " + responseLine);
-        socket.close();
     }
 }
