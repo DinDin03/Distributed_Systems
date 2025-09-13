@@ -112,9 +112,6 @@ public class ConnectionManager {
             }
         }
 
-        /**
-         * Updates the server's Lamport clock based on client timestamp
-         */
         private long updateServerClock(long clientLamportTime) {
             long updatedTime;
 

@@ -33,30 +33,29 @@ public abstract class HttpClientBase {
         long sendTime = lamportClock.tick();
         System.out.println("Sending " + method + " request (Lamport time: " + sendTime + ")");
 
-        OutputStream rawOut = socket.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(rawOut, "UTF-8"));
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), false);
 
         // Send request line and headers
-        writer.write(method + " " + path + " HTTP/1.1\r\n");
-        writer.write("Host: " + config.getServerUrl() + "\r\n");
-        writer.write("User-Agent: " + config.getUserAgent() + "\r\n");
-        writer.write("Lamport-Time: " + sendTime + "\r\n");
+        out.print(method + " " + path + " HTTP/1.1\r\n");
+        out.print("Host: " + config.getServerUrl() + "\r\n");
+        out.print("User-Agent: " + config.getUserAgent() + "\r\n");
+        out.print("Lamport-Time: " + sendTime + "\r\n");
 
         if (content != null && content.length > 0) {
-            writer.write("Content-Type: " + contentType + "\r\n");
-            writer.write("Content-Length: " + content.length + "\r\n");
+            out.print("Content-Type: " + contentType + "\r\n");
+            out.print("Content-Length: " + content.length + "\r\n");
         }
 
-        writer.write("\r\n");
-        writer.flush(); // ensure headers are sent
+        out.print("\r\n");
+        out.flush();
 
         // Send body if present
         if (content != null && content.length > 0) {
-            rawOut.write(content);
-            rawOut.flush();
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write(content);
+            outputStream.flush();
         }
     }
-
 
     protected HttpResponse receiveHttpResponse(Socket socket) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
