@@ -7,28 +7,38 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AggregationServer {
 
     private static final int PORT = 4567;
     private static final String DATA_FILE = "data/weather.json";
     private static final String BACKUP_FILE = "data/weather.json.backup";
-    private static final long EXPIRY_TIME_MS = 30 * 1000; // 30 seconds in milliseconds
+    private static final long EXPIRY_TIME_MS = 30 * 1000; // 30 seconds
     private static final long CLEANUP_INTERVAL_MS = 5 * 1000; // 5 seconds
+    private static final int THREAD_POOL_SIZE = 10; // Maximum concurrent clients
 
-    // Store weather station entries (data + timestamp) by station ID
+    // Thread-safe storage with explicit locking
     private static final ConcurrentHashMap<String, WeatherStationEntry> weatherStationStore =
             new ConcurrentHashMap<>();
 
-    // Background thread for cleanup
+    // ReadWriteLock for coordinated access
+    private static final ReentrantReadWriteLock dataStoreLock = new ReentrantReadWriteLock();
+    private static final ReentrantReadWriteLock.ReadLock readLock = dataStoreLock.readLock();
+    private static final ReentrantReadWriteLock.WriteLock writeLock = dataStoreLock.writeLock();
+
+    // Thread pools
+    private static ExecutorService requestHandlerPool;
     private static ScheduledExecutorService cleanupService;
 
     public static void main(String[] args) {
         System.out.println("Aggregation Server starting on port " + PORT);
+        System.out.println("Thread pool size: " + THREAD_POOL_SIZE + " concurrent clients");
+
+        // Initialise thread pools
+        requestHandlerPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        cleanupService = Executors.newSingleThreadScheduledExecutor();
 
         loadDataFromFile();
         startCleanupService();
@@ -38,92 +48,126 @@ public class AggregationServer {
             System.out.println("Server listening on port " + PORT);
             System.out.println("Press Ctrl+C to stop the server");
 
+            // Connection acceptance loop
             while (true) {
                 System.out.println("Waiting for client connection...");
 
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
 
-                handleClientRequest(clientSocket);
-
-                clientSocket.close();
-                System.out.println("Client disconnected\n");
+                // Submit request to thread pool instead of processing directly
+                requestHandlerPool.submit(new ClientRequestHandler(clientSocket));
             }
 
         } catch (IOException e) {
             System.out.println("Server error: " + e.getMessage());
         } finally {
-            // Cleanup thread pool on shutdown
-            if (cleanupService != null) {
-                cleanupService.shutdown();
+            // Cleanup thread pools
+            shutdownGracefully();
+        }
+    }
+
+    // Client request handler as a Runnable task
+    private static class ClientRequestHandler implements Runnable {
+        private final Socket clientSocket;
+
+        public ClientRequestHandler(Socket clientSocket) {
+            this.clientSocket = clientSocket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                handleClientRequest(clientSocket);
+            } catch (Exception e) {
+                System.out.println("Error in request handler: " + e.getMessage());
+            } finally {
+                try {
+                    clientSocket.close();
+                    System.out.println("Client disconnected from thread: " +
+                            Thread.currentThread().getName());
+                } catch (IOException e) {
+                    System.out.println("Error closing client socket: " + e.getMessage());
+                }
             }
         }
     }
 
     private static void startCleanupService() {
-        cleanupService = Executors.newSingleThreadScheduledExecutor();
         cleanupService.scheduleAtFixedRate(
-                AggregationServer::removeExpiredData,  // Method to call
-                CLEANUP_INTERVAL_MS,                   // Initial delay
-                CLEANUP_INTERVAL_MS,                   // Period between executions
-                TimeUnit.MILLISECONDS                  // Time unit
+                AggregationServer::removeExpiredData,
+                CLEANUP_INTERVAL_MS,
+                CLEANUP_INTERVAL_MS,
+                TimeUnit.MILLISECONDS
         );
         System.out.println("Started background cleanup service (checking every " +
                 (CLEANUP_INTERVAL_MS/1000) + " seconds)");
     }
 
     private static void removeExpiredData() {
-        long currentTime = System.currentTimeMillis();
-        int initialSize = weatherStationStore.size();
+        // Use write lock for data modification
+        writeLock.lock();
+        try {
+            long currentTime = System.currentTimeMillis();
+            int initialSize = weatherStationStore.size();
 
-        // Find expired stations
-        weatherStationStore.entrySet().removeIf(entry -> {
-            WeatherStationEntry stationEntry = entry.getValue();
-            boolean expired = stationEntry.isExpired(currentTime, EXPIRY_TIME_MS);
+            weatherStationStore.entrySet().removeIf(entry -> {
+                WeatherStationEntry stationEntry = entry.getValue();
+                boolean expired = stationEntry.isExpired(currentTime, EXPIRY_TIME_MS);
 
-            if (expired) {
-                System.out.println("Removing expired weather station: " + entry.getKey() +
-                        " (last update: " +
-                        ((currentTime - stationEntry.getLastUpdateTime()) / 1000) +
-                        " seconds ago)");
+                if (expired) {
+                    System.out.println("Removing expired weather station: " + entry.getKey() +
+                            " (last update: " +
+                            ((currentTime - stationEntry.getLastUpdateTime()) / 1000) +
+                            " seconds ago)");
+                }
+                return expired;
+            });
+
+            int removedCount = initialSize - weatherStationStore.size();
+            if (removedCount > 0) {
+                System.out.println("Removed " + removedCount + " expired stations. " +
+                        "Active stations: " + weatherStationStore.size());
+                // Note: saveDataToFile() will acquire its own locks
+                saveDataToFile();
             }
-            return expired;
-        });
-
-        int removedCount = initialSize - weatherStationStore.size();
-        if (removedCount > 0) {
-            System.out.println("Removed " + removedCount + " expired stations. " +
-                    "Active stations: " + weatherStationStore.size());
-            // Save updated data to file
-            saveDataToFile();
+        } finally {
+            writeLock.unlock();
         }
     }
 
-    // Updated file loading to handle timestamps
     private static void loadDataFromFile() {
-        System.out.println("Loading weather data from persistent storage");
+        System.out.println("Loading weather data from persistent storage...");
 
         File dataFile = new File(DATA_FILE);
         File backupFile = new File(BACKUP_FILE);
 
-        if (dataFile.exists()) {
-            if (loadFromFile(dataFile)) {
-                System.out.println("Loaded " + weatherStationStore.size() + " weather stations from " + DATA_FILE);
-                return;
-            } else {
-                System.out.println("Primary data file corrupted. Trying the backup file");
+        // Use write lock during initial loading
+        writeLock.lock();
+        try {
+            if (dataFile.exists()) {
+                if (loadFromFile(dataFile)) {
+                    System.out.println("Loaded " + weatherStationStore.size() +
+                            " weather stations from " + DATA_FILE);
+                    return;
+                } else {
+                    System.out.println("Primary data file corrupted. Trying the backup file");
+                }
             }
-        }
 
-        if (backupFile.exists()) {
-            if (loadFromFile(backupFile)) {
-                System.out.println("Loaded " + weatherStationStore.size() + " weather stations from the backup");
-                saveDataToFile();
-                return;
+            if (backupFile.exists()) {
+                if (loadFromFile(backupFile)) {
+                    System.out.println("Loaded " + weatherStationStore.size() +
+                            " weather stations from the backup");
+                    saveDataToFile();
+                    return;
+                }
             }
-        }
 
-        System.out.println("No existing weather data found. Starting with empty file.");
+            System.out.println("No existing weather data found. Starting with empty database.");
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     private static boolean loadFromFile(File file) {
@@ -139,7 +183,6 @@ public class AggregationServer {
             weatherStationStore.clear();
             long currentTime = System.currentTimeMillis();
 
-            // Load data with current timestamp (assume all loaded data is fresh)
             for (WeatherData weatherData : weatherArray) {
                 WeatherStationEntry entry = new WeatherStationEntry(weatherData, currentTime);
                 weatherStationStore.put(weatherData.getId(), entry);
@@ -152,93 +195,120 @@ public class AggregationServer {
     }
 
     private static void saveDataToFile() {
+        // Use read lock to access data for saving
+        readLock.lock();
         try {
-            // Extract just the weather data (not timestamps) for file storage
             WeatherData[] allData = weatherStationStore.values().stream()
                     .map(WeatherStationEntry::getWeatherData)
                     .toArray(WeatherData[]::new);
 
             String jsonData = JSONUtils.toJSON(allData);
 
-            File tempFile = new File(DATA_FILE + ".tmp");
-            File dataFile = new File(DATA_FILE);
-            File backupFile = new File(BACKUP_FILE);
+            // File operations don't need the data lock
+            readLock.unlock();
 
-            try (FileWriter writer = new FileWriter(tempFile)) {
-                writer.write(jsonData);
-            }
+            // Perform file operations without holding data lock
+            performFileWrite(jsonData);
 
-            if (dataFile.exists()) {
-                Files.copy(dataFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            Files.move(tempFile.toPath(), dataFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Weather data saved to persistent storage");
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error saving weather data: " + e.getMessage());
+        } finally {
+            // Ensure lock is released even if exception occurs
+            if (readLock.tryLock()) {
+                readLock.unlock();
+            }
         }
     }
 
-    // Update PUT handler to record timestamps
+    private static void performFileWrite(String jsonData) throws IOException {
+        File dataDir = new File("data");
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+
+        File tempFile = new File(DATA_FILE + ".tmp");
+        File dataFile = new File(DATA_FILE);
+        File backupFile = new File(BACKUP_FILE);
+
+        try (FileWriter writer = new FileWriter(tempFile)) {
+            writer.write(jsonData);
+        }
+
+        if (dataFile.exists()) {
+            Files.copy(dataFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        Files.move(tempFile.toPath(), dataFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Weather data saved to persistent storage");
+    }
+
     private static void handlePutRequest(BufferedReader in, PrintWriter out, int contentLength) {
+        // Use write lock for data modification
+        writeLock.lock();
         try {
             char[] jsonChars = new char[contentLength];
             in.read(jsonChars, 0, contentLength);
             String jsonData = new String(jsonChars);
 
-            System.out.println("Received JSON: " + jsonData);
+            System.out.println("Received JSON from thread " + Thread.currentThread().getName() +
+                    ": " + jsonData.substring(0, Math.min(50, jsonData.length())) + "...");
 
             WeatherData weatherData = JSONUtils.fromJSON(jsonData);
 
-            // Create entry with current timestamp
             long currentTime = System.currentTimeMillis();
             WeatherStationEntry entry = new WeatherStationEntry(weatherData, currentTime);
 
-            // Store weather station entry (data + timestamp)
             weatherStationStore.put(weatherData.getId(), entry);
-            System.out.println("Stored weather data for station: " + weatherData.getId());
+            System.out.println("Stored weather data for station: " + weatherData.getId() +
+                    " (Thread: " + Thread.currentThread().getName() + ")");
             System.out.println("Total stations: " + weatherStationStore.size());
 
-            // Persist to file immediately
-            saveDataToFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            writeLock.unlock();
+        }
 
-            sendSuccessResponse(out);
+        // Save to file outside the lock to reduce contention
+        saveDataToFile();
 
+        try {
+            sendSuccessResponse(out, 201, "Created");
         } catch (Exception e) {
-            System.out.println("Error processing PUT request: " + e.getMessage());
-            sendErrorResponse(out, 500, "Internal Server Error");
+            System.out.println("Error sending response: " + e.getMessage());
         }
     }
 
-    // Update GET handler to extract weather data
     private static void handleGetRequest(PrintWriter out) {
+        // Use read lock for data access
+        readLock.lock();
         try {
-            // Extract just the weather data from station entries
             WeatherData[] allData = weatherStationStore.values().stream()
                     .map(WeatherStationEntry::getWeatherData)
                     .toArray(WeatherData[]::new);
 
             String jsonResponse = JSONUtils.toJSON(allData);
 
-            System.out.println("Sending weather data for " + allData.length + " stations");
+            System.out.println("Sending weather data for " + allData.length +
+                    " stations (Thread: " + Thread.currentThread().getName() + ")");
 
-            sendJsonResponse(out, jsonResponse);
+            sendJsonResponse(out, 200, jsonResponse);
 
         } catch (Exception e) {
             System.out.println("Error processing GET request: " + e.getMessage());
             sendErrorResponse(out, 500, "Internal Server Error");
+        } finally {
+            readLock.unlock();
         }
     }
 
-    // Keep your existing HTTP response methods unchanged
     private static void handleClientRequest(Socket clientSocket) {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), false);
 
             String requestLine = in.readLine();
-            System.out.println("Request: " + requestLine);
+            System.out.println("Request from " + Thread.currentThread().getName() + ": " + requestLine);
 
             if (requestLine == null) {
                 return;
@@ -251,7 +321,6 @@ public class AggregationServer {
             int contentLength = 0;
 
             while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
-                System.out.println("Header: " + headerLine);
                 if (headerLine.toLowerCase().startsWith("content-length:")) {
                     contentLength = Integer.parseInt(headerLine.split(":")[1].trim());
                 }
@@ -270,17 +339,38 @@ public class AggregationServer {
         }
     }
 
-    private static void sendSuccessResponse(PrintWriter out) {
-        out.print("HTTP/1.1 " + 201 + " " + "Created" + "\r\n");
+    private static void shutdownGracefully() {
+        System.out.println("Shutting down server...");
+
+        if (requestHandlerPool != null) {
+            requestHandlerPool.shutdown();
+            try {
+                if (!requestHandlerPool.awaitTermination(5, TimeUnit.SECONDS)) {
+                    requestHandlerPool.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                requestHandlerPool.shutdownNow();
+            }
+        }
+
+        if (cleanupService != null) {
+            cleanupService.shutdown();
+        }
+
+        System.out.println("Server shutdown complete.");
+    }
+
+    private static void sendSuccessResponse(PrintWriter out, int statusCode, String statusText) {
+        out.print("HTTP/1.1 " + statusCode + " " + statusText + "\r\n");
         out.print("Content-Length: 0\r\n");
         out.print("\r\n");
         out.flush();
     }
 
-    private static void sendJsonResponse(PrintWriter out, String jsonData) {
+    private static void sendJsonResponse(PrintWriter out, int statusCode, String jsonData) {
         byte[] jsonBytes = jsonData.getBytes();
 
-        out.print("HTTP/1.1 " + 200 + " OK\r\n");
+        out.print("HTTP/1.1 " + statusCode + " OK\r\n");
         out.print("Content-Type: application/json\r\n");
         out.print("Content-Length: " + jsonBytes.length + "\r\n");
         out.print("\r\n");
