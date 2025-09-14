@@ -2,7 +2,6 @@ package com.weathersystem.client.common;
 
 import lombok.Getter;
 import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
 
 // Configuration class for HTTP clients with support for multiple servers and failover
@@ -28,7 +27,7 @@ public class ClientConfiguration {
                                int connectionTimeoutMs, int readTimeoutMs) {
         this.host = host;
         this.port = port;
-        this.serverAddresses = Arrays.asList(host + ":" + port);
+        this.serverAddresses = List.of(host + ":" + port);
         this.userAgent = userAgent;
         this.connectionTimeoutMs = connectionTimeoutMs;
         this.readTimeoutMs = readTimeoutMs;

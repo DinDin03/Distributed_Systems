@@ -1,10 +1,7 @@
 package com.weathersystem.integration;
 
-import com.weathersystem.client.ContentServer;
-import com.weathersystem.client.GETClient;
 import com.weathersystem.client.common.ClientConfiguration;
 import com.weathersystem.server.AggregationServer;
-import com.weathersystem.shared.domain.WeatherData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,10 +17,6 @@ import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration test suite for data expiry mechanism.
- * Tests data expiration functionality and server behavior during expiry processing.
- */
 class ExpiryMechanismTest {
 
     @TempDir
@@ -32,7 +25,6 @@ class ExpiryMechanismTest {
     private AggregationServer server;
     private Thread serverThread;
     private int serverPort;
-    private ClientConfiguration clientConfig;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -64,7 +56,7 @@ class ExpiryMechanismTest {
                 });
 
         // Create client configuration with shorter timeouts
-        clientConfig = new ClientConfiguration("localhost", serverPort, "WeatherTestClient/1.0", 2000, 5000);
+        ClientConfiguration clientConfig = new ClientConfiguration("localhost", serverPort, "WeatherTestClient/1.0", 2000, 5000);
     }
 
     @AfterEach

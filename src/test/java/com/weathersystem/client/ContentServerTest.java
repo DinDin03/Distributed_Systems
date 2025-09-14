@@ -14,25 +14,18 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for ContentServer class.
- * Tests weather data publishing, retry mechanism, Lamport clock integration, and multi-server support.
- */
 class ContentServerTest {
 
     private ContentServer contentServer;
-    private ClientConfiguration config;
 
     @TempDir
     Path tempDir;
 
     @BeforeEach
     void setUp() {
-        config = new ClientConfiguration("localhost", 4567, "ContentServer/1.0", 5000, 10000);
+        ClientConfiguration config = new ClientConfiguration("localhost", 4567, "ContentServer/1.0", 5000, 10000);
         contentServer = new ContentServer(config);
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests ContentServer constructor and initialization with different configurations
@@ -40,8 +33,7 @@ class ContentServerTest {
         System.out.println("Testing ContentServer constructor and initialization...");
         assertNotNull(contentServer, "ContentServer should be created");
         assertEquals(0, contentServer.getLamportTime(), "Initial Lamport clock should be 0");
-        assertTrue(contentServer instanceof com.weathersystem.client.common.HttpClientBase, 
-                  "ContentServer should inherit from HttpClientBase");
+        assertNotNull(contentServer, "ContentServer should inherit from HttpClientBase");
         
         // Test with different configuration
         ClientConfiguration testConfig = new ClientConfiguration("test.com", 8080, "TestAgent/1.0", 3000, 5000);
@@ -166,8 +158,6 @@ class ContentServerTest {
         System.out.println("✓ Lamport clock integration test passed");
     }
 
-    // === RETRY MECHANISM TESTS ===
-
     @Test
     // Tests retry mechanism with exponential backoff for failed connections
     void testRetryMechanismWithExponentialBackoff() throws IOException {
@@ -210,11 +200,10 @@ class ContentServerTest {
         long baseDelay = 1000;
         double backoff = 2.0;
 
-        long delay1 = baseDelay;
         long delay2 = (long) (baseDelay * backoff);
         long delay3 = (long) (baseDelay * backoff * backoff);
 
-        assertEquals(1000, delay1, "First delay should be base delay");
+        assertEquals(1000, baseDelay, "First delay should be base delay");
         assertEquals(2000, delay2, "Second delay should be 2x base delay");
         assertEquals(4000, delay3, "Third delay should be 4x base delay");
         
@@ -276,8 +265,6 @@ class ContentServerTest {
         
         System.out.println("✓ Multi-server failover test passed");
     }
-
-    // === MAIN METHOD TESTS ===
 
     @Test
     // Tests main method argument handling and validation

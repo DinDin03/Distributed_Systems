@@ -19,19 +19,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for RequestOrderingService class.
- * Tests Lamport timestamp ordering, concurrent processing, and various edge cases.
- */
 class RequestOrderingServiceTest {
 
     private RequestOrderingService orderingService;
     private List<TimestampedRequest> processedRequests;
-    private LamportClock lamportClock;
 
     @BeforeEach
     void setUp() {
-        lamportClock = new LamportClock();
+        LamportClock lamportClock = new LamportClock();
         processedRequests = new ArrayList<>();
         
         // Create ordering service with a processor that records requests
@@ -50,8 +45,6 @@ class RequestOrderingServiceTest {
         
         return new TimestampedRequest(mockSocket, method, 0, lamportTime, mockReader, mockWriter);
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     @Timeout(5)

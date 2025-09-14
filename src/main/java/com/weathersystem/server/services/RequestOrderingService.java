@@ -15,7 +15,6 @@ public class RequestOrderingService {
     private final ExecutorService requestProcessorPool;
     private final Consumer<TimestampedRequest> requestProcessor;
     private final AtomicBoolean isRunning;
-    private final boolean immediateProcessing;
 
     public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor) {
         this(requestProcessor, true); // Default to immediate processing for integration tests
@@ -30,7 +29,6 @@ public class RequestOrderingService {
         });
         this.requestProcessor = requestProcessor;
         this.isRunning = new AtomicBoolean(false);
-        this.immediateProcessing = immediateProcessing;
     }
 
     public void start() {

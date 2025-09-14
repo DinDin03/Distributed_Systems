@@ -1,7 +1,5 @@
 package com.weathersystem.integration;
 
-import com.weathersystem.client.ContentServer;
-import com.weathersystem.client.GETClient;
 import com.weathersystem.client.common.ClientConfiguration;
 import com.weathersystem.server.AggregationServer;
 import org.junit.jupiter.api.*;
@@ -12,15 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration tests for multi-server functionality.
- * Tests multi-server configuration and basic connectivity.
- */
 class MultiServerIntegrationTest {
 
     @TempDir

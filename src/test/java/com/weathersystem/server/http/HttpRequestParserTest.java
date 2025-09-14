@@ -9,10 +9,6 @@ import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for HttpRequestParser class.
- * Tests HTTP request parsing, header handling, and various edge cases.
- */
 class HttpRequestParserTest {
 
     private HttpRequestParser parser;
@@ -21,8 +17,6 @@ class HttpRequestParserTest {
     void setUp() {
         parser = new HttpRequestParser();
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests parsing of valid HTTP requests including GET and PUT methods

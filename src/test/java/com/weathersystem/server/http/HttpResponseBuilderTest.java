@@ -8,10 +8,6 @@ import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for HttpResponseBuilder class.
- * Tests HTTP response building, JSON responses, error responses, and various edge cases.
- */
 class HttpResponseBuilderTest {
 
     private HttpResponseBuilder responseBuilder;
@@ -29,8 +25,6 @@ class HttpResponseBuilderTest {
         printWriter.flush();
         return stringWriter.toString();
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests building success HTTP responses including 200, 201, and 204 status codes
@@ -344,7 +338,7 @@ class HttpResponseBuilderTest {
         }
         
         // Verify order
-        assertTrue(statusLineIndex == 0, "Status line should be first");
+        assertEquals(0, statusLineIndex, "Status line should be first");
         assertTrue(contentTypeIndex > statusLineIndex, "Content-Type should come after status line");
         assertTrue(lamportTimeIndex > statusLineIndex, "Lamport-Time should come after status line");
         assertTrue(contentLengthIndex > statusLineIndex, "Content-Length should come after status line");

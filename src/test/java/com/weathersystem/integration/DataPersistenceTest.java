@@ -1,10 +1,5 @@
 package com.weathersystem.integration;
-
-import com.weathersystem.client.ContentServer;
-import com.weathersystem.client.GETClient;
-import com.weathersystem.client.common.ClientConfiguration;
 import com.weathersystem.server.AggregationServer;
-import com.weathersystem.shared.domain.WeatherData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.awaitility.Awaitility;
@@ -18,16 +13,10 @@ import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration test suite for data persistence functionality.
- * Tests data persistence across server restarts and file system operations.
- */
 class DataPersistenceTest {
 
     @TempDir
     Path tempDir;
-
-    // === CORE PERSISTENCE TESTS ===
 
     @Test
     // Tests server startup and basic functionality including connectivity

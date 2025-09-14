@@ -6,10 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for JSONUtils class.
- * Tests JSON serialization/deserialization of WeatherData objects and arrays.
- */
 class JSONUtilsTest {
 
     private WeatherData sampleWeatherData;

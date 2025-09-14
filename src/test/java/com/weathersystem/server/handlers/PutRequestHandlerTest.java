@@ -1,8 +1,6 @@
 package com.weathersystem.server.handlers;
 
 import com.weathersystem.server.http.HttpRequest;
-import com.weathersystem.server.http.HttpResponseBuilder;
-import com.weathersystem.server.http.HttpStatusCodes;
 import com.weathersystem.server.services.WeatherDataService;
 import com.weathersystem.shared.domain.WeatherData;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,15 +12,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for PutRequestHandler class.
- * Tests weather data storage, JSON parsing, validation, and various error scenarios.
- */
 class PutRequestHandlerTest {
 
     @TempDir
@@ -82,8 +75,8 @@ class PutRequestHandlerTest {
         );
     }
 
-    private HttpRequest createHttpRequest(String method, int contentLength, long lamportTime) {
-        return new HttpRequest(method, "/weather.json", "HTTP/1.1", 
+    private HttpRequest createHttpRequest(int contentLength, long lamportTime) {
+        return new HttpRequest("PUT", "/weather.json", "HTTP/1.1",
                               java.util.Map.of(), contentLength, lamportTime);
     }
 
@@ -96,8 +89,6 @@ class PutRequestHandlerTest {
         return stringWriter.toString();
     }
 
-    // === CORE FUNCTIONALITY TESTS ===
-
     @Test
     // Tests PUT request handling with valid weather data including new and existing stations
     void testHandleValidWeatherData() throws Exception {
@@ -105,7 +96,7 @@ class PutRequestHandlerTest {
         
         // Test new station
         String jsonData = createValidJsonData("NEW001", "New Station");
-        HttpRequest request = createHttpRequest("PUT", jsonData.length(), 5L);
+        HttpRequest request = createHttpRequest(jsonData.length(), 5L);
         BufferedReader reader = createBufferedReader(jsonData);
 
         putHandler.handle(request, reader, printWriter, 5L);
@@ -126,7 +117,7 @@ class PutRequestHandlerTest {
         dataChangedCallbackCalled = false;
 
         String updateJsonData = createValidJsonData("NEW001", "Updated Station");
-        HttpRequest updateRequest = createHttpRequest("PUT", updateJsonData.length(), 7L);
+        HttpRequest updateRequest = createHttpRequest(updateJsonData.length(), 7L);
         BufferedReader updateReader = createBufferedReader(updateJsonData);
 
         putHandler.handle(updateRequest, updateReader, printWriter, 7L);
@@ -150,7 +141,7 @@ class PutRequestHandlerTest {
         System.out.println("Testing PUT request with no content scenarios...");
         
         // Test zero content length
-        HttpRequest request1 = createHttpRequest("PUT", 0, 2L);
+        HttpRequest request1 = createHttpRequest(0, 2L);
         BufferedReader reader1 = createBufferedReader("");
         putHandler.handle(request1, reader1, printWriter, 2L);
         String response1 = getResponseContent();
@@ -161,10 +152,9 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test negative content length
-        HttpRequest request2 = createHttpRequest("PUT", -1, 3L);
+        HttpRequest request2 = createHttpRequest(-1, 3L);
         BufferedReader reader2 = createBufferedReader("");
         putHandler.handle(request2, reader2, printWriter, 3L);
         String response2 = getResponseContent();
@@ -175,11 +165,10 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test whitespace-only content
         String whitespaceContent = "   \n\t  ";
-        HttpRequest request3 = createHttpRequest("PUT", whitespaceContent.length(), 4L);
+        HttpRequest request3 = createHttpRequest(whitespaceContent.length(), 4L);
         BufferedReader reader3 = createBufferedReader(whitespaceContent);
         putHandler.handle(request3, reader3, printWriter, 4L);
         String response3 = getResponseContent();
@@ -199,7 +188,7 @@ class PutRequestHandlerTest {
         
         // Test malformed JSON
         String malformedJson = "{\"id\":\"MALFORMED\",\"name\":\"Malformed Station\",\"state\":\"TEST\""; // Missing closing brace
-        HttpRequest request1 = createHttpRequest("PUT", malformedJson.length(), 6L);
+        HttpRequest request1 = createHttpRequest(malformedJson.length(), 6L);
         BufferedReader reader1 = createBufferedReader(malformedJson);
         putHandler.handle(request1, reader1, printWriter, 6L);
         String response1 = getResponseContent();
@@ -210,11 +199,10 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test invalid JSON syntax
         String invalidJson = "{\"id\":\"INVALID\",\"name\":\"Invalid Station\",\"invalid\":}";
-        HttpRequest request2 = createHttpRequest("PUT", invalidJson.length(), 7L);
+        HttpRequest request2 = createHttpRequest(invalidJson.length(), 7L);
         BufferedReader reader2 = createBufferedReader(invalidJson);
         putHandler.handle(request2, reader2, printWriter, 7L);
         String response2 = getResponseContent();
@@ -225,11 +213,10 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test null data
         String nullDataJson = "null";
-        HttpRequest request3 = createHttpRequest("PUT", nullDataJson.length(), 8L);
+        HttpRequest request3 = createHttpRequest(nullDataJson.length(), 8L);
         BufferedReader reader3 = createBufferedReader(nullDataJson);
         putHandler.handle(request3, reader3, printWriter, 8L);
         String response3 = getResponseContent();
@@ -247,7 +234,7 @@ class PutRequestHandlerTest {
         
         // Test missing required fields
         String incompleteJson = "{\"name\":\"Incomplete Station\"}"; // Missing required 'id' field
-        HttpRequest request1 = createHttpRequest("PUT", incompleteJson.length(), 9L);
+        HttpRequest request1 = createHttpRequest(incompleteJson.length(), 9L);
         BufferedReader reader1 = createBufferedReader(incompleteJson);
         putHandler.handle(request1, reader1, printWriter, 9L);
         String response1 = getResponseContent();
@@ -258,11 +245,10 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test empty ID field
         String emptyIdJson = "{\"id\":\"\",\"name\":\"Empty ID Station\"}";
-        HttpRequest request2 = createHttpRequest("PUT", emptyIdJson.length(), 10L);
+        HttpRequest request2 = createHttpRequest(emptyIdJson.length(), 10L);
         BufferedReader reader2 = createBufferedReader(emptyIdJson);
         putHandler.handle(request2, reader2, printWriter, 10L);
         String response2 = getResponseContent();
@@ -273,11 +259,10 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test empty name field
         String emptyNameJson = "{\"id\":\"EMPTY_NAME\",\"name\":\"\"}";
-        HttpRequest request3 = createHttpRequest("PUT", emptyNameJson.length(), 11L);
+        HttpRequest request3 = createHttpRequest(emptyNameJson.length(), 11L);
         BufferedReader reader3 = createBufferedReader(emptyNameJson);
         putHandler.handle(request3, reader3, printWriter, 11L);
         String response3 = getResponseContent();
@@ -294,7 +279,7 @@ class PutRequestHandlerTest {
         System.out.println("Testing PUT request with IO errors...");
         
         // Test IO exception during read
-        HttpRequest request1 = createHttpRequest("PUT", 100, 12L);
+        HttpRequest request1 = createHttpRequest(100, 12L);
         BufferedReader faultyReader = new BufferedReader(new StringReader("")) {
             @Override
             public int read(char[] cbuf, int off, int len) throws IOException {
@@ -310,10 +295,9 @@ class PutRequestHandlerTest {
         // Reset for next test
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        dataChangedCallbackCalled = false;
 
         // Test unexpected end of stream
-        HttpRequest request2 = createHttpRequest("PUT", 100, 13L);
+        HttpRequest request2 = createHttpRequest(100, 13L);
         BufferedReader reader2 = createBufferedReader("incomplete");
         putHandler.handle(request2, reader2, printWriter, 13L);
         String response2 = getResponseContent();
@@ -333,7 +317,7 @@ class PutRequestHandlerTest {
         
         // Test special characters
         String specialJson = "{\"id\":\"SPECIAL001\",\"name\":\"Station with special chars: ñáéíóú & symbols\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Partly \\\"cloudy\\\" with mixed conditions\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5}";
-        HttpRequest request1 = createHttpRequest("PUT", specialJson.length(), 14L);
+        HttpRequest request1 = createHttpRequest(specialJson.length(), 14L);
         BufferedReader reader1 = createBufferedReader(specialJson);
         putHandler.handle(request1, reader1, printWriter, 14L);
         String response1 = getResponseContent();
@@ -353,23 +337,19 @@ class PutRequestHandlerTest {
         dataChangedCallbackCalled = false;
 
         // Test large JSON data
-        StringBuilder largeJson = new StringBuilder();
-        largeJson.append("{\"id\":\"LARGE001\",\"name\":\"Large Station\",\"state\":\"TEST\",");
-        largeJson.append("\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,");
-        largeJson.append("\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",");
-        largeJson.append("\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Clear\",");
-        largeJson.append("\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,");
-        largeJson.append("\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5,");
-        largeJson.append("\"extra_field\":\"");
-        
-        // Add a large string to make the JSON substantial
-        for (int i = 0; i < 1000; i++) {
-            largeJson.append("This is additional data to make the JSON larger. ");
-        }
-        largeJson.append("\"}");
 
-        String jsonData = largeJson.toString();
-        HttpRequest request2 = createHttpRequest("PUT", jsonData.length(), 15L);
+        String jsonData = "{\"id\":\"LARGE001\",\"name\":\"Large Station\",\"state\":\"TEST\"," +
+                "\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0," +
+                "\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\"," +
+                "\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Clear\"," +
+                "\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60," +
+                "\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5," +
+                "\"extra_field\":\"" +
+
+                // Add a large string to make the JSON substantial
+                "This is additional data to make the JSON larger. ".repeat(1000) +
+                "\"}";
+        HttpRequest request2 = createHttpRequest(jsonData.length(), 15L);
         BufferedReader reader2 = createBufferedReader(jsonData);
         putHandler.handle(request2, reader2, printWriter, 15L);
         String response2 = getResponseContent();
@@ -384,7 +364,7 @@ class PutRequestHandlerTest {
 
         // Test JSON with extra fields
         String extraFieldsJson = "{\"id\":\"EXTRA001\",\"name\":\"Extra Fields Station\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Clear\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5,\"extra_field\":\"extra_value\",\"another_field\":123}";
-        HttpRequest request3 = createHttpRequest("PUT", extraFieldsJson.length(), 16L);
+        HttpRequest request3 = createHttpRequest(extraFieldsJson.length(), 16L);
         BufferedReader reader3 = createBufferedReader(extraFieldsJson);
         putHandler.handle(request3, reader3, printWriter, 16L);
         String response3 = getResponseContent();
@@ -408,7 +388,7 @@ class PutRequestHandlerTest {
         
         // Add first station
         String jsonData1 = createValidJsonData("MULTI001", "First Station");
-        HttpRequest request1 = createHttpRequest("PUT", jsonData1.length(), 17L);
+        HttpRequest request1 = createHttpRequest(jsonData1.length(), 17L);
         BufferedReader reader1 = createBufferedReader(jsonData1);
         putHandler.handle(request1, reader1, printWriter, 17L);
         
@@ -419,7 +399,7 @@ class PutRequestHandlerTest {
 
         // Add second station
         String jsonData2 = createValidJsonData("MULTI002", "Second Station");
-        HttpRequest request2 = createHttpRequest("PUT", jsonData2.length(), 18L);
+        HttpRequest request2 = createHttpRequest(jsonData2.length(), 18L);
         BufferedReader reader2 = createBufferedReader(jsonData2);
         putHandler.handle(request2, reader2, printWriter, 18L);
 

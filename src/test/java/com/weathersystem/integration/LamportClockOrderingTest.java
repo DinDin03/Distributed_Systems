@@ -1,10 +1,8 @@
 package com.weathersystem.integration;
 
-import com.weathersystem.client.ContentServer;
 import com.weathersystem.client.GETClient;
 import com.weathersystem.client.common.ClientConfiguration;
 import com.weathersystem.server.AggregationServer;
-import com.weathersystem.shared.domain.WeatherData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,19 +15,8 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration test suite for Lamport clock ordering functionality.
- * Tests Lamport clock behavior and ordering in client-server interactions.
- */
 class LamportClockOrderingTest {
 
     @TempDir

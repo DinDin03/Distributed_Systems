@@ -10,10 +10,6 @@ import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for ResponseParser class.
- * Tests HTTP response parsing, Lamport clock integration, and error handling.
- */
 class ResponseParserTest {
 
     private ResponseParser responseParser;
@@ -24,8 +20,6 @@ class ResponseParserTest {
         lamportClock = new LamportClock();
         responseParser = new ResponseParser(lamportClock);
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests parsing of valid HTTP response with status code, headers, and content
@@ -128,8 +122,6 @@ class ResponseParserTest {
         System.out.println("✓ Lamport clock update test passed");
     }
 
-    // === ERROR HANDLING TESTS ===
-
     @Test
     // Tests error handling for various invalid HTTP response formats
     void testParseInvalidResponses() {
@@ -173,8 +165,6 @@ class ResponseParserTest {
         
         System.out.println("✓ Invalid responses handling test passed");
     }
-
-    // === EDGE CASES AND ROBUSTNESS TESTS ===
 
     @Test
     // Tests parsing response with malformed headers and verifies graceful handling

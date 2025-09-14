@@ -2,7 +2,6 @@ package com.weathersystem.server.network;
 
 import com.weathersystem.server.handlers.RequestHandler;
 import com.weathersystem.server.http.HttpRequest;
-import com.weathersystem.server.http.HttpRequestParser;
 import com.weathersystem.server.http.HttpResponseBuilder;
 import com.weathersystem.server.http.HttpStatusCodes;
 

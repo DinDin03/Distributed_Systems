@@ -12,10 +12,6 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for FileStorageManager class.
- * Tests file persistence, backup creation, error recovery, and data integrity.
- */
 class FileStorageManagerTest {
 
     @TempDir
@@ -53,8 +49,6 @@ class FileStorageManagerTest {
         data.setWindSpdKt(5);
         return data;
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests basic save and load functionality with empty, single, and multiple weather stations

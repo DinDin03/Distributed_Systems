@@ -11,22 +11,15 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for GETClient class.
- * Tests weather data retrieval, JSON parsing, display functionality, retry mechanism, and multi-server support.
- */
 class GETClientTest {
 
     private GETClient getClient;
-    private ClientConfiguration config;
 
     @BeforeEach
     void setUp() {
-        config = new ClientConfiguration("localhost", 4567, "TestClient/1.0", 5000, 10000);
+        ClientConfiguration config = new ClientConfiguration("localhost", 4567, "TestClient/1.0", 5000, 10000);
         getClient = new GETClient(config);
     }
-
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     // Tests GETClient constructor and initialization with different configurations
@@ -163,9 +156,7 @@ class GETClientTest {
 
         long startTime = System.currentTimeMillis();
 
-        Exception exception = assertThrows(Exception.class, () -> {
-            testClient.retrieveWeatherData();
-        });
+        Exception exception = assertThrows(Exception.class, testClient::retrieveWeatherData);
 
         long endTime = System.currentTimeMillis();
 
@@ -187,11 +178,10 @@ class GETClientTest {
         long baseDelay = 1000;
         double backoff = 2.0;
 
-        long firstDelay = baseDelay;
         long secondDelay = (long) (baseDelay * backoff);
         long thirdDelay = (long) (baseDelay * backoff * backoff);
 
-        assertEquals(1000, firstDelay, "First delay should be base delay");
+        assertEquals(1000, baseDelay, "First delay should be base delay");
         assertEquals(2000, secondDelay, "Second delay should be 2x base delay");
         assertEquals(4000, thirdDelay, "Third delay should be 4x base delay");
         
@@ -237,9 +227,7 @@ class GETClientTest {
 
         long startTime = System.currentTimeMillis();
 
-        Exception exception = assertThrows(Exception.class, () -> {
-            failoverClient.retrieveWeatherData();
-        });
+        Exception exception = assertThrows(Exception.class, failoverClient::retrieveWeatherData);
 
         long duration = System.currentTimeMillis() - startTime;
 
@@ -268,7 +256,7 @@ class GETClientTest {
         // Test custom server argument
         String[] args = {"example.com:8080"};
         assertDoesNotThrow(() -> {
-            String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
+            String serverAddress = args[0];
             ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
             assertNotNull(config, "Should create config for custom server");
             assertEquals("example.com", config.getHost(), "Host should match argument");
@@ -280,14 +268,9 @@ class GETClientTest {
         assertDoesNotThrow(() -> {
             String serverAddress = multiServerArgs[0];
             ClientConfiguration config;
-            if (serverAddress.contains(",")) {
-                config = ClientConfiguration.fromMultipleServers(serverAddress);
-                assertTrue(config.hasMultipleServers(), "Should detect multiple servers");
-                assertEquals(3, config.getServerAddresses().size(), "Should have 3 server addresses");
-            } else {
-                config = ClientConfiguration.fromServerAddress(serverAddress);
-                assertFalse(config.hasMultipleServers(), "Should detect single server");
-            }
+            config = ClientConfiguration.fromMultipleServers(serverAddress);
+            assertTrue(config.hasMultipleServers(), "Should detect multiple servers");
+            assertEquals(3, config.getServerAddresses().size(), "Should have 3 server addresses");
             GETClient client = new GETClient(config);
             assertNotNull(client, "Should create GETClient with parsed config");
         });

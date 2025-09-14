@@ -10,10 +10,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for multi-server failover functionality in HttpClientBase.
- * Covers core failover behavior, error handling, and configuration validation.
- */
 class MultiServerFailoverTest {
 
     private TestHttpClient testClient;
@@ -25,8 +21,6 @@ class MultiServerFailoverTest {
         ClientConfiguration config = new ClientConfiguration(servers, "TestAgent/1.0", 1000, 5000);
         testClient = new TestHttpClient(config);
     }
-
-    // === CORE FAILOVER FUNCTIONALITY TESTS ===
 
     @Test
     // Tests multi-server configuration setup and validates server address parsing
@@ -86,8 +80,6 @@ class MultiServerFailoverTest {
         System.out.println("✓ Single server configuration test passed");
     }
 
-    // === ERROR HANDLING TESTS ===
-
     @Test
     // Tests validation of invalid configuration parameters including null and empty server lists
     void testInvalidConfigurationHandling() {
@@ -95,7 +87,7 @@ class MultiServerFailoverTest {
         
         // Test empty server list
         assertThrows(IllegalArgumentException.class, () -> {
-            new ClientConfiguration(Arrays.asList(), "Test/1.0", 1000, 5000);
+            new ClientConfiguration(List.of(), "Test/1.0", 1000, 5000);
         }, "Should throw exception for empty server list");
 
         // Test null server list
@@ -117,16 +109,12 @@ class MultiServerFailoverTest {
 
         long startTime = System.currentTimeMillis();
 
-        assertThrows(Exception.class, () -> {
-            client.testCreateConnection();
-        }, "Should throw exception when connection fails");
+        assertThrows(Exception.class, client::testCreateConnection, "Should throw exception when connection fails");
 
         long duration = System.currentTimeMillis() - startTime;
         assertTrue(duration < 5000, "Should timeout quickly with short timeout values: " + duration + "ms");
         System.out.println("✓ Connection timeout behavior test passed");
     }
-
-    // === INTEGRATION TESTS ===
 
     @Test
     // Tests failover resilience with multiple failed servers in sequence
@@ -158,10 +146,6 @@ class MultiServerFailoverTest {
         System.out.println("✓ Failover resilience test passed");
     }
 
-    /**
-     * Test implementation of HttpClientBase to expose connection testing.
-     * This allows us to test the actual failover logic without making real HTTP requests.
-     */
     private static class TestHttpClient extends HttpClientBase {
         public TestHttpClient(ClientConfiguration config) {
             super(config);
@@ -170,7 +154,6 @@ class MultiServerFailoverTest {
         public void testCreateConnection() throws IOException {
             // This will test the actual failover logic
             try (Socket socket = createConnection()) {
-                // Connection successful - socket will be closed automatically
             }
         }
 

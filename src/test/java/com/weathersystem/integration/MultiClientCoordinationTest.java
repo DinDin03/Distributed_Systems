@@ -26,10 +26,6 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration test suite for multi-client coordination functionality.
- * Tests server behavior with multiple concurrent clients and operations.
- */
 class MultiClientCoordinationTest {
 
     @TempDir
@@ -38,7 +34,6 @@ class MultiClientCoordinationTest {
     private AggregationServer server;
     private Thread serverThread;
     private int serverPort;
-    private ClientConfiguration clientConfig;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -70,7 +65,7 @@ class MultiClientCoordinationTest {
                 });
 
         // Create client configuration with shorter timeouts
-        clientConfig = new ClientConfiguration("localhost", serverPort, "WeatherTestClient/1.0", 2000, 5000);
+        ClientConfiguration clientConfig = new ClientConfiguration("localhost", serverPort, "WeatherTestClient/1.0", 2000, 5000);
     }
 
     @AfterEach
@@ -118,7 +113,6 @@ class MultiClientCoordinationTest {
 
         // Start multiple clients
         for (int i = 0; i < numClients; i++) {
-            final int clientId = i;
 
             Thread clientThread = new Thread(() -> {
                 try {
@@ -172,7 +166,6 @@ class MultiClientCoordinationTest {
 
         // Create concurrent operations
         for (int i = 0; i < numOperations; i++) {
-            final int operationId = i;
 
             Thread operationThread = new Thread(() -> {
                 try {

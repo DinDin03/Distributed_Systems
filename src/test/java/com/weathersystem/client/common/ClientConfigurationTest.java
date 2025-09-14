@@ -48,8 +48,6 @@ class ClientConfigurationTest {
         System.out.println("✓ Default values test passed");
     }
 
-    // === ERROR HANDLING TESTS ===
-
     @Test
     // Tests handling of invalid port in server address string and fallback to default port
     void testFromServerAddressInvalidPort() {
@@ -76,8 +74,6 @@ class ClientConfigurationTest {
         
         System.out.println("✓ Constructor validation test passed");
     }
-
-    // === MULTI-SERVER FUNCTIONALITY TESTS ===
 
     @Test
     // Tests parsing multiple server addresses and verifies correct configuration setup
@@ -130,10 +126,8 @@ class ClientConfigurationTest {
         System.out.println("✓ Edge cases test passed");
     }
 
-    // === INTEGRATION TESTS ===
-
     @Test
-    // Tests consistency between single and multi-server configuration methods
+    // Tests consistency between single and multi server configuration methods
     void testConfigurationConsistency() {
         System.out.println("Testing configuration consistency...");
         ClientConfiguration singleConfig = ClientConfiguration.fromServerAddress("localhost:4567");

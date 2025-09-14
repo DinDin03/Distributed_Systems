@@ -13,10 +13,6 @@ import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for GetRequestHandler class.
- * Tests weather data retrieval, JSON response formatting, and various data scenarios.
- */
 class GetRequestHandlerTest {
 
     private GetRequestHandler getHandler;
@@ -55,13 +51,13 @@ class GetRequestHandlerTest {
         return data;
     }
 
-    private HttpRequest createHttpRequest(String method, int contentLength, long lamportTime) {
-        return new HttpRequest(method, "/weather.json", "HTTP/1.1", 
-                              java.util.Map.of(), contentLength, lamportTime);
+    private HttpRequest createHttpRequest(long lamportTime) {
+        return new HttpRequest("GET", "/weather.json", "HTTP/1.1",
+                              java.util.Map.of(), 0, lamportTime);
     }
 
-    private BufferedReader createBufferedReader(String content) {
-        return new BufferedReader(new StringReader(content));
+    private BufferedReader createBufferedReader() {
+        return new BufferedReader(new StringReader(""));
     }
 
     private String getResponseContent() {
@@ -69,14 +65,12 @@ class GetRequestHandlerTest {
         return stringWriter.toString();
     }
 
-    // === CORE FUNCTIONALITY TESTS ===
-
     @Test
     // Tests GET request handling when no weather data is available
     void testHandleGetWithNoData() throws Exception {
         System.out.println("Testing GET request with no weather data...");
-        HttpRequest request = createHttpRequest("GET", 0, 5L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(5L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 5L);
 
@@ -97,8 +91,8 @@ class GetRequestHandlerTest {
         WeatherData station = createSampleWeatherData("SINGLE001", "Single Station");
         weatherDataService.storeWeatherData(station);
 
-        HttpRequest request = createHttpRequest("GET", 0, 7L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(7L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 7L);
 
@@ -117,8 +111,8 @@ class GetRequestHandlerTest {
 
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
-        request = createHttpRequest("GET", 0, 9L);
-        reader = createBufferedReader("");
+        request = createHttpRequest(9L);
+        reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 9L);
 
@@ -146,8 +140,8 @@ class GetRequestHandlerTest {
         updatedStation.setAirTemp(25.0);
         weatherDataService.storeWeatherData(updatedStation);
 
-        HttpRequest request = createHttpRequest("GET", 0, 25L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(25L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 25L);
 
@@ -201,8 +195,8 @@ class GetRequestHandlerTest {
         zeroStation.setWindSpdKmh(0);
         weatherDataService.storeWeatherData(zeroStation);
 
-        HttpRequest request = createHttpRequest("GET", 0, 15L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(15L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 15L);
 
@@ -261,8 +255,8 @@ class GetRequestHandlerTest {
         largeStation.setWindSpdKmh(999);
         weatherDataService.storeWeatherData(largeStation);
 
-        HttpRequest request = createHttpRequest("GET", 0, 20L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(20L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 20L);
 
@@ -302,8 +296,8 @@ class GetRequestHandlerTest {
         WeatherData station = createSampleWeatherData("FORMAT001", "Format Test Station");
         weatherDataService.storeWeatherData(station);
 
-        HttpRequest request = createHttpRequest("GET", 0, 35L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(35L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 35L);
 
@@ -337,8 +331,8 @@ class GetRequestHandlerTest {
             weatherDataService.storeWeatherData(station);
         }
 
-        HttpRequest request = createHttpRequest("GET", 0, 30L);
-        BufferedReader reader = createBufferedReader("");
+        HttpRequest request = createHttpRequest(30L);
+        BufferedReader reader = createBufferedReader();
 
         getHandler.handle(request, reader, printWriter, 30L);
 
