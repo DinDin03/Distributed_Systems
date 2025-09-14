@@ -2,35 +2,35 @@
 
 import java.io.PrintWriter;
 
-<span class="fc" id="L5">public class HttpResponseBuilder {</span>
+<span class="nc" id="L5">public class HttpResponseBuilder {</span>
 
     public void sendSuccessResponse(PrintWriter out, int statusCode, String statusText, long lamportTime) {
-<span class="fc" id="L8">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; &quot; + statusText + &quot;\r\n&quot;);</span>
-<span class="fc" id="L9">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
-<span class="fc" id="L10">        out.print(&quot;Content-Length: 0\r\n&quot;);</span>
-<span class="fc" id="L11">        out.print(&quot;\r\n&quot;);</span>
-<span class="fc" id="L12">        out.flush();</span>
-<span class="fc" id="L13">    }</span>
+<span class="nc" id="L8">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; &quot; + statusText + &quot;\r\n&quot;);</span>
+<span class="nc" id="L9">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
+<span class="nc" id="L10">        out.print(&quot;Content-Length: 0\r\n&quot;);</span>
+<span class="nc" id="L11">        out.print(&quot;\r\n&quot;);</span>
+<span class="nc" id="L12">        out.flush();</span>
+<span class="nc" id="L13">    }</span>
 
     public void sendJsonResponse(PrintWriter out, int statusCode, String jsonData, long lamportTime) {
-<span class="fc" id="L16">        byte[] jsonBytes = jsonData.getBytes();</span>
+<span class="nc" id="L16">        byte[] jsonBytes = jsonData.getBytes();</span>
 
-<span class="fc" id="L18">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; OK\r\n&quot;);</span>
-<span class="fc" id="L19">        out.print(&quot;Content-Type: application/json\r\n&quot;);</span>
-<span class="fc" id="L20">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
-<span class="fc" id="L21">        out.print(&quot;Content-Length: &quot; + jsonBytes.length + &quot;\r\n&quot;);</span>
-<span class="fc" id="L22">        out.print(&quot;\r\n&quot;);</span>
-<span class="fc" id="L23">        out.print(jsonData);</span>
-<span class="fc" id="L24">        out.flush();</span>
-<span class="fc" id="L25">    }</span>
+<span class="nc" id="L18">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; OK\r\n&quot;);</span>
+<span class="nc" id="L19">        out.print(&quot;Content-Type: application/json\r\n&quot;);</span>
+<span class="nc" id="L20">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
+<span class="nc" id="L21">        out.print(&quot;Content-Length: &quot; + jsonBytes.length + &quot;\r\n&quot;);</span>
+<span class="nc" id="L22">        out.print(&quot;\r\n&quot;);</span>
+<span class="nc" id="L23">        out.print(jsonData);</span>
+<span class="nc" id="L24">        out.flush();</span>
+<span class="nc" id="L25">    }</span>
 
     public void sendErrorResponse(PrintWriter out, int statusCode, String statusText, long lamportTime) {
-<span class="fc" id="L28">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; &quot; + statusText + &quot;\r\n&quot;);</span>
-<span class="fc" id="L29">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
-<span class="fc" id="L30">        out.print(&quot;Content-Length: 0\r\n&quot;);</span>
-<span class="fc" id="L31">        out.print(&quot;\r\n&quot;);</span>
-<span class="fc" id="L32">        out.flush();</span>
-<span class="fc" id="L33">    }</span>
+<span class="nc" id="L28">        out.print(&quot;HTTP/1.1 &quot; + statusCode + &quot; &quot; + statusText + &quot;\r\n&quot;);</span>
+<span class="nc" id="L29">        out.print(&quot;Lamport-Time: &quot; + lamportTime + &quot;\r\n&quot;);</span>
+<span class="nc" id="L30">        out.print(&quot;Content-Length: 0\r\n&quot;);</span>
+<span class="nc" id="L31">        out.print(&quot;\r\n&quot;);</span>
+<span class="nc" id="L32">        out.flush();</span>
+<span class="nc" id="L33">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

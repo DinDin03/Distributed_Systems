@@ -9,71 +9,71 @@ public class ResponseParser {
 
     private final LamportClock lamportClock;
 
-<span class="nc" id="L12">    public ResponseParser(LamportClock lamportClock) {</span>
-<span class="nc" id="L13">        this.lamportClock = lamportClock;</span>
-<span class="nc" id="L14">    }</span>
+<span class="fc" id="L12">    public ResponseParser(LamportClock lamportClock) {</span>
+<span class="fc" id="L13">        this.lamportClock = lamportClock;</span>
+<span class="fc" id="L14">    }</span>
 
     public HttpClientBase.HttpResponse parseResponse(BufferedReader in) throws IOException {
         // Read status line
-<span class="nc" id="L18">        String statusLine = in.readLine();</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (statusLine == null) {</span>
-<span class="nc" id="L20">            throw new IOException(&quot;No response received from server&quot;);</span>
+<span class="fc" id="L18">        String statusLine = in.readLine();</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (statusLine == null) {</span>
+<span class="fc" id="L20">            throw new IOException(&quot;No response received from server&quot;);</span>
         }
 
-<span class="nc" id="L23">        System.out.println(&quot;Server response: &quot; + statusLine);</span>
+<span class="fc" id="L23">        System.out.println(&quot;Server response: &quot; + statusLine);</span>
 
         // Parse status code and text
-<span class="nc" id="L26">        String[] statusParts = statusLine.split(&quot; &quot;, 3);</span>
-<span class="nc" id="L27">        int statusCode = Integer.parseInt(statusParts[1]);</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">        String statusText = statusParts.length &gt; 2 ? statusParts[2] : &quot;&quot;;</span>
+<span class="fc" id="L26">        String[] statusParts = statusLine.split(&quot; &quot;, 3);</span>
+<span class="fc" id="L27">        int statusCode = Integer.parseInt(statusParts[1]);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        String statusText = statusParts.length &gt; 2 ? statusParts[2] : &quot;&quot;;</span>
 
         // Read headers
         String headerLine;
-<span class="nc" id="L32">        int contentLength = 0;</span>
-<span class="nc" id="L33">        long serverLamportTime = -1;</span>
+<span class="fc" id="L32">        int contentLength = 0;</span>
+<span class="fc" id="L33">        long serverLamportTime = -1;</span>
 
-<span class="nc bnc" id="L35" title="All 4 branches missed.">        while ((headerLine = in.readLine()) != null &amp;&amp; !headerLine.isEmpty()) {</span>
-<span class="nc" id="L36">            String[] headerParts = headerLine.split(&quot;:&quot;, 2);</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (headerParts.length != 2) continue;</span>
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">        while ((headerLine = in.readLine()) != null &amp;&amp; !headerLine.isEmpty()) {</span>
+<span class="fc" id="L36">            String[] headerParts = headerLine.split(&quot;:&quot;, 2);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (headerParts.length != 2) continue;</span>
 
-<span class="nc" id="L39">            String headerName = headerParts[0].trim().toLowerCase();</span>
-<span class="nc" id="L40">            String headerValue = headerParts[1].trim();</span>
+<span class="fc" id="L39">            String headerName = headerParts[0].trim().toLowerCase();</span>
+<span class="fc" id="L40">            String headerValue = headerParts[1].trim();</span>
 
-<span class="nc bnc" id="L42" title="All 3 branches missed.">            switch (headerName) {</span>
+<span class="pc bpc" id="L42" title="1 of 3 branches missed.">            switch (headerName) {</span>
                 case &quot;content-length&quot;:
-<span class="nc" id="L44">                    contentLength = Integer.parseInt(headerValue);</span>
-<span class="nc" id="L45">                    break;</span>
+<span class="fc" id="L44">                    contentLength = Integer.parseInt(headerValue);</span>
+<span class="fc" id="L45">                    break;</span>
                 case &quot;lamport-time&quot;:
-<span class="nc" id="L47">                    serverLamportTime = Long.parseLong(headerValue);</span>
+<span class="fc" id="L47">                    serverLamportTime = Long.parseLong(headerValue);</span>
                     break;
             }
-        }
+<span class="fc" id="L50">        }</span>
 
         // Update Lamport clock if server sent timestamp
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (serverLamportTime != -1) {</span>
-<span class="nc" id="L54">            long updatedTime = lamportClock.update(serverLamportTime);</span>
-<span class="nc" id="L55">            System.out.println(&quot;Updated Lamport clock from server response: &quot; +</span>
-<span class="nc" id="L56">                    serverLamportTime + &quot; -&gt; &quot; + updatedTime);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (serverLamportTime != -1) {</span>
+<span class="fc" id="L54">            long updatedTime = lamportClock.update(serverLamportTime);</span>
+<span class="fc" id="L55">            System.out.println(&quot;Updated Lamport clock from server response: &quot; +</span>
+                    serverLamportTime + &quot; -&gt; &quot; + updatedTime);
         }
 
         // Read content body
-<span class="nc" id="L60">        String content = null;</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (contentLength &gt; 0) {</span>
-<span class="nc" id="L62">            char[] contentChars = new char[contentLength];</span>
-<span class="nc" id="L63">            int totalRead = 0;</span>
+<span class="fc" id="L60">        String content = null;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (contentLength &gt; 0) {</span>
+<span class="fc" id="L62">            char[] contentChars = new char[contentLength];</span>
+<span class="fc" id="L63">            int totalRead = 0;</span>
 
-<span class="nc bnc" id="L65" title="All 2 branches missed.">            while (totalRead &lt; contentLength) {</span>
-<span class="nc" id="L66">                int read = in.read(contentChars, totalRead, contentLength - totalRead);</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (read == -1) {</span>
-<span class="nc" id="L68">                    throw new IOException(&quot;Unexpected end of response while reading content&quot;);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            while (totalRead &lt; contentLength) {</span>
+<span class="fc" id="L66">                int read = in.read(contentChars, totalRead, contentLength - totalRead);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                if (read == -1) {</span>
+<span class="fc" id="L68">                    throw new IOException(&quot;Unexpected end of response while reading content&quot;);</span>
                 }
-<span class="nc" id="L70">                totalRead += read;</span>
-            }
+<span class="fc" id="L70">                totalRead += read;</span>
+<span class="fc" id="L71">            }</span>
 
-<span class="nc" id="L73">            content = new String(contentChars);</span>
+<span class="fc" id="L73">            content = new String(contentChars);</span>
         }
 
-<span class="nc" id="L76">        return new HttpClientBase.HttpResponse(statusCode, statusText, content, serverLamportTime);</span>
+<span class="fc" id="L76">        return new HttpClientBase.HttpResponse(statusCode, statusText, content, serverLamportTime);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

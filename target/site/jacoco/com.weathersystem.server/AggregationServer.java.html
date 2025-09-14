@@ -51,10 +51,10 @@ public class AggregationServer {
 
         // Initialize data expiry service
 <span class="nc" id="L53">        this.dataExpiryService = new DataExpiryService(</span>
-<span class="nc" id="L54">                EXPIRY_TIME_MS, CLEANUP_INTERVAL_MS,</span>
+                EXPIRY_TIME_MS, CLEANUP_INTERVAL_MS,
 <span class="nc" id="L55">                weatherDataService.getInternalStorage(),</span>
 <span class="nc" id="L56">                weatherDataService.getWriteLock(),</span>
-<span class="nc" id="L57">                this::saveDataToFile</span>
+                this::saveDataToFile
         );
 
         // Register request handlers
@@ -77,7 +77,7 @@ public class AggregationServer {
 <span class="nc" id="L77">        } catch (Exception e) {</span>
 <span class="nc" id="L78">            System.out.println(&quot;Server failed to start: &quot; + e.getMessage());</span>
 <span class="nc" id="L79">            System.exit(1);</span>
-        }
+<span class="nc" id="L80">        }</span>
 <span class="nc" id="L81">    }</span>
 
     public void start(int port) throws IOException {
@@ -172,7 +172,7 @@ public class AggregationServer {
 <span class="nc" id="L172">                    System.out.println(&quot;Error accepting client connection: &quot; + e.getMessage());</span>
                 }
                 // If not running, this is expected during shutdown
-            }
+<span class="nc" id="L175">            }</span>
         }
 <span class="nc" id="L177">    }</span>
 
@@ -182,7 +182,7 @@ public class AggregationServer {
 <span class="nc" id="L182">            weatherDataRepository.saveAsync(allData);</span>
 <span class="nc" id="L183">        } catch (Exception e) {</span>
 <span class="nc" id="L184">            System.out.println(&quot;Error saving weather data: &quot; + e.getMessage());</span>
-        }
+<span class="nc" id="L185">        }</span>
 <span class="nc" id="L186">    }</span>
 
     private void shutdownServices() {
@@ -202,7 +202,7 @@ public class AggregationServer {
             }
 <span class="nc" id="L203">        } catch (IOException e) {</span>
 <span class="nc" id="L204">            System.out.println(&quot;Error closing server socket: &quot; + e.getMessage());</span>
-        }
+<span class="nc" id="L205">        }</span>
 <span class="nc" id="L206">    }</span>
 
     private static int parsePortFromArgs(String[] args) {

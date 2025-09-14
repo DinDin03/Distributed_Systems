@@ -17,10 +17,10 @@ public class DataExpiryService {
     private final ScheduledExecutorService cleanupService;
     private final Runnable onDataExpired; // Callback for when data is removed
 
-<span class="nc" id="L20">    public DataExpiryService(long expiryTimeMs, long cleanupIntervalMs,</span>
+    public DataExpiryService(long expiryTimeMs, long cleanupIntervalMs,
                              ConcurrentHashMap&lt;String, WeatherStationEntry&gt; dataStore,
                              ReentrantReadWriteLock.WriteLock writeLock,
-                             Runnable onDataExpired) {
+<span class="nc" id="L23">                             Runnable onDataExpired) {</span>
 <span class="nc" id="L24">        this.expiryTimeMs = expiryTimeMs;</span>
 <span class="nc" id="L25">        this.cleanupIntervalMs = cleanupIntervalMs;</span>
 <span class="nc" id="L26">        this.dataStore = dataStore;</span>
@@ -35,13 +35,13 @@ public class DataExpiryService {
 
     public void start() {
 <span class="nc" id="L37">        cleanupService.scheduleAtFixedRate(</span>
-<span class="nc" id="L38">                this::removeExpiredData,</span>
-<span class="nc" id="L39">                cleanupIntervalMs,</span>
-<span class="nc" id="L40">                cleanupIntervalMs,</span>
-<span class="nc" id="L41">                TimeUnit.MILLISECONDS</span>
+                this::removeExpiredData,
+                cleanupIntervalMs,
+                cleanupIntervalMs,
+                TimeUnit.MILLISECONDS
         );
 <span class="nc" id="L43">        System.out.println(&quot;Started background cleanup service (checking every &quot; +</span>
-<span class="nc" id="L44">                cleanupIntervalMs / 1000 + &quot; seconds)&quot;);</span>
+                cleanupIntervalMs / 1000 + &quot; seconds)&quot;);
 <span class="nc" id="L45">    }</span>
 
     public void stop() {
@@ -54,7 +54,7 @@ public class DataExpiryService {
 <span class="nc" id="L54">            } catch (InterruptedException e) {</span>
 <span class="nc" id="L55">                cleanupService.shutdownNow();</span>
 <span class="nc" id="L56">                Thread.currentThread().interrupt();</span>
-            }
+<span class="nc" id="L57">            }</span>
 <span class="nc" id="L58">            System.out.println(&quot;Data expiry service stopped&quot;);</span>
         }
 <span class="nc" id="L60">    }</span>
@@ -88,7 +88,7 @@ public class DataExpiryService {
                 }
             }
 
-<span class="nc" id="L91">        } finally {</span>
+        } finally {
 <span class="nc" id="L92">            writeLock.unlock();</span>
         }
 <span class="nc" id="L94">    }</span>

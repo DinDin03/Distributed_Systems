@@ -22,7 +22,7 @@ public class FileStorageManager {
 <span class="nc" id="L22">        String jsonData = JSONUtils.toJSON(weatherData);</span>
 <span class="nc" id="L23">        performAtomicFileWrite(jsonData);</span>
 <span class="nc" id="L24">        System.out.println(&quot;Weather data saved to persistent storage (&quot; +</span>
-<span class="nc" id="L25">                weatherData.length + &quot; stations)&quot;);</span>
+                weatherData.length + &quot; stations)&quot;);
 <span class="nc" id="L26">    }</span>
 
     public WeatherData[] load() throws IOException {

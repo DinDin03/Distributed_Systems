@@ -22,59 +22,59 @@ public abstract class HttpClientBase {
     // Creates a socket connection to the server with configured timeouts
     protected Socket createConnection() throws IOException {
 <span class="fc" id="L24">        Socket socket = new Socket();</span>
-<span class="fc" id="L25">        socket.connect(new java.net.InetSocketAddress(config.getHost(), config.getPort()),</span>
+<span class="pc" id="L25">        socket.connect(new java.net.InetSocketAddress(config.getHost(), config.getPort()),</span>
 <span class="fc" id="L26">                config.getConnectionTimeoutMs());</span>
-<span class="fc" id="L27">        socket.setSoTimeout(config.getReadTimeoutMs());</span>
+<span class="nc" id="L27">        socket.setSoTimeout(config.getReadTimeoutMs());</span>
 
-<span class="fc" id="L29">        System.out.println(&quot;Connected to server at &quot; + config.getServerUrl());</span>
-<span class="fc" id="L30">        return socket;</span>
+<span class="nc" id="L29">        System.out.println(&quot;Connected to server at &quot; + config.getServerUrl());</span>
+<span class="nc" id="L30">        return socket;</span>
     }
 
     // Sends HTTP request with headers and optional body content
     protected void sendHttpRequest(Socket socket, String method,
                                    String contentType, byte[] content) throws IOException {
-<span class="fc" id="L36">        long sendTime = lamportClock.tick();</span>
-<span class="fc" id="L37">        System.out.println(&quot;Sending &quot; + method + &quot; request (Lamport time: &quot; + sendTime + &quot;)&quot;);</span>
+<span class="nc" id="L36">        long sendTime = lamportClock.tick();</span>
+<span class="nc" id="L37">        System.out.println(&quot;Sending &quot; + method + &quot; request (Lamport time: &quot; + sendTime + &quot;)&quot;);</span>
 
-<span class="fc" id="L39">        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);</span>
+<span class="nc" id="L39">        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);</span>
 
         // Send request line and headers
-<span class="fc" id="L42">        out.print(method + &quot; &quot; + &quot;/weather.json&quot; + &quot; HTTP/1.1\r\n&quot;);</span>
-<span class="fc" id="L43">        out.print(&quot;Host: &quot; + config.getServerUrl() + &quot;\r\n&quot;);</span>
-<span class="fc" id="L44">        out.print(&quot;User-Agent: &quot; + config.getUserAgent() + &quot;\r\n&quot;);</span>
-<span class="fc" id="L45">        out.print(&quot;Lamport-Time: &quot; + sendTime + &quot;\r\n&quot;);</span>
+<span class="nc" id="L42">        out.print(method + &quot; &quot; + &quot;/weather.json&quot; + &quot; HTTP/1.1\r\n&quot;);</span>
+<span class="nc" id="L43">        out.print(&quot;Host: &quot; + config.getServerUrl() + &quot;\r\n&quot;);</span>
+<span class="nc" id="L44">        out.print(&quot;User-Agent: &quot; + config.getUserAgent() + &quot;\r\n&quot;);</span>
+<span class="nc" id="L45">        out.print(&quot;Lamport-Time: &quot; + sendTime + &quot;\r\n&quot;);</span>
 
-<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
-<span class="fc" id="L48">            out.print(&quot;Content-Type: &quot; + contentType + &quot;\r\n&quot;);</span>
-<span class="fc" id="L49">            out.print(&quot;Content-Length: &quot; + content.length + &quot;\r\n&quot;);</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="nc" id="L48">            out.print(&quot;Content-Type: &quot; + contentType + &quot;\r\n&quot;);</span>
+<span class="nc" id="L49">            out.print(&quot;Content-Length: &quot; + content.length + &quot;\r\n&quot;);</span>
         }
 
-<span class="fc" id="L52">        out.print(&quot;\r\n&quot;);</span>
-<span class="fc" id="L53">        out.flush();</span>
+<span class="nc" id="L52">        out.print(&quot;\r\n&quot;);</span>
+<span class="nc" id="L53">        out.flush();</span>
 
         // Send body if present
-<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
-<span class="fc" id="L57">            OutputStream outputStream = socket.getOutputStream();</span>
-<span class="fc" id="L58">            outputStream.write(content);</span>
-<span class="fc" id="L59">            outputStream.flush();</span>
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="nc" id="L57">            OutputStream outputStream = socket.getOutputStream();</span>
+<span class="nc" id="L58">            outputStream.write(content);</span>
+<span class="nc" id="L59">            outputStream.flush();</span>
         }
-<span class="fc" id="L61">    }</span>
+<span class="nc" id="L61">    }</span>
 
     // Receives and parses HTTP response from the server
     protected HttpResponse receiveHttpResponse(Socket socket) throws IOException {
-<span class="fc" id="L65">        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span>
-<span class="fc" id="L66">        return responseParser.parseResponse(in);</span>
+<span class="nc" id="L65">        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span>
+<span class="nc" id="L66">        return responseParser.parseResponse(in);</span>
     }
 
     // Safely closes the socket connection
     protected void closeConnection(Socket socket) {
         try {
-<span class="pc bpc" id="L72" title="2 of 4 branches missed.">            if (socket != null &amp;&amp; !socket.isClosed()) {</span>
-<span class="fc" id="L73">                socket.close();</span>
+<span class="pc bpc" id="L72" title="3 of 4 branches missed.">            if (socket != null &amp;&amp; !socket.isClosed()) {</span>
+<span class="nc" id="L73">                socket.close();</span>
             }
-<span class="pc" id="L75">        } catch (IOException e) {</span>
+<span class="nc" id="L75">        } catch (IOException e) {</span>
 <span class="nc" id="L76">            System.out.println(&quot;Error closing connection: &quot; + e.getMessage());</span>
-        }
+<span class="fc" id="L77">        }</span>
 <span class="fc" id="L78">    }</span>
 
     // Returns the current Lamport clock time

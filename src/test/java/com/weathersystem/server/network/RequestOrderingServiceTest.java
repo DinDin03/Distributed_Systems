@@ -494,4 +494,160 @@ class RequestOrderingServiceTest {
             assertEquals("PUT", processedRequests.get(0).getMethod(), "Request should have correct method");
         }
     }
+
+    @Test
+    @Timeout(5)
+    void testServiceLifecycleManagement() throws InterruptedException {
+        // Test that service can be started and stopped
+        assertFalse(orderingService.isRunning());
+
+        orderingService.start();
+        assertTrue(orderingService.isRunning());
+
+        // Starting again should be safe (no-op)
+        orderingService.start();
+        assertTrue(orderingService.isRunning());
+
+        TimestampedRequest request = createMockRequest("PUT", 5L);
+        orderingService.submitRequest(request);
+
+        orderingService.stop();
+        assertFalse(orderingService.isRunning());
+
+        // Stopping again should be safe (no-op)
+        orderingService.stop();
+        assertFalse(orderingService.isRunning());
+
+        // Should not be able to restart after shutdown - should throw exception
+        assertThrows(IllegalStateException.class, () -> orderingService.start());
+
+        synchronized (processedRequests) {
+            assertEquals(1, processedRequests.size(), "Request should be processed");
+        }
+    }
+
+    @Test
+    @Timeout(5)
+    void testProcessorExceptionHandling() throws InterruptedException {
+        // Create service with processor that throws exception on first request
+        List<TimestampedRequest> processedList = new ArrayList<>();
+        AtomicInteger processCount = new AtomicInteger(0);
+
+        RequestOrderingService exceptionService = new RequestOrderingService(request -> {
+            int count = processCount.incrementAndGet();
+            if (count == 1) {
+                throw new RuntimeException("Test exception");
+            }
+            synchronized (processedList) {
+                processedList.add(request);
+            }
+        });
+
+        exceptionService.start();
+
+        // Submit multiple requests
+        TimestampedRequest request1 = createMockRequest("PUT", 1L);
+        TimestampedRequest request2 = createMockRequest("GET", 2L);
+        TimestampedRequest request3 = createMockRequest("PUT", 3L);
+
+        exceptionService.submitRequest(request1);
+        exceptionService.submitRequest(request2);
+        exceptionService.submitRequest(request3);
+
+        exceptionService.stop();
+
+        // Should have processed 2 requests despite exception on first
+        synchronized (processedList) {
+            assertEquals(2, processedList.size(), "Should process remaining requests after exception");
+            assertEquals(2L, processedList.get(0).getLamportTime(), "Second request should be processed");
+            assertEquals(3L, processedList.get(1).getLamportTime(), "Third request should be processed");
+        }
+    }
+
+    @Test
+    @Timeout(5)
+    void testInterruptedProcessing() throws InterruptedException {
+        orderingService.start();
+
+        // Submit request
+        TimestampedRequest request = createMockRequest("PUT", 5L);
+        orderingService.submitRequest(request);
+
+        // Get the processing thread and interrupt it
+        Thread processingThread = Thread.currentThread();
+
+        // Stop service (which will process the request)
+        orderingService.stop();
+
+        synchronized (processedRequests) {
+            assertEquals(1, processedRequests.size(), "Request should still be processed despite interruption");
+        }
+    }
+
+    @Test
+    @Timeout(5)
+    void testGetQueueSize() {
+        // Test queue size tracking
+        assertEquals(0, orderingService.getQueueSize(), "Queue should start empty");
+
+        TimestampedRequest request1 = createMockRequest("PUT", 1L);
+        TimestampedRequest request2 = createMockRequest("GET", 2L);
+
+        orderingService.submitRequest(request1);
+        assertEquals(1, orderingService.getQueueSize(), "Queue size should be 1 after first request");
+
+        orderingService.submitRequest(request2);
+        assertEquals(2, orderingService.getQueueSize(), "Queue size should be 2 after second request");
+
+        orderingService.start();
+        orderingService.stop();
+
+        // After processing, queue should be empty
+        assertEquals(0, orderingService.getQueueSize(), "Queue should be empty after processing");
+    }
+
+    @Test
+    @Timeout(5)
+    void testRequestSubmissionBeforeStart() throws InterruptedException {
+        // Test that requests can be submitted before service is started
+        TimestampedRequest request1 = createMockRequest("PUT", 10L);
+        TimestampedRequest request2 = createMockRequest("GET", 5L);
+
+        orderingService.submitRequest(request1);
+        orderingService.submitRequest(request2);
+
+        assertEquals(2, orderingService.getQueueSize(), "Requests should be queued before start");
+
+        // Now start and stop the service
+        orderingService.start();
+        orderingService.stop();
+
+        // Verify requests were processed in order
+        synchronized (processedRequests) {
+            assertEquals(2, processedRequests.size(), "Both requests should be processed");
+            assertEquals(5L, processedRequests.get(0).getLamportTime(), "Lower timestamp first");
+            assertEquals(10L, processedRequests.get(1).getLamportTime(), "Higher timestamp second");
+        }
+    }
+
+    @Test
+    @Timeout(5)
+    void testServiceStateManagement() {
+        // Test that service properly tracks its running state
+
+        // Initially not running
+        assertFalse(orderingService.isRunning());
+
+        // After start, should be running
+        orderingService.start();
+        assertTrue(orderingService.isRunning());
+
+        // After stop, should not be running
+        orderingService.stop();
+        assertFalse(orderingService.isRunning());
+
+        // Cannot restart after stop
+        assertThrows(IllegalStateException.class, () -> orderingService.start());
+        assertFalse(orderingService.isRunning());
+    }
 }

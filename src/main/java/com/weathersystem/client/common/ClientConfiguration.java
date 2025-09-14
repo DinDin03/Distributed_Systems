@@ -34,12 +34,17 @@ public class ClientConfiguration {
 
         if (serverAddress != null && serverAddress.contains(":")) {
             String[] parts = serverAddress.split(":");
-            host = parts[0];
-            try {
-                port = Integer.parseInt(parts[1]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid port in server address");
+            if (parts.length >= 2) {
+                host = parts[0];
+                try {
+                    port = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid port in server address");
+                }
+            } else if (parts.length == 1) {
+                host = parts[0];
             }
+            // If parts.length == 0 (e.g., ":"), use defaults
         }
 
         return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,

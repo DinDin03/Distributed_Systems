@@ -8,10 +8,10 @@ public class WeatherStationEntry {
     private final WeatherData weatherData;
     private final long lastUpdateTime;
 
-<span class="fc" id="L11">    public WeatherStationEntry(WeatherData weatherData, long lastUpdateTime){</span>
-<span class="fc" id="L12">        this.weatherData = weatherData;</span>
-<span class="fc" id="L13">        this.lastUpdateTime = lastUpdateTime;</span>
-<span class="fc" id="L14">    }</span>
+<span class="nc" id="L11">    public WeatherStationEntry(WeatherData weatherData, long lastUpdateTime){</span>
+<span class="nc" id="L12">        this.weatherData = weatherData;</span>
+<span class="nc" id="L13">        this.lastUpdateTime = lastUpdateTime;</span>
+<span class="nc" id="L14">    }</span>
 
     public boolean isExpired(long currentTime, long timeOutMillis){
 <span class="nc bnc" id="L17" title="All 2 branches missed.">        return (currentTime - lastUpdateTime) &gt; timeOutMillis;</span>

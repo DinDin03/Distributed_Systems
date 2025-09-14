@@ -18,8 +18,8 @@ public class ClientConfiguration {
     private static final int DEFAULT_READ_TIMEOUT = 10000;
 
     // Constructor to create client configuration with custom parameters
-<span class="fc" id="L21">    public ClientConfiguration(String host, int port, String userAgent,</span>
-                               int connectionTimeoutMs, int readTimeoutMs) {
+    public ClientConfiguration(String host, int port, String userAgent,
+<span class="fc" id="L22">                               int connectionTimeoutMs, int readTimeoutMs) {</span>
 <span class="fc" id="L23">        this.host = host;</span>
 <span class="fc" id="L24">        this.port = port;</span>
 <span class="fc" id="L25">        this.userAgent = userAgent;</span>
@@ -29,26 +29,31 @@ public class ClientConfiguration {
 
     // Factory method to create configuration from server address string
     public static ClientConfiguration fromServerAddress(String serverAddress) {
-<span class="nc" id="L32">        String host = DEFAULT_HOST;</span>
-<span class="nc" id="L33">        int port = DEFAULT_PORT;</span>
+<span class="fc" id="L32">        String host = DEFAULT_HOST;</span>
+<span class="fc" id="L33">        int port = DEFAULT_PORT;</span>
 
-<span class="nc bnc" id="L35" title="All 4 branches missed.">        if (serverAddress != null &amp;&amp; serverAddress.contains(&quot;:&quot;)) {</span>
-<span class="nc" id="L36">            String[] parts = serverAddress.split(&quot;:&quot;);</span>
-<span class="nc" id="L37">            host = parts[0];</span>
-            try {
-<span class="nc" id="L39">                port = Integer.parseInt(parts[1]);</span>
-<span class="nc" id="L40">            } catch (NumberFormatException e) {</span>
-<span class="nc" id="L41">                System.out.println(&quot;Invalid port in server address&quot;);</span>
+<span class="fc bfc" id="L35" title="All 4 branches covered.">        if (serverAddress != null &amp;&amp; serverAddress.contains(&quot;:&quot;)) {</span>
+<span class="fc" id="L36">            String[] parts = serverAddress.split(&quot;:&quot;);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (parts.length &gt;= 2) {</span>
+<span class="fc" id="L38">                host = parts[0];</span>
+                try {
+<span class="fc" id="L40">                    port = Integer.parseInt(parts[1]);</span>
+<span class="fc" id="L41">                } catch (NumberFormatException e) {</span>
+<span class="fc" id="L42">                    System.out.println(&quot;Invalid port in server address&quot;);</span>
+<span class="fc" id="L43">                }</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">            } else if (parts.length == 1) {</span>
+<span class="nc" id="L45">                host = parts[0];</span>
             }
+            // If parts.length == 0 (e.g., &quot;:&quot;), use defaults
         }
 
-<span class="nc" id="L45">        return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,</span>
-<span class="nc" id="L46">                DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);</span>
+<span class="fc" id="L50">        return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,</span>
+                DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
     // Returns the server URL as a string (in my case it is localhost:4567)
     public String getServerUrl() {
-<span class="fc" id="L51">        return host + &quot;:&quot; + port;</span>
+<span class="fc" id="L56">        return host + &quot;:&quot; + port;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
