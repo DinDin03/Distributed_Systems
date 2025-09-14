@@ -19,6 +19,10 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for PutRequestHandler class.
+ * Tests weather data storage, JSON parsing, validation, and various error scenarios.
+ */
 class PutRequestHandlerTest {
 
     @TempDir
@@ -92,8 +96,13 @@ class PutRequestHandlerTest {
         return stringWriter.toString();
     }
 
+    // === CORE FUNCTIONALITY TESTS ===
+
     @Test
-    void testHandleValidNewStation() throws Exception {
+    void testHandleValidWeatherData() throws Exception {
+        System.out.println("Testing PUT request with valid weather data...");
+        
+        // Test new station
         String jsonData = createValidJsonData("NEW001", "New Station");
         HttpRequest request = createHttpRequest("PUT", jsonData.length(), 5L);
         BufferedReader reader = createBufferedReader(jsonData);
@@ -109,170 +118,235 @@ class PutRequestHandlerTest {
         WeatherData[] allData = weatherDataService.getAllWeatherData();
         assertEquals(1, allData.length, "Should have one station stored");
         assertEquals("NEW001", allData[0].getId(), "Should have correct station ID");
-    }
-
-    @Test
-    void testHandleValidExistingStation() throws Exception {
-        // First, add a station
-        String jsonData1 = createValidJsonData("EXIST001", "Original Name");
-        HttpRequest request1 = createHttpRequest("PUT", jsonData1.length(), 3L);
-        BufferedReader reader1 = createBufferedReader(jsonData1);
-        putHandler.handle(request1, reader1, printWriter, 3L);
         
-        // Reset for second request
+        // Test existing station update
         stringWriter = new StringWriter();
         printWriter = new PrintWriter(stringWriter);
         dataChangedCallbackCalled = false;
 
-        // Update the same station
-        String jsonData2 = createValidJsonData("EXIST001", "Updated Name");
-        HttpRequest request2 = createHttpRequest("PUT", jsonData2.length(), 7L);
-        BufferedReader reader2 = createBufferedReader(jsonData2);
+        String updateJsonData = createValidJsonData("NEW001", "Updated Station");
+        HttpRequest updateRequest = createHttpRequest("PUT", updateJsonData.length(), 7L);
+        BufferedReader updateReader = createBufferedReader(updateJsonData);
 
-        putHandler.handle(request2, reader2, printWriter, 7L);
+        putHandler.handle(updateRequest, updateReader, printWriter, 7L);
 
-        String response = getResponseContent();
+        response = getResponseContent();
         assertTrue(response.contains("200 OK"), "Should return 200 for existing station update");
         assertTrue(response.contains("Lamport-Time: 7"), "Should include Lamport time in response");
         assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
         
         // Verify data was updated
-        WeatherData[] allData = weatherDataService.getAllWeatherData();
+        allData = weatherDataService.getAllWeatherData();
         assertEquals(1, allData.length, "Should still have one station");
-        assertEquals("Updated Name", allData[0].getName(), "Should have updated name");
-    }
-
-    @Test
-    void testHandleNoContent() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", 0, 2L);
-        BufferedReader reader = createBufferedReader("");
-
-        putHandler.handle(request, reader, printWriter, 2L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("204 No Content"), "Should return 204 for no content");
-        assertTrue(response.contains("Lamport-Time: 2"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleEmptyContent() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", 0, 3L); // Set content length to 0
-        BufferedReader reader = createBufferedReader("");
-
-        putHandler.handle(request, reader, printWriter, 3L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("204 No Content"), "Should return 204 for empty content");
-        assertTrue(response.contains("Lamport-Time: 3"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleInvalidJson() throws Exception {
-        String invalidJson = "{\"id\":\"INVALID\",\"name\":\"Invalid Station\",\"invalid\":}";
-        HttpRequest request = createHttpRequest("PUT", invalidJson.length(), 4L);
-        BufferedReader reader = createBufferedReader(invalidJson);
-
-        putHandler.handle(request, reader, printWriter, 4L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for invalid JSON");
-        assertTrue(response.contains("Lamport-Time: 4"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleMissingRequiredFields() throws Exception {
-        String incompleteJson = "{\"name\":\"Incomplete Station\"}"; // Missing required 'id' field
-        HttpRequest request = createHttpRequest("PUT", incompleteJson.length(), 6L);
-        BufferedReader reader = createBufferedReader(incompleteJson);
-
-        putHandler.handle(request, reader, printWriter, 6L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for missing required fields");
-        assertTrue(response.contains("Lamport-Time: 6"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleNullWeatherData() throws Exception {
-        String nullDataJson = "null";
-        HttpRequest request = createHttpRequest("PUT", nullDataJson.length(), 8L);
-        BufferedReader reader = createBufferedReader(nullDataJson);
-
-        putHandler.handle(request, reader, printWriter, 8L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for null data");
-        assertTrue(response.contains("Lamport-Time: 8"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleEmptyIdField() throws Exception {
-        String emptyIdJson = "{\"id\":\"\",\"name\":\"Empty ID Station\"}";
-        HttpRequest request = createHttpRequest("PUT", emptyIdJson.length(), 9L);
-        BufferedReader reader = createBufferedReader(emptyIdJson);
-
-        putHandler.handle(request, reader, printWriter, 9L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for empty ID");
-        assertTrue(response.contains("Lamport-Time: 9"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleEmptyNameField() throws Exception {
-        String emptyNameJson = "{\"id\":\"EMPTY_NAME\",\"name\":\"\"}";
-        HttpRequest request = createHttpRequest("PUT", emptyNameJson.length(), 10L);
-        BufferedReader reader = createBufferedReader(emptyNameJson);
-
-        putHandler.handle(request, reader, printWriter, 10L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for empty name");
-        assertTrue(response.contains("Lamport-Time: 10"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleIOExceptionDuringRead() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", 100, 11L);
+        assertEquals("Updated Station", allData[0].getName(), "Should have updated name");
         
+        System.out.println("✓ Valid weather data test passed");
+    }
+
+    @Test
+    void testHandleNoContentScenarios() throws Exception {
+        System.out.println("Testing PUT request with no content scenarios...");
+        
+        // Test zero content length
+        HttpRequest request1 = createHttpRequest("PUT", 0, 2L);
+        BufferedReader reader1 = createBufferedReader("");
+        putHandler.handle(request1, reader1, printWriter, 2L);
+        String response1 = getResponseContent();
+        assertTrue(response1.contains("204 No Content"), "Should return 204 for zero content length");
+        assertTrue(response1.contains("Lamport-Time: 2"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test negative content length
+        HttpRequest request2 = createHttpRequest("PUT", -1, 3L);
+        BufferedReader reader2 = createBufferedReader("");
+        putHandler.handle(request2, reader2, printWriter, 3L);
+        String response2 = getResponseContent();
+        assertTrue(response2.contains("204 No Content"), "Should return 204 for negative content length");
+        assertTrue(response2.contains("Lamport-Time: 3"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test whitespace-only content
+        String whitespaceContent = "   \n\t  ";
+        HttpRequest request3 = createHttpRequest("PUT", whitespaceContent.length(), 4L);
+        BufferedReader reader3 = createBufferedReader(whitespaceContent);
+        putHandler.handle(request3, reader3, printWriter, 4L);
+        String response3 = getResponseContent();
+        assertTrue(response3.contains("204 No Content"), "Should return 204 for whitespace-only content");
+        assertTrue(response3.contains("Lamport-Time: 4"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+        
+        System.out.println("✓ No content scenarios test passed");
+    }
+
+    // === ERROR HANDLING TESTS ===
+
+    @Test
+    void testHandleInvalidJsonData() throws Exception {
+        System.out.println("Testing PUT request with invalid JSON data...");
+        
+        // Test malformed JSON
+        String malformedJson = "{\"id\":\"MALFORMED\",\"name\":\"Malformed Station\",\"state\":\"TEST\""; // Missing closing brace
+        HttpRequest request1 = createHttpRequest("PUT", malformedJson.length(), 6L);
+        BufferedReader reader1 = createBufferedReader(malformedJson);
+        putHandler.handle(request1, reader1, printWriter, 6L);
+        String response1 = getResponseContent();
+        assertTrue(response1.contains("500 Internal Server Error"), "Should return 500 for malformed JSON");
+        assertTrue(response1.contains("Lamport-Time: 6"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test invalid JSON syntax
+        String invalidJson = "{\"id\":\"INVALID\",\"name\":\"Invalid Station\",\"invalid\":}";
+        HttpRequest request2 = createHttpRequest("PUT", invalidJson.length(), 7L);
+        BufferedReader reader2 = createBufferedReader(invalidJson);
+        putHandler.handle(request2, reader2, printWriter, 7L);
+        String response2 = getResponseContent();
+        assertTrue(response2.contains("500 Internal Server Error"), "Should return 500 for invalid JSON syntax");
+        assertTrue(response2.contains("Lamport-Time: 7"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test null data
+        String nullDataJson = "null";
+        HttpRequest request3 = createHttpRequest("PUT", nullDataJson.length(), 8L);
+        BufferedReader reader3 = createBufferedReader(nullDataJson);
+        putHandler.handle(request3, reader3, printWriter, 8L);
+        String response3 = getResponseContent();
+        assertTrue(response3.contains("500 Internal Server Error"), "Should return 500 for null data");
+        assertTrue(response3.contains("Lamport-Time: 8"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+        
+        System.out.println("✓ Invalid JSON data test passed");
+    }
+
+    @Test
+    void testHandleValidationErrors() throws Exception {
+        System.out.println("Testing PUT request with validation errors...");
+        
+        // Test missing required fields
+        String incompleteJson = "{\"name\":\"Incomplete Station\"}"; // Missing required 'id' field
+        HttpRequest request1 = createHttpRequest("PUT", incompleteJson.length(), 9L);
+        BufferedReader reader1 = createBufferedReader(incompleteJson);
+        putHandler.handle(request1, reader1, printWriter, 9L);
+        String response1 = getResponseContent();
+        assertTrue(response1.contains("500 Internal Server Error"), "Should return 500 for missing required fields");
+        assertTrue(response1.contains("Lamport-Time: 9"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test empty ID field
+        String emptyIdJson = "{\"id\":\"\",\"name\":\"Empty ID Station\"}";
+        HttpRequest request2 = createHttpRequest("PUT", emptyIdJson.length(), 10L);
+        BufferedReader reader2 = createBufferedReader(emptyIdJson);
+        putHandler.handle(request2, reader2, printWriter, 10L);
+        String response2 = getResponseContent();
+        assertTrue(response2.contains("500 Internal Server Error"), "Should return 500 for empty ID");
+        assertTrue(response2.contains("Lamport-Time: 10"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test empty name field
+        String emptyNameJson = "{\"id\":\"EMPTY_NAME\",\"name\":\"\"}";
+        HttpRequest request3 = createHttpRequest("PUT", emptyNameJson.length(), 11L);
+        BufferedReader reader3 = createBufferedReader(emptyNameJson);
+        putHandler.handle(request3, reader3, printWriter, 11L);
+        String response3 = getResponseContent();
+        assertTrue(response3.contains("500 Internal Server Error"), "Should return 500 for empty name");
+        assertTrue(response3.contains("Lamport-Time: 11"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+        
+        System.out.println("✓ Validation errors test passed");
+    }
+
+    @Test
+    void testHandleIOErrors() throws Exception {
+        System.out.println("Testing PUT request with IO errors...");
+        
+        // Test IO exception during read
+        HttpRequest request1 = createHttpRequest("PUT", 100, 12L);
         BufferedReader faultyReader = new BufferedReader(new StringReader("")) {
             @Override
             public int read(char[] cbuf, int off, int len) throws IOException {
                 throw new IOException("Simulated IO error");
             }
         };
-
-        putHandler.handle(request, faultyReader, printWriter, 11L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("400 Bad Request"), "Should return 400 for IO error");
-        assertTrue(response.contains("Lamport-Time: 11"), "Should include Lamport time in response");
+        putHandler.handle(request1, faultyReader, printWriter, 12L);
+        String response1 = getResponseContent();
+        assertTrue(response1.contains("400 Bad Request"), "Should return 400 for IO error");
+        assertTrue(response1.contains("Lamport-Time: 12"), "Should include Lamport time in response");
         assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test unexpected end of stream
+        HttpRequest request2 = createHttpRequest("PUT", 100, 13L);
+        BufferedReader reader2 = createBufferedReader("incomplete");
+        putHandler.handle(request2, reader2, printWriter, 13L);
+        String response2 = getResponseContent();
+        assertTrue(response2.contains("400 Bad Request"), "Should return 400 for incomplete data");
+        assertTrue(response2.contains("Lamport-Time: 13"), "Should include Lamport time in response");
+        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
+        
+        System.out.println("✓ IO errors test passed");
     }
 
-    @Test
-    void testHandleUnexpectedEndOfStream() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", 100, 12L);
-        BufferedReader reader = createBufferedReader("incomplete");
-
-        putHandler.handle(request, reader, printWriter, 12L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("400 Bad Request"), "Should return 400 for incomplete data");
-        assertTrue(response.contains("Lamport-Time: 12"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
+    // === EDGE CASES TESTS ===
 
     @Test
-    void testHandleLargeJsonData() throws Exception {
-        // Create a large JSON payload
+    void testHandleSpecialDataScenarios() throws Exception {
+        System.out.println("Testing PUT request with special data scenarios...");
+        
+        // Test special characters
+        String specialJson = "{\"id\":\"SPECIAL001\",\"name\":\"Station with special chars: ñáéíóú & symbols\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Partly \\\"cloudy\\\" with mixed conditions\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5}";
+        HttpRequest request1 = createHttpRequest("PUT", specialJson.length(), 14L);
+        BufferedReader reader1 = createBufferedReader(specialJson);
+        putHandler.handle(request1, reader1, printWriter, 14L);
+        String response1 = getResponseContent();
+        assertTrue(response1.contains("201 Created"), "Should handle special characters successfully");
+        assertTrue(response1.contains("Lamport-Time: 14"), "Should include Lamport time in response");
+        assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
+        
+        // Verify special characters were preserved
+        WeatherData[] allData = weatherDataService.getAllWeatherData();
+        assertEquals(1, allData.length, "Should have one station stored");
+        assertTrue(allData[0].getName().contains("ñáéíóú"), "Should preserve special characters");
+        assertTrue(allData[0].getCloud().contains("\"cloudy\""), "Should preserve quotes in cloud description");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test large JSON data
         StringBuilder largeJson = new StringBuilder();
         largeJson.append("{\"id\":\"LARGE001\",\"name\":\"Large Station\",\"state\":\"TEST\",");
         largeJson.append("\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,");
@@ -289,45 +363,47 @@ class PutRequestHandlerTest {
         largeJson.append("\"}");
 
         String jsonData = largeJson.toString();
-        HttpRequest request = createHttpRequest("PUT", jsonData.length(), 13L);
-        BufferedReader reader = createBufferedReader(jsonData);
-
-        putHandler.handle(request, reader, printWriter, 13L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("201 Created"), "Should handle large JSON data successfully");
-        assertTrue(response.contains("Lamport-Time: 13"), "Should include Lamport time in response");
+        HttpRequest request2 = createHttpRequest("PUT", jsonData.length(), 15L);
+        BufferedReader reader2 = createBufferedReader(jsonData);
+        putHandler.handle(request2, reader2, printWriter, 15L);
+        String response2 = getResponseContent();
+        assertTrue(response2.contains("201 Created"), "Should handle large JSON data successfully");
+        assertTrue(response2.contains("Lamport-Time: 15"), "Should include Lamport time in response");
         assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
+
+        // Reset for next test
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        dataChangedCallbackCalled = false;
+
+        // Test JSON with extra fields
+        String extraFieldsJson = "{\"id\":\"EXTRA001\",\"name\":\"Extra Fields Station\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Clear\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5,\"extra_field\":\"extra_value\",\"another_field\":123}";
+        HttpRequest request3 = createHttpRequest("PUT", extraFieldsJson.length(), 16L);
+        BufferedReader reader3 = createBufferedReader(extraFieldsJson);
+        putHandler.handle(request3, reader3, printWriter, 16L);
+        String response3 = getResponseContent();
+        assertTrue(response3.contains("201 Created"), "Should handle extra fields gracefully");
+        assertTrue(response3.contains("Lamport-Time: 16"), "Should include Lamport time in response");
+        assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
+        
+        // Verify data was stored correctly despite extra fields
+        allData = weatherDataService.getAllWeatherData();
+        assertEquals(3, allData.length, "Should have three stations stored");
+        assertEquals("EXTRA001", allData[2].getId(), "Should have correct station ID");
+        assertEquals("Extra Fields Station", allData[2].getName(), "Should have correct station name");
+        
+        System.out.println("✓ Special data scenarios test passed");
     }
 
     @Test
-    void testHandleSpecialCharactersInJson() throws Exception {
-        String specialJson = "{\"id\":\"SPECIAL001\",\"name\":\"Station with special chars: ñáéíóú & symbols\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Partly \\\"cloudy\\\" with mixed conditions\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5}";
+    void testHandleMultipleStations() throws Exception {
+        System.out.println("Testing PUT request with multiple stations...");
         
-        HttpRequest request = createHttpRequest("PUT", specialJson.length(), 14L);
-        BufferedReader reader = createBufferedReader(specialJson);
-
-        putHandler.handle(request, reader, printWriter, 14L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("201 Created"), "Should handle special characters successfully");
-        assertTrue(response.contains("Lamport-Time: 14"), "Should include Lamport time in response");
-        assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
-        
-        // Verify special characters were preserved
-        WeatherData[] allData = weatherDataService.getAllWeatherData();
-        assertEquals(1, allData.length, "Should have one station stored");
-        assertTrue(allData[0].getName().contains("ñáéíóú"), "Should preserve special characters");
-        assertTrue(allData[0].getCloud().contains("\"cloudy\""), "Should preserve quotes in cloud description");
-    }
-
-    @Test
-    void testHandleMultipleStationsSequentially() throws Exception {
         // Add first station
         String jsonData1 = createValidJsonData("MULTI001", "First Station");
-        HttpRequest request1 = createHttpRequest("PUT", jsonData1.length(), 15L);
+        HttpRequest request1 = createHttpRequest("PUT", jsonData1.length(), 17L);
         BufferedReader reader1 = createBufferedReader(jsonData1);
-        putHandler.handle(request1, reader1, printWriter, 15L);
+        putHandler.handle(request1, reader1, printWriter, 17L);
         
         // Reset for second request
         stringWriter = new StringWriter();
@@ -336,9 +412,9 @@ class PutRequestHandlerTest {
 
         // Add second station
         String jsonData2 = createValidJsonData("MULTI002", "Second Station");
-        HttpRequest request2 = createHttpRequest("PUT", jsonData2.length(), 16L);
+        HttpRequest request2 = createHttpRequest("PUT", jsonData2.length(), 18L);
         BufferedReader reader2 = createBufferedReader(jsonData2);
-        putHandler.handle(request2, reader2, printWriter, 16L);
+        putHandler.handle(request2, reader2, printWriter, 18L);
 
         String response = getResponseContent();
         assertTrue(response.contains("201 Created"), "Should return 201 for second station");
@@ -347,80 +423,7 @@ class PutRequestHandlerTest {
         // Verify both stations are stored
         WeatherData[] allData = weatherDataService.getAllWeatherData();
         assertEquals(2, allData.length, "Should have two stations stored");
-    }
-
-    @Test
-    void testHandleZeroContentLength() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", 0, 17L);
-        BufferedReader reader = createBufferedReader("");
-
-        putHandler.handle(request, reader, printWriter, 17L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("204 No Content"), "Should return 204 for zero content length");
-        assertTrue(response.contains("Lamport-Time: 17"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleNegativeContentLength() throws Exception {
-        HttpRequest request = createHttpRequest("PUT", -1, 18L);
-        BufferedReader reader = createBufferedReader("");
-
-        putHandler.handle(request, reader, printWriter, 18L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("204 No Content"), "Should return 204 for negative content length");
-        assertTrue(response.contains("Lamport-Time: 18"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleWhitespaceOnlyContent() throws Exception {
-        String whitespaceContent = "   \n\t  ";
-        HttpRequest request = createHttpRequest("PUT", whitespaceContent.length(), 19L);
-        BufferedReader reader = createBufferedReader(whitespaceContent);
-
-        putHandler.handle(request, reader, printWriter, 19L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("204 No Content"), "Should return 204 for whitespace-only content");
-        assertTrue(response.contains("Lamport-Time: 19"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleMalformedJsonStructure() throws Exception {
-        String malformedJson = "{\"id\":\"MALFORMED\",\"name\":\"Malformed Station\",\"state\":\"TEST\""; // Missing closing brace
-        HttpRequest request = createHttpRequest("PUT", malformedJson.length(), 20L);
-        BufferedReader reader = createBufferedReader(malformedJson);
-
-        putHandler.handle(request, reader, printWriter, 20L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("500 Internal Server Error"), "Should return 500 for malformed JSON");
-        assertTrue(response.contains("Lamport-Time: 20"), "Should include Lamport time in response");
-        assertFalse(dataChangedCallbackCalled, "Data changed callback should not be called");
-    }
-
-    @Test
-    void testHandleJsonWithExtraFields() throws Exception {
-        String extraFieldsJson = "{\"id\":\"EXTRA001\",\"name\":\"Extra Fields Station\",\"state\":\"TEST\",\"time_zone\":\"UTC\",\"lat\":-35.0,\"lon\":138.0,\"local_date_time\":\"15/04:00pm\",\"local_date_time_full\":\"20230715160000\",\"air_temp\":20.0,\"apparent_t\":18.5,\"cloud\":\"Clear\",\"dewpt\":10.0,\"press\":1013.0,\"rel_hum\":60,\"wind_dir\":\"N\",\"wind_spd_kmh\":10,\"wind_spd_kt\":5,\"extra_field\":\"extra_value\",\"another_field\":123}";
         
-        HttpRequest request = createHttpRequest("PUT", extraFieldsJson.length(), 21L);
-        BufferedReader reader = createBufferedReader(extraFieldsJson);
-
-        putHandler.handle(request, reader, printWriter, 21L);
-
-        String response = getResponseContent();
-        assertTrue(response.contains("201 Created"), "Should handle extra fields gracefully");
-        assertTrue(response.contains("Lamport-Time: 21"), "Should include Lamport time in response");
-        assertTrue(dataChangedCallbackCalled, "Data changed callback should be called");
-        
-        // Verify data was stored correctly despite extra fields
-        WeatherData[] allData = weatherDataService.getAllWeatherData();
-        assertEquals(1, allData.length, "Should have one station stored");
-        assertEquals("EXTRA001", allData[0].getId(), "Should have correct station ID");
-        assertEquals("Extra Fields Station", allData[0].getName(), "Should have correct station name");
+        System.out.println("Multiple stations test passed");
     }
 }

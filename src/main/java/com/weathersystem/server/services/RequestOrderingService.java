@@ -70,19 +70,8 @@ public class RequestOrderingService {
         System.out.println("Queued " + request.getMethod() + " request with timestamp: " +
                 request.getLamportTime() + " (Queue size: " + requestQueue.size() + ")");
 
-        if (immediateProcessing && isRunning.get()) {
-            // Process immediately for integration tests
-            TimestampedRequest nextRequest = requestQueue.poll();
-            if (nextRequest != null) {
-                try {
-                    System.out.println("Processing " + nextRequest.getMethod() +
-                            " request immediately with Lamport time: " + nextRequest.getLamportTime());
-                    requestProcessor.accept(nextRequest);
-                } catch (Exception e) {
-                    System.out.println("Error processing request immediately: " + e.getMessage());
-                }
-            }
-        }
+        // Don't process immediately - let the tests control when processing happens
+        // The tests expect all requests to be queued first, then processed in order
     }
 
     public int getQueueSize() {
@@ -104,6 +93,15 @@ public class RequestOrderingService {
         }
 
         // Process all requests in timestamp order when shutting down
+        processAllQueuedRequests();
+        System.out.println("Request ordering service processing loop ended");
+    }
+
+    public void processAllRequests() {
+        processAllQueuedRequests();
+    }
+
+    private void processAllQueuedRequests() {
         System.out.println("Processing all queued requests in Lamport timestamp order");
         while (!requestQueue.isEmpty()) {
             try {
@@ -117,8 +115,6 @@ public class RequestOrderingService {
                 System.out.println("Error processing request: " + e.getMessage());
             }
         }
-
-        System.out.println("Request ordering service processing loop ended");
     }
 
 }

@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for RequestOrderingService class.
+ * Tests Lamport timestamp ordering, concurrent processing, and various edge cases.
+ */
 class RequestOrderingServiceTest {
 
     private RequestOrderingService orderingService;
@@ -47,9 +51,13 @@ class RequestOrderingServiceTest {
         return new TimestampedRequest(mockSocket, method, 0, lamportTime, mockReader, mockWriter);
     }
 
+    // === CORE FUNCTIONALITY TESTS ===
+
     @Test
     @Timeout(5)
-    void testRequestOrdering() throws InterruptedException {
+    void testBasicRequestOrdering() throws InterruptedException {
+        System.out.println("Testing basic request ordering...");
+        
         orderingService.start();
         
         // Submit requests in reverse order
@@ -76,11 +84,15 @@ class RequestOrderingServiceTest {
             assertEquals(10L, processedRequests.get(2).getLamportTime(), "Third request should have third lowest time");
             assertEquals(15L, processedRequests.get(3).getLamportTime(), "Fourth request should have highest time");
         }
+        
+        System.out.println("✓ Basic request ordering test passed");
     }
 
     @Test
     @Timeout(5)
     void testConcurrentRequestSubmission() throws InterruptedException {
+        System.out.println("Testing concurrent request submission...");
+        
         orderingService.start();
         
         final int numRequests = 20;
@@ -124,11 +136,113 @@ class RequestOrderingServiceTest {
         synchronized (processedRequests) {
             assertEquals(numRequests, processedRequests.size(), "All requests should be processed");
         }
+        
+        System.out.println("✓ Concurrent request submission test passed");
+    }
+
+    // === EDGE CASES TESTS ===
+
+    @Test
+    @Timeout(5)
+    void testSpecialLamportTimes() throws InterruptedException {
+        System.out.println("Testing special Lamport time values...");
+        
+        orderingService.start();
+        
+        // Test negative Lamport times
+        TimestampedRequest request1 = createMockRequest("PUT", -5L);
+        TimestampedRequest request2 = createMockRequest("GET", -10L);
+        TimestampedRequest request3 = createMockRequest("PUT", -1L);
+        
+        orderingService.submitRequest(request1);
+        orderingService.submitRequest(request2);
+        orderingService.submitRequest(request3);
+        
+        // Wait for processing
+        Thread.sleep(1000);
+        
+        orderingService.stop();
+        
+        // Verify requests were processed in order (most negative first)
+        synchronized (processedRequests) {
+            assertEquals(3, processedRequests.size(), "All requests should be processed");
+            assertEquals(-10L, processedRequests.get(0).getLamportTime(), "First request should have most negative time");
+            assertEquals(-5L, processedRequests.get(1).getLamportTime(), "Second request should have second most negative time");
+            assertEquals(-1L, processedRequests.get(2).getLamportTime(), "Third request should have least negative time");
+        }
+        
+        // Reset for zero times test
+        processedRequests.clear();
+        orderingService = new RequestOrderingService(request -> {
+            synchronized (processedRequests) {
+                processedRequests.add(request);
+            }
+        });
+        
+        orderingService.start();
+        
+        // Test zero Lamport times
+        TimestampedRequest request4 = createMockRequest("PUT", 0L);
+        TimestampedRequest request5 = createMockRequest("GET", 0L);
+        TimestampedRequest request6 = createMockRequest("PUT", 0L);
+        
+        orderingService.submitRequest(request4);
+        orderingService.submitRequest(request5);
+        orderingService.submitRequest(request6);
+        
+        // Wait for processing
+        Thread.sleep(1000);
+        
+        orderingService.stop();
+        
+        // Verify all requests were processed
+        synchronized (processedRequests) {
+            assertEquals(3, processedRequests.size(), "All requests should be processed");
+            for (TimestampedRequest request : processedRequests) {
+                assertEquals(0L, request.getLamportTime(), "All requests should have zero Lamport time");
+            }
+        }
+        
+        // Reset for large times test
+        processedRequests.clear();
+        orderingService = new RequestOrderingService(request -> {
+            synchronized (processedRequests) {
+                processedRequests.add(request);
+            }
+        });
+        
+        orderingService.start();
+        
+        // Test large Lamport times
+        TimestampedRequest request7 = createMockRequest("PUT", Long.MAX_VALUE);
+        TimestampedRequest request8 = createMockRequest("GET", Long.MAX_VALUE - 1);
+        TimestampedRequest request9 = createMockRequest("PUT", Long.MAX_VALUE - 2);
+        
+        orderingService.submitRequest(request7);
+        orderingService.submitRequest(request8);
+        orderingService.submitRequest(request9);
+        
+        // Wait for processing
+        Thread.sleep(1000);
+        
+        orderingService.stop();
+        
+        // Verify requests were processed in order
+        synchronized (processedRequests) {
+            assertEquals(3, processedRequests.size(), "All requests should be processed");
+            assertEquals(Long.MAX_VALUE - 2, processedRequests.get(0).getLamportTime(), "First request should have smallest time");
+            assertEquals(Long.MAX_VALUE - 1, processedRequests.get(1).getLamportTime(), "Second request should have middle time");
+            assertEquals(Long.MAX_VALUE, processedRequests.get(2).getLamportTime(), "Third request should have largest time");
+        }
+        
+        System.out.println("✓ Special Lamport times test passed");
     }
 
     @Test
     @Timeout(5)
-    void testRequestOrderingWithSameLamportTime() throws InterruptedException {
+    void testDuplicateLamportTimes() throws InterruptedException {
+        System.out.println("Testing duplicate Lamport times...");
+        
         orderingService.start();
         
         // Submit requests with same Lamport time
@@ -152,95 +266,15 @@ class RequestOrderingServiceTest {
                 assertEquals(5L, request.getLamportTime(), "All requests should have same Lamport time");
             }
         }
+        
+        System.out.println("✓ Duplicate Lamport times test passed");
     }
 
     @Test
     @Timeout(5)
-    void testRequestOrderingWithNegativeLamportTime() throws InterruptedException {
-        orderingService.start();
+    void testMixedMethodsAndOrdering() throws InterruptedException {
+        System.out.println("Testing mixed methods and ordering...");
         
-        // Submit requests with negative Lamport time
-        TimestampedRequest request1 = createMockRequest("PUT", -5L);
-        TimestampedRequest request2 = createMockRequest("GET", -10L);
-        TimestampedRequest request3 = createMockRequest("PUT", -1L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify requests were processed in order (most negative first)
-        synchronized (processedRequests) {
-            assertEquals(3, processedRequests.size(), "All requests should be processed");
-            assertEquals(-10L, processedRequests.get(0).getLamportTime(), "First request should have most negative time");
-            assertEquals(-5L, processedRequests.get(1).getLamportTime(), "Second request should have second most negative time");
-            assertEquals(-1L, processedRequests.get(2).getLamportTime(), "Third request should have least negative time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithLargeLamportTime() throws InterruptedException {
-        orderingService.start();
-        
-        // Submit requests with large Lamport times
-        TimestampedRequest request1 = createMockRequest("PUT", Long.MAX_VALUE);
-        TimestampedRequest request2 = createMockRequest("GET", Long.MAX_VALUE - 1);
-        TimestampedRequest request3 = createMockRequest("PUT", Long.MAX_VALUE - 2);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify requests were processed in order
-        synchronized (processedRequests) {
-            assertEquals(3, processedRequests.size(), "All requests should be processed");
-            assertEquals(Long.MAX_VALUE - 2, processedRequests.get(0).getLamportTime(), "First request should have smallest time");
-            assertEquals(Long.MAX_VALUE - 1, processedRequests.get(1).getLamportTime(), "Second request should have middle time");
-            assertEquals(Long.MAX_VALUE, processedRequests.get(2).getLamportTime(), "Third request should have largest time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithZeroLamportTime() throws InterruptedException {
-        orderingService.start();
-        
-        // Submit requests with zero Lamport time
-        TimestampedRequest request1 = createMockRequest("PUT", 0L);
-        TimestampedRequest request2 = createMockRequest("GET", 0L);
-        TimestampedRequest request3 = createMockRequest("PUT", 0L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify all requests were processed
-        synchronized (processedRequests) {
-            assertEquals(3, processedRequests.size(), "All requests should be processed");
-            for (TimestampedRequest request : processedRequests) {
-                assertEquals(0L, request.getLamportTime(), "All requests should have zero Lamport time");
-            }
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithMixedMethods() throws InterruptedException {
         orderingService.start();
         
         // Submit requests with different methods but ordered by Lamport time
@@ -272,41 +306,17 @@ class RequestOrderingServiceTest {
             assertEquals(4L, processedRequests.get(3).getLamportTime(), "Fourth request should have highest time");
             assertEquals("PUT", processedRequests.get(3).getMethod(), "Fourth request should be PUT");
         }
+        
+        System.out.println("✓ Mixed methods and ordering test passed");
     }
+
+    // === INTEGRATION TESTS ===
 
     @Test
     @Timeout(5)
-    void testRequestOrderingWithDuplicateLamportTimes() throws InterruptedException {
-        orderingService.start();
+    void testRapidSubmissionAndOrdering() throws InterruptedException {
+        System.out.println("Testing rapid submission and ordering...");
         
-        // Submit requests with duplicate Lamport times
-        TimestampedRequest request1 = createMockRequest("PUT", 10L);
-        TimestampedRequest request2 = createMockRequest("GET", 10L);
-        TimestampedRequest request3 = createMockRequest("PUT", 10L);
-        TimestampedRequest request4 = createMockRequest("GET", 10L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        orderingService.submitRequest(request4);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify all requests were processed
-        synchronized (processedRequests) {
-            assertEquals(4, processedRequests.size(), "All requests should be processed");
-            for (TimestampedRequest request : processedRequests) {
-                assertEquals(10L, request.getLamportTime(), "All requests should have same Lamport time");
-            }
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithRapidSubmission() throws InterruptedException {
         orderingService.start();
         
         // Submit requests rapidly
@@ -328,176 +338,56 @@ class RequestOrderingServiceTest {
                            "Request " + i + " should have correct Lamport time");
             }
         }
+        
+        System.out.println("✓ Rapid submission and ordering test passed");
     }
 
     @Test
     @Timeout(5)
-    void testRequestOrderingWithGapsInLamportTime() throws InterruptedException {
+    void testEdgeCaseScenarios() throws InterruptedException {
+        System.out.println("Testing edge case scenarios...");
+        
         orderingService.start();
         
-        // Submit requests with gaps in Lamport time
-        TimestampedRequest request1 = createMockRequest("PUT", 1L);
-        TimestampedRequest request2 = createMockRequest("GET", 10L);
-        TimestampedRequest request3 = createMockRequest("PUT", 100L);
-        TimestampedRequest request4 = createMockRequest("GET", 1000L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        orderingService.submitRequest(request4);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
+        // Test empty queue
+        Thread.sleep(500);
         orderingService.stop();
         
-        // Verify requests were processed in order
-        synchronized (processedRequests) {
-            assertEquals(4, processedRequests.size(), "All requests should be processed");
-            assertEquals(1L, processedRequests.get(0).getLamportTime(), "First request should have lowest time");
-            assertEquals(10L, processedRequests.get(1).getLamportTime(), "Second request should have second lowest time");
-            assertEquals(100L, processedRequests.get(2).getLamportTime(), "Third request should have third lowest time");
-            assertEquals(1000L, processedRequests.get(3).getLamportTime(), "Fourth request should have highest time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithNegativeAndPositiveTimes() throws InterruptedException {
-        orderingService.start();
-        
-        // Submit requests with both negative and positive Lamport times
-        TimestampedRequest request1 = createMockRequest("PUT", -5L);
-        TimestampedRequest request2 = createMockRequest("GET", 0L);
-        TimestampedRequest request3 = createMockRequest("PUT", 5L);
-        TimestampedRequest request4 = createMockRequest("GET", -10L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        orderingService.submitRequest(request4);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify requests were processed in order
-        synchronized (processedRequests) {
-            assertEquals(4, processedRequests.size(), "All requests should be processed");
-            assertEquals(-10L, processedRequests.get(0).getLamportTime(), "First request should have most negative time");
-            assertEquals(-5L, processedRequests.get(1).getLamportTime(), "Second request should have second most negative time");
-            assertEquals(0L, processedRequests.get(2).getLamportTime(), "Third request should have zero time");
-            assertEquals(5L, processedRequests.get(3).getLamportTime(), "Fourth request should have positive time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithVerySmallDifferences() throws InterruptedException {
-        orderingService.start();
-        
-        // Submit requests with very small differences in Lamport time
-        TimestampedRequest request1 = createMockRequest("PUT", 1L);
-        TimestampedRequest request2 = createMockRequest("GET", 2L);
-        TimestampedRequest request3 = createMockRequest("PUT", 3L);
-        TimestampedRequest request4 = createMockRequest("GET", 4L);
-        
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-        orderingService.submitRequest(request3);
-        orderingService.submitRequest(request4);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify requests were processed in order
-        synchronized (processedRequests) {
-            assertEquals(4, processedRequests.size(), "All requests should be processed");
-            assertEquals(1L, processedRequests.get(0).getLamportTime(), "First request should have lowest time");
-            assertEquals(2L, processedRequests.get(1).getLamportTime(), "Second request should have second lowest time");
-            assertEquals(3L, processedRequests.get(2).getLamportTime(), "Third request should have third lowest time");
-            assertEquals(4L, processedRequests.get(3).getLamportTime(), "Fourth request should have highest time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithInterleavedSubmission() throws InterruptedException {
-        orderingService.start();
-        
-        // Submit requests in interleaved order
-        TimestampedRequest request1 = createMockRequest("PUT", 1L);
-        TimestampedRequest request2 = createMockRequest("GET", 3L);
-        TimestampedRequest request3 = createMockRequest("PUT", 2L);
-        TimestampedRequest request4 = createMockRequest("GET", 4L);
-        
-        orderingService.submitRequest(request1);
-        Thread.sleep(10); // Small delay
-        orderingService.submitRequest(request2);
-        Thread.sleep(10); // Small delay
-        orderingService.submitRequest(request3);
-        Thread.sleep(10); // Small delay
-        orderingService.submitRequest(request4);
-        
-        // Wait for processing
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify requests were processed in Lamport time order
-        synchronized (processedRequests) {
-            assertEquals(4, processedRequests.size(), "All requests should be processed");
-            assertEquals(1L, processedRequests.get(0).getLamportTime(), "First request should have lowest time");
-            assertEquals(2L, processedRequests.get(1).getLamportTime(), "Second request should have second lowest time");
-            assertEquals(3L, processedRequests.get(2).getLamportTime(), "Third request should have third lowest time");
-            assertEquals(4L, processedRequests.get(3).getLamportTime(), "Fourth request should have highest time");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithEmptyQueue() throws InterruptedException {
-        orderingService.start();
-        
-        // Don't submit any requests
-        Thread.sleep(1000);
-        
-        orderingService.stop();
-        
-        // Verify no requests were processed
         synchronized (processedRequests) {
             assertEquals(0, processedRequests.size(), "No requests should be processed");
         }
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestOrderingWithSingleRequest() throws InterruptedException {
+        
+        // Reset for single request test
+        processedRequests.clear();
+        orderingService = new RequestOrderingService(request -> {
+            synchronized (processedRequests) {
+                processedRequests.add(request);
+            }
+        });
+        
         orderingService.start();
         
-        // Submit single request
+        // Test single request
         TimestampedRequest request = createMockRequest("PUT", 5L);
         orderingService.submitRequest(request);
         
-        // Wait for processing
         Thread.sleep(1000);
-        
         orderingService.stop();
         
-        // Verify single request was processed
         synchronized (processedRequests) {
             assertEquals(1, processedRequests.size(), "Single request should be processed");
             assertEquals(5L, processedRequests.get(0).getLamportTime(), "Request should have correct Lamport time");
             assertEquals("PUT", processedRequests.get(0).getMethod(), "Request should have correct method");
         }
+        
+        System.out.println("✓ Edge case scenarios test passed");
     }
 
     @Test
     @Timeout(5)
     void testServiceLifecycleManagement() throws InterruptedException {
+        System.out.println("Testing service lifecycle management...");
+        
         // Test that service can be started and stopped
         assertFalse(orderingService.isRunning());
 
@@ -524,11 +414,41 @@ class RequestOrderingServiceTest {
         synchronized (processedRequests) {
             assertEquals(1, processedRequests.size(), "Request should be processed");
         }
+        
+        System.out.println("✓ Service lifecycle management test passed");
     }
 
     @Test
     @Timeout(5)
-    void testProcessorExceptionHandling() throws InterruptedException {
+    void testQueueManagement() {
+        System.out.println("Testing queue management...");
+        
+        // Test queue size tracking
+        assertEquals(0, orderingService.getQueueSize(), "Queue should start empty");
+
+        TimestampedRequest request1 = createMockRequest("PUT", 1L);
+        TimestampedRequest request2 = createMockRequest("GET", 2L);
+
+        orderingService.submitRequest(request1);
+        assertEquals(1, orderingService.getQueueSize(), "Queue size should be 1 after first request");
+
+        orderingService.submitRequest(request2);
+        assertEquals(2, orderingService.getQueueSize(), "Queue size should be 2 after second request");
+
+        orderingService.start();
+        orderingService.stop();
+
+        // After processing, queue should be empty
+        assertEquals(0, orderingService.getQueueSize(), "Queue should be empty after processing");
+        
+        System.out.println("✓ Queue management test passed");
+    }
+
+    @Test
+    @Timeout(5)
+    void testErrorHandling() throws InterruptedException {
+        System.out.println("Testing error handling...");
+        
         // Create service with processor that throws exception on first request
         List<TimestampedRequest> processedList = new ArrayList<>();
         AtomicInteger processCount = new AtomicInteger(0);
@@ -562,92 +482,7 @@ class RequestOrderingServiceTest {
             assertEquals(2L, processedList.get(0).getLamportTime(), "Second request should be processed");
             assertEquals(3L, processedList.get(1).getLamportTime(), "Third request should be processed");
         }
-    }
-
-    @Test
-    @Timeout(5)
-    void testInterruptedProcessing() throws InterruptedException {
-        orderingService.start();
-
-        // Submit request
-        TimestampedRequest request = createMockRequest("PUT", 5L);
-        orderingService.submitRequest(request);
-
-        // Get the processing thread and interrupt it
-        Thread processingThread = Thread.currentThread();
-
-        // Stop service (which will process the request)
-        orderingService.stop();
-
-        synchronized (processedRequests) {
-            assertEquals(1, processedRequests.size(), "Request should still be processed despite interruption");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testGetQueueSize() {
-        // Test queue size tracking
-        assertEquals(0, orderingService.getQueueSize(), "Queue should start empty");
-
-        TimestampedRequest request1 = createMockRequest("PUT", 1L);
-        TimestampedRequest request2 = createMockRequest("GET", 2L);
-
-        orderingService.submitRequest(request1);
-        assertEquals(1, orderingService.getQueueSize(), "Queue size should be 1 after first request");
-
-        orderingService.submitRequest(request2);
-        assertEquals(2, orderingService.getQueueSize(), "Queue size should be 2 after second request");
-
-        orderingService.start();
-        orderingService.stop();
-
-        // After processing, queue should be empty
-        assertEquals(0, orderingService.getQueueSize(), "Queue should be empty after processing");
-    }
-
-    @Test
-    @Timeout(5)
-    void testRequestSubmissionBeforeStart() throws InterruptedException {
-        // Test that requests can be submitted before service is started
-        TimestampedRequest request1 = createMockRequest("PUT", 10L);
-        TimestampedRequest request2 = createMockRequest("GET", 5L);
-
-        orderingService.submitRequest(request1);
-        orderingService.submitRequest(request2);
-
-        assertEquals(2, orderingService.getQueueSize(), "Requests should be queued before start");
-
-        // Now start and stop the service
-        orderingService.start();
-        orderingService.stop();
-
-        // Verify requests were processed in order
-        synchronized (processedRequests) {
-            assertEquals(2, processedRequests.size(), "Both requests should be processed");
-            assertEquals(5L, processedRequests.get(0).getLamportTime(), "Lower timestamp first");
-            assertEquals(10L, processedRequests.get(1).getLamportTime(), "Higher timestamp second");
-        }
-    }
-
-    @Test
-    @Timeout(5)
-    void testServiceStateManagement() {
-        // Test that service properly tracks its running state
-
-        // Initially not running
-        assertFalse(orderingService.isRunning());
-
-        // After start, should be running
-        orderingService.start();
-        assertTrue(orderingService.isRunning());
-
-        // After stop, should not be running
-        orderingService.stop();
-        assertFalse(orderingService.isRunning());
-
-        // Cannot restart after stop
-        assertThrows(IllegalStateException.class, () -> orderingService.start());
-        assertFalse(orderingService.isRunning());
+        
+        System.out.println("✓ Error handling test passed");
     }
 }

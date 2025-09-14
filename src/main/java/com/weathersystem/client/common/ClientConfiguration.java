@@ -10,7 +10,7 @@ public class ClientConfiguration {
 
     private final String host;
     private final int port;
-    private final List<String> serverAddresses; // Multiple server support
+    private final List<String> serverAddresses; 
     private final String userAgent;
     private final int connectionTimeoutMs;
     private final int readTimeoutMs;
@@ -68,7 +68,6 @@ public class ClientConfiguration {
             } else if (parts.length == 1) {
                 host = parts[0];
             }
-            // If parts.length == 0 (e.g., ":"), use defaults
         }
 
         return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,
@@ -81,7 +80,7 @@ public class ClientConfiguration {
             return fromServerAddress(null); // Use defaults
         }
 
-        // Parse comma-separated server addresses
+        // Parse comma separated server addresses
         String[] addresses = serverAddresses.split(",");
         List<String> serverList = new ArrayList<>();
 

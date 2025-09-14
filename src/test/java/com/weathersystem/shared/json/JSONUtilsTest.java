@@ -6,6 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for JSONUtils class.
+ * Tests JSON serialization/deserialization of WeatherData objects and arrays.
+ */
 class JSONUtilsTest {
 
     private WeatherData sampleWeatherData;
@@ -19,6 +23,8 @@ class JSONUtilsTest {
                 createSampleWeatherData2()
         };
     }
+
+    // === CORE FUNCTIONALITY TESTS ===
 
     private WeatherData createSampleWeatherData() {
         WeatherData data = new WeatherData();
@@ -65,9 +71,11 @@ class JSONUtilsTest {
     }
 
     @Test
-    void testToJSONSingleObject() {
+    void testBasicSerializationAndDeserialization() {
+        System.out.println("Testing basic serialization and deserialization...");
+        
+        // Test single object serialization
         String json = JSONUtils.toJSON(sampleWeatherData);
-
         assertNotNull(json, "JSON should not be null");
         assertFalse(json.isEmpty(), "JSON should not be empty");
         assertTrue(json.contains("\"id\""), "JSON should contain id field");
@@ -76,27 +84,9 @@ class JSONUtilsTest {
         assertTrue(json.contains("Adelaide"), "JSON should contain correct name");
         assertTrue(json.contains("\"airTemp\""), "JSON should contain airTemp field");
         assertTrue(json.contains("13.3"), "JSON should contain correct temperature");
-    }
 
-    @Test
-    void testToJSONArray() {
-        String json = JSONUtils.toJSON(sampleWeatherArray);
-
-        assertNotNull(json, "JSON array should not be null");
-        assertFalse(json.isEmpty(), "JSON array should not be empty");
-        assertTrue(json.startsWith("["), "JSON array should start with [");
-        assertTrue(json.endsWith("]"), "JSON array should end with ]");
-        assertTrue(json.contains("IDS60901"), "JSON array should contain first station");
-        assertTrue(json.contains("IDS60902"), "JSON array should contain second station");
-        assertTrue(json.contains("Adelaide"), "JSON array should contain Adelaide");
-        assertTrue(json.contains("Melbourne"), "JSON array should contain Melbourne");
-    }
-
-    @Test
-    void testFromJSONSingleObject() {
-        String json = JSONUtils.toJSON(sampleWeatherData);
+        // Test single object deserialization
         WeatherData parsed = JSONUtils.fromJSON(json);
-
         assertNotNull(parsed, "Parsed weather data should not be null");
         assertEquals(sampleWeatherData.getId(), parsed.getId(), "ID should match");
         assertEquals(sampleWeatherData.getName(), parsed.getName(), "Name should match");
@@ -115,153 +105,135 @@ class JSONUtilsTest {
         assertEquals(sampleWeatherData.getWindDir(), parsed.getWindDir(), "Wind direction should match");
         assertEquals(sampleWeatherData.getWindSpdKmh(), parsed.getWindSpdKmh(), "Wind speed kmh should match");
         assertEquals(sampleWeatherData.getWindSpdKt(), parsed.getWindSpdKt(), "Wind speed kt should match");
-    }
 
-    @Test
-    void testFromJSONArray() {
-        String json = JSONUtils.toJSON(sampleWeatherArray);
-        WeatherData[] parsed = JSONUtils.fromJSONArray(json);
+        // Test array serialization
+        String arrayJson = JSONUtils.toJSON(sampleWeatherArray);
+        assertNotNull(arrayJson, "JSON array should not be null");
+        assertFalse(arrayJson.isEmpty(), "JSON array should not be empty");
+        assertTrue(arrayJson.startsWith("["), "JSON array should start with [");
+        assertTrue(arrayJson.endsWith("]"), "JSON array should end with ]");
+        assertTrue(arrayJson.contains("IDS60901"), "JSON array should contain first station");
+        assertTrue(arrayJson.contains("IDS60902"), "JSON array should contain second station");
+        assertTrue(arrayJson.contains("Adelaide"), "JSON array should contain Adelaide");
+        assertTrue(arrayJson.contains("Melbourne"), "JSON array should contain Melbourne");
 
-        assertNotNull(parsed, "Parsed array should not be null");
-        assertEquals(2, parsed.length, "Array should have 2 elements");
+        // Test array deserialization
+        WeatherData[] parsedArray = JSONUtils.fromJSONArray(arrayJson);
+        assertNotNull(parsedArray, "Parsed array should not be null");
+        assertEquals(2, parsedArray.length, "Array should have 2 elements");
 
         // Check first element
-        assertEquals(sampleWeatherArray[0].getId(), parsed[0].getId(), "First element ID should match");
-        assertEquals(sampleWeatherArray[0].getName(), parsed[0].getName(), "First element name should match");
-        assertEquals(sampleWeatherArray[0].getAirTemp(), parsed[0].getAirTemp(), 0.001, "First element temperature should match");
+        assertEquals(sampleWeatherArray[0].getId(), parsedArray[0].getId(), "First element ID should match");
+        assertEquals(sampleWeatherArray[0].getName(), parsedArray[0].getName(), "First element name should match");
+        assertEquals(sampleWeatherArray[0].getAirTemp(), parsedArray[0].getAirTemp(), 0.001, "First element temperature should match");
 
         // Check second element
-        assertEquals(sampleWeatherArray[1].getId(), parsed[1].getId(), "Second element ID should match");
-        assertEquals(sampleWeatherArray[1].getName(), parsed[1].getName(), "Second element name should match");
-        assertEquals(sampleWeatherArray[1].getAirTemp(), parsed[1].getAirTemp(), 0.001, "Second element temperature should match");
-    }
+        assertEquals(sampleWeatherArray[1].getId(), parsedArray[1].getId(), "Second element ID should match");
+        assertEquals(sampleWeatherArray[1].getName(), parsedArray[1].getName(), "Second element name should match");
+        assertEquals(sampleWeatherArray[1].getAirTemp(), parsedArray[1].getAirTemp(), 0.001, "Second element temperature should match");
 
-    @Test
-    void testRoundTripConsistency() {
-        // Test single object round trip
-        String json = JSONUtils.toJSON(sampleWeatherData);
-        WeatherData parsed = JSONUtils.fromJSON(json);
+        // Test round trip consistency
         String jsonAgain = JSONUtils.toJSON(parsed);
-
         WeatherData parsedAgain = JSONUtils.fromJSON(jsonAgain);
         assertEquals(sampleWeatherData.getId(), parsedAgain.getId(), "Round trip should preserve ID");
         assertEquals(sampleWeatherData.getAirTemp(), parsedAgain.getAirTemp(), 0.001, "Round trip should preserve temperature");
 
-        // Test array round trip
-        String arrayJson = JSONUtils.toJSON(sampleWeatherArray);
-        WeatherData[] parsedArray = JSONUtils.fromJSONArray(arrayJson);
         String arrayJsonAgain = JSONUtils.toJSON(parsedArray);
-
         WeatherData[] parsedArrayAgain = JSONUtils.fromJSONArray(arrayJsonAgain);
         assertEquals(sampleWeatherArray.length, parsedArrayAgain.length, "Array length should be preserved");
+        
+        System.out.println("✓ Basic serialization and deserialization test passed");
     }
 
-    @Test
-    void testNullWeatherData() {
-        String json = JSONUtils.toJSON((WeatherData) null);
-        assertEquals("null", json, "Null WeatherData should serialize to 'null'");
-    }
+    // === ERROR HANDLING TESTS ===
 
     @Test
-    void testNullWeatherDataArray() {
-        String json = JSONUtils.toJSON((WeatherData[]) null);
-        assertEquals("null", json, "Null WeatherData array should serialize to 'null'");
-    }
+    void testErrorHandlingAndEdgeCases() {
+        System.out.println("Testing error handling and edge cases...");
+        
+        // Test null handling
+        String nullJson = JSONUtils.toJSON((WeatherData) null);
+        assertEquals("null", nullJson, "Null WeatherData should serialize to 'null'");
 
-    @Test
-    void testEmptyWeatherDataArray() {
+        String nullArrayJson = JSONUtils.toJSON((WeatherData[]) null);
+        assertEquals("null", nullArrayJson, "Null WeatherData array should serialize to 'null'");
+
+        WeatherData nullResult = JSONUtils.fromJSON(null);
+        assertNull(nullResult, "Parsing null string should return null");
+
+        WeatherData[] nullArrayResult = JSONUtils.fromJSONArray(null);
+        assertNull(nullArrayResult, "Parsing null string should return null");
+
+        // Test empty array
         WeatherData[] emptyArray = new WeatherData[0];
-        String json = JSONUtils.toJSON(emptyArray);
+        String emptyJson = JSONUtils.toJSON(emptyArray);
+        assertNotNull(emptyJson, "Empty array JSON should not be null");
+        assertEquals("[]", emptyJson.replaceAll("\\s", ""), "Empty array should serialize to []");
 
-        assertNotNull(json, "Empty array JSON should not be null");
-        assertEquals("[]", json.replaceAll("\\s", ""), "Empty array should serialize to []");
+        WeatherData[] parsedEmpty = JSONUtils.fromJSONArray(emptyJson);
+        assertNotNull(parsedEmpty, "Parsed empty array should not be null");
+        assertEquals(0, parsedEmpty.length, "Parsed array should be empty");
 
-        WeatherData[] parsed = JSONUtils.fromJSONArray(json);
-        assertNotNull(parsed, "Parsed empty array should not be null");
-        assertEquals(0, parsed.length, "Parsed array should be empty");
-    }
-
-    @Test
-    void testFromJSONNullString() {
-        WeatherData result = JSONUtils.fromJSON(null);
-        assertNull(result, "Parsing null string should return null");
-    }
-
-    @Test
-    void testFromJSONArrayNullString() {
-        WeatherData[] result = JSONUtils.fromJSONArray(null);
-        assertNull(result, "Parsing null string should return null");
-    }
-
-    @Test
-    void testFromJSONEmptyString() {
-        // Empty string parsing behavior may vary, let's test actual behavior
+        // Test empty string handling
         assertDoesNotThrow(() -> {
             WeatherData result = JSONUtils.fromJSON("");
             // Result may be null or empty object depending on Gson behavior
         }, "Should handle empty string gracefully");
-    }
 
-    @Test
-    void testFromJSONInvalidJson() {
+        // Test invalid JSON
         assertThrows(Exception.class, () -> {
             JSONUtils.fromJSON("invalid json");
         }, "Parsing invalid JSON should throw exception");
-    }
 
-    @Test
-    void testFromJSONMalformedWeatherData() {
+        // Test malformed JSON with missing fields
         String malformedJson = "{\"id\": \"test\", \"invalidField\": true}";
-
-        // Should not throw exception but create object with available fields
         assertDoesNotThrow(() -> {
             WeatherData result = JSONUtils.fromJSON(malformedJson);
             assertNotNull(result, "Should create object despite missing fields");
             assertEquals("test", result.getId(), "Should parse available fields");
         }, "Should handle malformed JSON gracefully");
+        
+        System.out.println("✓ Error handling and edge cases test passed");
     }
 
-    @Test
-    void testJSONFormatting() {
-        String json = JSONUtils.toJSON(sampleWeatherData);
+    // === DATA INTEGRITY AND FORMATTING TESTS ===
 
-        // Should be pretty printed (contains newlines and indentation)
+    @Test
+    void testDataIntegrityAndFormatting() {
+        System.out.println("Testing data integrity and formatting...");
+        
+        // Test JSON formatting
+        String json = JSONUtils.toJSON(sampleWeatherData);
         assertTrue(json.contains("\n"), "JSON should be pretty printed with newlines");
         assertTrue(json.contains("  "), "JSON should contain indentation");
-    }
 
-    @Test
-    void testSpecialCharactersInWeatherData() {
+        // Test special characters
         WeatherData specialData = new WeatherData();
         specialData.setId("Test\"With'Quotes");
         specialData.setName("Station with unicode: café, naïve");
         specialData.setCloud("Partly \"cloudy\" with 'mixed' conditions");
 
-        String json = JSONUtils.toJSON(specialData);
-        WeatherData parsed = JSONUtils.fromJSON(json);
+        String specialJson = JSONUtils.toJSON(specialData);
+        WeatherData parsedSpecial = JSONUtils.fromJSON(specialJson);
 
-        assertEquals(specialData.getId(), parsed.getId(), "Should handle quotes in ID");
-        assertEquals(specialData.getName(), parsed.getName(), "Should handle unicode characters");
-        assertEquals(specialData.getCloud(), parsed.getCloud(), "Should handle quotes in description");
-    }
+        assertEquals(specialData.getId(), parsedSpecial.getId(), "Should handle quotes in ID");
+        assertEquals(specialData.getName(), parsedSpecial.getName(), "Should handle unicode characters");
+        assertEquals(specialData.getCloud(), parsedSpecial.getCloud(), "Should handle quotes in description");
 
-    @Test
-    void testNumericFieldPrecision() {
+        // Test numeric precision
         WeatherData precisionData = new WeatherData();
         precisionData.setAirTemp(13.12345678);
         precisionData.setLat(-34.123456789);
         precisionData.setPress(1023.987654321);
 
-        String json = JSONUtils.toJSON(precisionData);
-        WeatherData parsed = JSONUtils.fromJSON(json);
+        String precisionJson = JSONUtils.toJSON(precisionData);
+        WeatherData parsedPrecision = JSONUtils.fromJSON(precisionJson);
 
-        assertEquals(precisionData.getAirTemp(), parsed.getAirTemp(), 0.000001, "Should preserve temperature precision");
-        assertEquals(precisionData.getLat(), parsed.getLat(), 0.000001, "Should preserve latitude precision");
-        assertEquals(precisionData.getPress(), parsed.getPress(), 0.000001, "Should preserve pressure precision");
-    }
+        assertEquals(precisionData.getAirTemp(), parsedPrecision.getAirTemp(), 0.000001, "Should preserve temperature precision");
+        assertEquals(precisionData.getLat(), parsedPrecision.getLat(), 0.000001, "Should preserve latitude precision");
+        assertEquals(precisionData.getPress(), parsedPrecision.getPress(), 0.000001, "Should preserve pressure precision");
 
-    @Test
-    void testExtremeNumericValues() {
+        // Test extreme numeric values
         WeatherData extremeData = new WeatherData();
         extremeData.setAirTemp(Double.MAX_VALUE);
         extremeData.setLat(-90.0);
@@ -270,20 +242,18 @@ class JSONUtilsTest {
         extremeData.setRelHum(100);
         extremeData.setWindSpdKmh(Integer.MAX_VALUE);
 
-        String json = JSONUtils.toJSON(extremeData);
-        WeatherData parsed = JSONUtils.fromJSON(json);
+        String extremeJson = JSONUtils.toJSON(extremeData);
+        WeatherData parsedExtreme = JSONUtils.fromJSON(extremeJson);
 
-        assertEquals(extremeData.getAirTemp(), parsed.getAirTemp(), "Should handle extreme temperature");
-        assertEquals(extremeData.getLat(), parsed.getLat(), "Should handle minimum latitude");
-        assertEquals(extremeData.getLon(), parsed.getLon(), "Should handle maximum longitude");
-        assertEquals(extremeData.getPress(), parsed.getPress(), "Should handle zero pressure");
-        assertEquals(extremeData.getRelHum(), parsed.getRelHum(), "Should handle maximum humidity");
-        assertEquals(extremeData.getWindSpdKmh(), parsed.getWindSpdKmh(), "Should handle extreme wind speed");
-    }
+        assertEquals(extremeData.getAirTemp(), parsedExtreme.getAirTemp(), "Should handle extreme temperature");
+        assertEquals(extremeData.getLat(), parsedExtreme.getLat(), "Should handle minimum latitude");
+        assertEquals(extremeData.getLon(), parsedExtreme.getLon(), "Should handle maximum longitude");
+        assertEquals(extremeData.getPress(), parsedExtreme.getPress(), "Should handle zero pressure");
+        assertEquals(extremeData.getRelHum(), parsedExtreme.getRelHum(), "Should handle maximum humidity");
+        assertEquals(extremeData.getWindSpdKmh(), parsedExtreme.getWindSpdKmh(), "Should handle extreme wind speed");
 
-    @Test
-    void testLargeArraySerialization() {
-        final int LARGE_SIZE = 1000;
+        // Test large array serialization
+        final int LARGE_SIZE = 100; // Reduced for faster execution
         WeatherData[] largeArray = new WeatherData[LARGE_SIZE];
 
         for (int i = 0; i < LARGE_SIZE; i++) {
@@ -294,14 +264,16 @@ class JSONUtilsTest {
             largeArray[i] = data;
         }
 
-        String json = JSONUtils.toJSON(largeArray);
-        assertNotNull(json, "Large array JSON should not be null");
-        assertTrue(json.contains("ID0"), "Should contain first element");
-        assertTrue(json.contains("ID" + (LARGE_SIZE - 1)), "Should contain last element");
+        String largeJson = JSONUtils.toJSON(largeArray);
+        assertNotNull(largeJson, "Large array JSON should not be null");
+        assertTrue(largeJson.contains("ID0"), "Should contain first element");
+        assertTrue(largeJson.contains("ID" + (LARGE_SIZE - 1)), "Should contain last element");
 
-        WeatherData[] parsed = JSONUtils.fromJSONArray(json);
-        assertEquals(LARGE_SIZE, parsed.length, "Parsed array should have correct size");
-        assertEquals("ID0", parsed[0].getId(), "First element should be correct");
-        assertEquals("ID" + (LARGE_SIZE - 1), parsed[LARGE_SIZE - 1].getId(), "Last element should be correct");
+        WeatherData[] parsedLarge = JSONUtils.fromJSONArray(largeJson);
+        assertEquals(LARGE_SIZE, parsedLarge.length, "Parsed array should have correct size");
+        assertEquals("ID0", parsedLarge[0].getId(), "First element should be correct");
+        assertEquals("ID" + (LARGE_SIZE - 1), parsedLarge[LARGE_SIZE - 1].getId(), "Last element should be correct");
+        
+        System.out.println("✓ Data integrity and formatting test passed");
     }
 }

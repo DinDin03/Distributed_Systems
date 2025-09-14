@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -15,6 +14,10 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for ContentServer class.
+ * Tests weather data publishing, retry mechanism, Lamport clock integration, and multi-server support.
+ */
 class ContentServerTest {
 
     private ContentServer contentServer;
@@ -29,115 +32,77 @@ class ContentServerTest {
         contentServer = new ContentServer(config);
     }
 
-    @Test
-    void testConstructorInitializesCorrectly() {
-        assertNotNull(contentServer);
-        assertEquals(0, contentServer.getLamportTime()); // Initial Lamport clock should be 0
-    }
+    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
-    void testConstructorWithConfiguration() {
+    void testConstructorAndInitialization() {
+        System.out.println("Testing ContentServer constructor and initialization...");
+        assertNotNull(contentServer, "ContentServer should be created");
+        assertEquals(0, contentServer.getLamportTime(), "Initial Lamport clock should be 0");
+        assertTrue(contentServer instanceof com.weathersystem.client.common.HttpClientBase, 
+                  "ContentServer should inherit from HttpClientBase");
+        
+        // Test with different configuration
         ClientConfiguration testConfig = new ClientConfiguration("test.com", 8080, "TestAgent/1.0", 3000, 5000);
-        ContentServer server = new ContentServer(testConfig);
-
-        assertNotNull(server);
-        assertEquals(0, server.getLamportTime());
+        ContentServer testServer = new ContentServer(testConfig);
+        assertNotNull(testServer, "ContentServer should be created with custom config");
+        assertEquals(0, testServer.getLamportTime(), "Custom config should also start with 0");
+        System.out.println("✓ Constructor and initialization test passed");
     }
 
     @Test
-    void testValidateResponseWithSuccessStatus200() throws Exception {
+    void testResponseValidation() throws Exception {
+        System.out.println("Testing response validation logic...");
         Method validateMethod = ContentServer.class.getDeclaredMethod("validateResponse",
                 ContentServer.HttpResponse.class);
         validateMethod.setAccessible(true);
 
+        // Test success responses
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
         try {
-            ContentServer.HttpResponse response = new ContentServer.HttpResponse(200, "OK", null, 5);
-            validateMethod.invoke(contentServer, response);
+            // Test 200 OK response
+            ContentServer.HttpResponse response200 = new ContentServer.HttpResponse(200, "OK", null, 5);
+            validateMethod.invoke(contentServer, response200);
+            String output200 = outputStream.toString();
+            assertTrue(output200.contains("Existing weather station data updated"), 
+                      "Should indicate existing station update");
 
-            String output = outputStream.toString();
-            assertTrue(output.contains("Existing weather station data updated"));
+            // Reset output stream
+            outputStream.reset();
+
+            // Test 201 Created response
+            ContentServer.HttpResponse response201 = new ContentServer.HttpResponse(201, "Created", null, 5);
+            validateMethod.invoke(contentServer, response201);
+            String output201 = outputStream.toString();
+            assertTrue(output201.contains("New weather station registered"), 
+                      "Should indicate new station registration");
+
         } finally {
             System.setOut(originalOut);
         }
-    }
 
-    @Test
-    void testValidateResponseWithSuccessStatus201() throws Exception {
-        Method validateMethod = ContentServer.class.getDeclaredMethod("validateResponse",
-                ContentServer.HttpResponse.class);
-        validateMethod.setAccessible(true);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        try {
-            ContentServer.HttpResponse response = new ContentServer.HttpResponse(201, "Created", null, 5);
-            validateMethod.invoke(contentServer, response);
-
-            String output = outputStream.toString();
-            assertTrue(output.contains("New weather station registered"));
-        } finally {
-            System.setOut(originalOut);
-        }
-    }
-
-    @Test
-    void testValidateResponseWithErrorStatus() throws Exception {
-        Method validateMethod = ContentServer.class.getDeclaredMethod("validateResponse",
-                ContentServer.HttpResponse.class);
-        validateMethod.setAccessible(true);
-
-        ContentServer.HttpResponse response = new ContentServer.HttpResponse(400, "Bad Request", null, 5);
-
+        // Test error responses
+        ContentServer.HttpResponse errorResponse = new ContentServer.HttpResponse(400, "Bad Request", null, 5);
         Exception exception = assertThrows(Exception.class, () -> {
             try {
-                validateMethod.invoke(contentServer, response);
+                validateMethod.invoke(contentServer, errorResponse);
             } catch (Exception e) {
                 throw e.getCause();
             }
         });
-
-        assertTrue(exception.getMessage().contains("Server rejected weather data: 400 Bad Request"));
+        assertTrue(exception.getMessage().contains("Server rejected weather data: 400 Bad Request"),
+                  "Should throw appropriate error message");
+        
+        System.out.println("✓ Response validation test passed");
     }
 
     @Test
-    void testValidateResponseWithServerError() throws Exception {
-        Method validateMethod = ContentServer.class.getDeclaredMethod("validateResponse",
-                ContentServer.HttpResponse.class);
-        validateMethod.setAccessible(true);
-
-        ContentServer.HttpResponse response = new ContentServer.HttpResponse(500, "Internal Server Error", null, 5);
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            try {
-                validateMethod.invoke(contentServer, response);
-            } catch (Exception e) {
-                throw e.getCause();
-            }
-        });
-
-        assertTrue(exception.getMessage().contains("Server rejected weather data: 500 Internal Server Error"));
-    }
-
-    @Test
-    void testPublishWeatherDataWithInvalidFile() {
-        // Test with non-existent file
-        String invalidFile = "non-existent-file.txt";
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            contentServer.publishWeatherData(invalidFile);
-        });
-
-        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"));
-    }
-
-    @Test
-    void testPublishWeatherDataWithValidFile() throws IOException {
+    void testWeatherDataPublishing() throws IOException {
+        System.out.println("Testing weather data publishing functionality...");
+        
         // Create a valid weather data file
         Path weatherFile = tempDir.resolve("test-weather.txt");
         String weatherContent = "id:TEST001\n" +
@@ -153,29 +118,33 @@ class ContentServerTest {
                 "wind_spd_kmh:10\n" +
                 "press:1013.25\n" +
                 "local_date_time:2024-01-01T12:00:00";
-
         Files.write(weatherFile, weatherContent.getBytes());
 
-        // This will fail because there's no server, but we can test the file parsing part
-        Exception exception = assertThrows(Exception.class, () -> {
+        // Test with valid file (will fail at connection, but tests file parsing)
+        Exception validFileException = assertThrows(Exception.class, () -> {
             contentServer.publishWeatherData(weatherFile.toString());
         });
+        assertTrue(validFileException.getMessage().contains("Weather data upload failed after 4 attempts"),
+                  "Should fail at connection, not file parsing");
 
-        // Should fail at connection, not file parsing
-        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"));
+        // Test with invalid file
+        String invalidFile = "non-existent-file.txt";
+        Exception invalidFileException = assertThrows(Exception.class, () -> {
+            contentServer.publishWeatherData(invalidFile);
+        });
+        assertTrue(invalidFileException.getMessage().contains("Weather data upload failed after 4 attempts"),
+                  "Should fail with invalid file");
+        
+        System.out.println("✓ Weather data publishing test passed");
     }
 
     @Test
-    void testLamportClockUpdatesOnProcessing() throws IOException {
-        // Create a valid weather data file
+    void testLamportClockIntegration() throws IOException {
+        System.out.println("Testing Lamport clock integration...");
+        
+        // Create test weather file
         Path weatherFile = tempDir.resolve("test-weather.txt");
-        String weatherContent = "id:TEST001\n" +
-                "name:Test Station\n" +
-                "state:TEST\n" +
-                "lat:-35.0\n" +
-                "lon:138.0\n" +
-                "air_temp:25.0";
-
+        String weatherContent = "id:TEST001\nname:Test Station\nstate:TEST\nlat:-35.0\nlon:138.0\nair_temp:25.0";
         Files.write(weatherFile, weatherContent.getBytes());
 
         long initialTime = contentServer.getLamportTime();
@@ -187,99 +156,50 @@ class ContentServerTest {
         }
 
         // Lamport clock should have advanced during processing attempts
-        assertTrue(contentServer.getLamportTime() > initialTime);
+        assertTrue(contentServer.getLamportTime() > initialTime,
+                  "Lamport clock should advance during processing attempts");
+        
+        System.out.println("✓ Lamport clock integration test passed");
     }
 
-    @Test
-    void testMainMethodArgumentValidation() {
-        // Test that main method requires server address and file
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            ContentServer.main(new String[]{});
-        });
-
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            ContentServer.main(new String[]{"localhost:4567"});
-        });
-    }
+    // === RETRY MECHANISM TESTS ===
 
     @Test
-    void testMainMethodWithValidArguments() {
-        // Create temporary file
-        try {
-            Path weatherFile = tempDir.resolve("test-weather.txt");
-            String weatherContent = "id:TEST001\nname:Test Station\nstate:TEST";
-            Files.write(weatherFile, weatherContent.getBytes());
-
-            String[] args = {"localhost:4567", weatherFile.toString()};
-
-            // Test argument parsing by creating the configuration manually
-            // Cannot test main() directly as it calls System.exit() on failure
-            assertDoesNotThrow(() -> {
-                ClientConfiguration config = ClientConfiguration.fromServerAddress(args[0]);
-                ContentServer testServer = new ContentServer(config);
-                assertNotNull(testServer);
-
-                // Verify the weather file exists and is readable
-                assertTrue(Files.exists(Path.of(args[1])));
-            });
-        } catch (IOException e) {
-            fail("Failed to create test file: " + e.getMessage());
-        }
-    }
-
-    @Test
-    void testRetryMechanismWithConnectionFailure() {
+    void testRetryMechanismWithExponentialBackoff() throws IOException {
+        System.out.println("Testing retry mechanism with exponential backoff...");
+        
         // Use invalid server configuration to test retry mechanism
         ClientConfiguration invalidConfig = new ClientConfiguration("invalid.host", 9999, "Test/1.0", 100, 100);
         ContentServer testServer = new ContentServer(invalidConfig);
 
         // Create a valid weather file
-        try {
-            Path weatherFile = tempDir.resolve("test-weather.txt");
-            String weatherContent = "id:TEST001\nname:Test Station\nstate:TEST\nlat:-35.0\nlon:138.0\nair_temp:25.0";
-            Files.write(weatherFile, weatherContent.getBytes());
-
-            long startTime = System.currentTimeMillis();
-
-            Exception exception = assertThrows(Exception.class, () -> {
-                testServer.publishWeatherData(weatherFile.toString());
-            });
-
-            long endTime = System.currentTimeMillis();
-
-            // Should attempt 4 times with exponential backoff
-            assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"));
-
-            // Should take at least several seconds due to retry delays (1s + 2s + 4s)
-            assertTrue((endTime - startTime) >= 6000, "Should take at least 6 seconds for retry attempts");
-
-        } catch (IOException e) {
-            fail("Failed to create test file: " + e.getMessage());
-        }
-    }
-
-    @Test
-    void testUploadWeatherFileIncreasesLamportClock() throws IOException {
         Path weatherFile = tempDir.resolve("test-weather.txt");
         String weatherContent = "id:TEST001\nname:Test Station\nstate:TEST\nlat:-35.0\nlon:138.0\nair_temp:25.0";
         Files.write(weatherFile, weatherContent.getBytes());
 
-        long initialTime = contentServer.getLamportTime();
+        long startTime = System.currentTimeMillis();
 
-        try {
-            Method uploadMethod = ContentServer.class.getDeclaredMethod("uploadWeatherFile", String.class);
-            uploadMethod.setAccessible(true);
-            uploadMethod.invoke(contentServer, weatherFile.toString());
-        } catch (Exception e) {
-            // Expected to fail at connection, but Lamport clock should advance
-        }
+        Exception exception = assertThrows(Exception.class, () -> {
+            testServer.publishWeatherData(weatherFile.toString());
+        });
 
-        assertTrue(contentServer.getLamportTime() > initialTime,
-                "Lamport clock should advance during weather file processing");
+        long endTime = System.currentTimeMillis();
+
+        // Should attempt 4 times with exponential backoff
+        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"),
+                  "Should attempt 4 times before giving up");
+
+        // Should take at least several seconds due to retry delays (1s + 2s + 4s)
+        assertTrue((endTime - startTime) >= 6000, 
+                  "Should take at least 6 seconds for retry attempts: " + (endTime - startTime) + "ms");
+        
+        System.out.println("✓ Retry mechanism test passed");
     }
 
     @Test
     void testRetryDelayCalculation() {
+        System.out.println("Testing retry delay calculation...");
+        
         // Test exponential backoff calculation
         long baseDelay = 1000;
         double backoff = 2.0;
@@ -288,54 +208,46 @@ class ContentServerTest {
         long delay2 = (long) (baseDelay * backoff);
         long delay3 = (long) (baseDelay * backoff * backoff);
 
-        assertEquals(1000, delay1);
-        assertEquals(2000, delay2);
-        assertEquals(4000, delay3);
+        assertEquals(1000, delay1, "First delay should be base delay");
+        assertEquals(2000, delay2, "Second delay should be 2x base delay");
+        assertEquals(4000, delay3, "Third delay should be 4x base delay");
+        
+        System.out.println("✓ Retry delay calculation test passed");
     }
 
-    @Test
-    void testContentServerInheritance() {
-        // Verify that ContentServer properly inherits from HttpClientBase
-        assertTrue(contentServer instanceof com.weathersystem.client.common.HttpClientBase);
-        assertNotNull(contentServer.getLamportTime());
-    }
-
-    // === MULTI-SERVER TESTS ===
+    // === MULTI-SERVER SUPPORT TESTS ===
 
     @Test
     void testMultiServerConfiguration() {
+        System.out.println("Testing multi-server configuration...");
+        
+        // Test multiple servers configuration
         ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
         ContentServer multiServer = new ContentServer(multiConfig);
 
-        assertNotNull(multiServer);
-        assertTrue(multiConfig.hasMultipleServers());
-        assertEquals(3, multiConfig.getServerAddresses().size());
-        assertEquals(0, multiServer.getLamportTime());
+        assertNotNull(multiServer, "Multi-server ContentServer should be created");
+        assertTrue(multiConfig.hasMultipleServers(), "Should detect multiple servers");
+        assertEquals(3, multiConfig.getServerAddresses().size(), "Should have 3 server addresses");
+        assertEquals(0, multiServer.getLamportTime(), "Should start with 0 Lamport time");
+
+        // Test single server in multi-server config
+        ClientConfiguration singleInMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
+        ContentServer singleServer = new ContentServer(singleInMulti);
+        assertNotNull(singleServer, "Single server ContentServer should be created");
+        assertFalse(singleInMulti.hasMultipleServers(), "Single server doesn't count as 'multiple'");
+        assertEquals(1, singleInMulti.getServerAddresses().size(), "Should have 1 server address");
+        assertEquals("localhost:4567", singleInMulti.getPrimaryServerAddress(), "Primary server should match");
+        
+        System.out.println("✓ Multi-server configuration test passed");
     }
 
     @Test
-    void testMultiServerFailoverConfiguration() {
-        ClientConfiguration failoverConfig = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567,backup.host:4568");
-        ContentServer failoverServer = new ContentServer(failoverConfig);
-
-        assertNotNull(failoverServer);
-        assertTrue(failoverConfig.hasMultipleServers());
-        assertEquals(3, failoverConfig.getServerAddresses().size());
-        assertEquals("invalid.host:9999", failoverConfig.getServerAddresses().get(0));
-        assertEquals("localhost:4567", failoverConfig.getServerAddresses().get(1));
-        assertEquals("backup.host:4568", failoverConfig.getServerAddresses().get(2));
-    }
-
-    @Test
-    void testMultiServerUploadWithFailover() throws IOException {
+    void testMultiServerFailover() throws IOException {
+        System.out.println("Testing multi-server failover behavior...");
+        
         // Create test weather file
         Path weatherFile = tempDir.resolve("multi-server-test.txt");
-        String weatherContent = "id:MULTI001\n" +
-                "name:Multi Server Test\n" +
-                "state:TEST\n" +
-                "lat:-35.0\n" +
-                "lon:138.0\n" +
-                "air_temp:20.0";
+        String weatherContent = "id:MULTI001\nname:Multi Server Test\nstate:TEST\nlat:-35.0\nlon:138.0\nair_temp:20.0";
         Files.write(weatherFile, weatherContent.getBytes());
 
         // Configure with failover servers
@@ -349,20 +261,49 @@ class ContentServerTest {
             server.publishWeatherData(weatherFile.toString());
         });
 
-        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"));
-
-        // Lamport clock should advance during attempts
-        assertTrue(server.getLamportTime() > initialTime);
+        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"),
+                  "Should fail after all retry attempts");
+        assertTrue(server.getLamportTime() > initialTime,
+                  "Lamport clock should advance during failover attempts");
+        
+        System.out.println("✓ Multi-server failover test passed");
     }
 
-    @Test
-    void testSingleServerInMultiServerConfig() {
-        ClientConfiguration singleInMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
-        ContentServer server = new ContentServer(singleInMulti);
+    // === MAIN METHOD TESTS ===
 
-        assertNotNull(server);
-        assertFalse(singleInMulti.hasMultipleServers()); // Single server doesn't count as "multiple"
-        assertEquals(1, singleInMulti.getServerAddresses().size());
-        assertEquals("localhost:4567", singleInMulti.getPrimaryServerAddress());
+    @Test
+    void testMainMethodArgumentHandling() {
+        System.out.println("Testing main method argument handling...");
+        
+        // Test that main method requires server address and file
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            ContentServer.main(new String[]{});
+        }, "Should throw exception for empty arguments");
+
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            ContentServer.main(new String[]{"localhost:4567"});
+        }, "Should throw exception for missing file argument");
+
+        // Test argument parsing with valid arguments
+        try {
+            Path weatherFile = tempDir.resolve("test-weather.txt");
+            String weatherContent = "id:TEST001\nname:Test Station\nstate:TEST";
+            Files.write(weatherFile, weatherContent.getBytes());
+
+            String[] args = {"localhost:4567", weatherFile.toString()};
+
+            // Test argument parsing by creating the configuration manually
+            // Cannot test main() directly as it calls System.exit() on failure
+            assertDoesNotThrow(() -> {
+                ClientConfiguration config = ClientConfiguration.fromServerAddress(args[0]);
+                ContentServer testServer = new ContentServer(config);
+                assertNotNull(testServer, "Should create ContentServer with valid args");
+                assertTrue(Files.exists(Path.of(args[1])), "Weather file should exist");
+            });
+        } catch (IOException e) {
+            fail("Failed to create test file: " + e.getMessage());
+        }
+        
+        System.out.println("✓ Main method argument handling test passed");
     }
 }

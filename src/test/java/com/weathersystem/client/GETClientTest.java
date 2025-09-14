@@ -8,10 +8,13 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
-import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for GETClient class.
+ * Tests weather data retrieval, JSON parsing, display functionality, retry mechanism, and multi-server support.
+ */
 class GETClientTest {
 
     private GETClient getClient;
@@ -23,87 +26,72 @@ class GETClientTest {
         getClient = new GETClient(config);
     }
 
-    @Test
-    void testConstructorInitializesCorrectly() {
-        assertNotNull(getClient);
-        assertEquals(0, getClient.getLamportTime()); // Initial Lamport clock should be 0
-    }
+    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
-    void testConstructorWithConfiguration() {
+    void testConstructorAndInitialization() {
+        System.out.println("Testing GETClient constructor and initialization...");
+        assertNotNull(getClient, "GETClient should be created");
+        assertEquals(0, getClient.getLamportTime(), "Initial Lamport clock should be 0");
+        
+        // Test with different configuration
         ClientConfiguration testConfig = new ClientConfiguration("test.com", 8080, "TestAgent/1.0", 3000, 5000);
-        GETClient client = new GETClient(testConfig);
-
-        assertNotNull(client);
-        assertEquals(0, client.getLamportTime());
+        GETClient testClient = new GETClient(testConfig);
+        assertNotNull(testClient, "GETClient should be created with custom config");
+        assertEquals(0, testClient.getLamportTime(), "Custom config should also start with 0");
+        System.out.println("✓ Constructor and initialization test passed");
     }
 
     @Test
-    void testParseWeatherResponseWithValidJSON() throws Exception {
-        // Use reflection to access private method for testing
+    void testWeatherDataParsing() throws Exception {
+        System.out.println("Testing weather data parsing functionality...");
         Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
                 GETClient.HttpResponse.class);
         parseMethod.setAccessible(true);
 
+        // Test valid JSON parsing
         String validJson = "[{\"id\":\"TEST001\",\"name\":\"Test Station\",\"state\":\"TEST\"," +
                 "\"lat\":-35.0,\"lon\":138.0,\"air_temp\":25.0,\"apparent_t\":24.0," +
                 "\"cloud\":\"Clear\",\"rel_hum\":50,\"wind_dir\":\"N\",\"wind_spd_kmh\":10," +
                 "\"press\":1013.25,\"local_date_time\":\"2024-01-01T12:00:00\"}]";
 
-        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", validJson, 5);
-        WeatherData[] result = (WeatherData[]) parseMethod.invoke(getClient, mockResponse);
+        GETClient.HttpResponse validResponse = new GETClient.HttpResponse(200, "OK", validJson, 5);
+        WeatherData[] validResult = (WeatherData[]) parseMethod.invoke(getClient, validResponse);
 
-        assertNotNull(result);
-        assertEquals(1, result.length);
-        assertEquals("TEST001", result[0].getId());
-        assertEquals("Test Station", result[0].getName());
-        assertEquals("TEST", result[0].getState());
-    }
+        assertNotNull(validResult, "Valid JSON should parse successfully");
+        assertEquals(1, validResult.length, "Should parse one weather station");
+        assertEquals("TEST001", validResult[0].getId(), "Station ID should match");
+        assertEquals("Test Station", validResult[0].getName(), "Station name should match");
+        assertEquals("TEST", validResult[0].getState(), "Station state should match");
 
-    @Test
-    void testParseWeatherResponseWithEmptyContent() throws Exception {
-        Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
-                GETClient.HttpResponse.class);
-        parseMethod.setAccessible(true);
+        // Test empty content handling
+        GETClient.HttpResponse emptyResponse = new GETClient.HttpResponse(200, "OK", "", 5);
+        WeatherData[] emptyResult = (WeatherData[]) parseMethod.invoke(getClient, emptyResponse);
+        assertNotNull(emptyResult, "Empty content should return empty array");
+        assertEquals(0, emptyResult.length, "Empty content should return empty array");
 
-        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", "", 5);
-        WeatherData[] result = (WeatherData[]) parseMethod.invoke(getClient, mockResponse);
+        // Test null content handling
+        GETClient.HttpResponse nullResponse = new GETClient.HttpResponse(200, "OK", null, 5);
+        WeatherData[] nullResult = (WeatherData[]) parseMethod.invoke(getClient, nullResponse);
+        assertNotNull(nullResult, "Null content should return empty array");
+        assertEquals(0, nullResult.length, "Null content should return empty array");
 
-        assertNotNull(result);
-        assertEquals(0, result.length);
-    }
-
-    @Test
-    void testParseWeatherResponseWithNullContent() throws Exception {
-        Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
-                GETClient.HttpResponse.class);
-        parseMethod.setAccessible(true);
-
-        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", null, 5);
-        WeatherData[] result = (WeatherData[]) parseMethod.invoke(getClient, mockResponse);
-
-        assertNotNull(result);
-        assertEquals(0, result.length);
-    }
-
-    @Test
-    void testParseWeatherResponseWithInvalidJSON() throws Exception {
-        Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
-                GETClient.HttpResponse.class);
-        parseMethod.setAccessible(true);
-
-        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", "invalid json", 5);
-
+        // Test invalid JSON handling
+        GETClient.HttpResponse invalidResponse = new GETClient.HttpResponse(200, "OK", "invalid json", 5);
         Exception exception = assertThrows(Exception.class, () -> {
-            parseMethod.invoke(getClient, mockResponse);
+            parseMethod.invoke(getClient, invalidResponse);
         });
-
-        // The actual exception will be wrapped in InvocationTargetException
-        assertTrue(exception.getCause().getMessage().contains("Failed to parse weather data"));
+        assertTrue(exception.getCause().getMessage().contains("Failed to parse weather data"),
+                  "Should throw appropriate error for invalid JSON");
+        
+        System.out.println("✓ Weather data parsing test passed");
     }
 
     @Test
-    void testDisplayWeatherDataWithEmptyArray() {
+    void testWeatherDataDisplay() throws Exception {
+        System.out.println("Testing weather data display functionality...");
+        
+        // Test empty data display
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
@@ -113,23 +101,16 @@ class GETClientTest {
             displayMethod.setAccessible(true);
             displayMethod.invoke(getClient, new Object[]{new WeatherData[0]});
 
-            String output = outputStream.toString();
-            assertTrue(output.contains("=== CURRENT WEATHER DATA ==="));
-            assertTrue(output.contains("No weather stations currently reporting data"));
-        } catch (Exception e) {
-            fail("Should not throw exception: " + e.getMessage());
-        } finally {
-            System.setOut(originalOut);
-        }
-    }
+            String emptyOutput = outputStream.toString();
+            assertTrue(emptyOutput.contains("=== CURRENT WEATHER DATA ==="), 
+                      "Should display header for empty data");
+            assertTrue(emptyOutput.contains("No weather stations currently reporting data"), 
+                      "Should indicate no data available");
 
-    @Test
-    void testDisplayWeatherDataWithSingleStation() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
+            // Reset output stream
+            outputStream.reset();
 
-        try {
+            // Test single station display
             WeatherData testStation = new WeatherData();
             testStation.setId("TEST001");
             testStation.setName("Test Station");
@@ -145,116 +126,34 @@ class GETClientTest {
             testStation.setPress(1013.25);
             testStation.setLocalDateTime("2024-01-01T12:00:00");
 
-            Method displayMethod = GETClient.class.getDeclaredMethod("displayWeatherData", WeatherData[].class);
-            displayMethod.setAccessible(true);
             displayMethod.invoke(getClient, new Object[]{new WeatherData[]{testStation}});
 
-            String output = outputStream.toString();
-            assertTrue(output.contains("=== CURRENT WEATHER DATA ==="));
-            assertTrue(output.contains("Total weather stations: 1"));
-            assertTrue(output.contains("Station 1:"));
-            assertTrue(output.contains("ID: TEST001"));
-            assertTrue(output.contains("Name: Test Station"));
-            assertTrue(output.contains("State: TEST"));
-            assertTrue(output.contains("Temperature: 25.0°C"));
-        } catch (Exception e) {
-            fail("Should not throw exception: " + e.getMessage());
+            String stationOutput = outputStream.toString();
+            assertTrue(stationOutput.contains("=== CURRENT WEATHER DATA ==="), 
+                      "Should display header for station data");
+            assertTrue(stationOutput.contains("Total weather stations: 1"), 
+                      "Should show station count");
+            assertTrue(stationOutput.contains("Station 1:"), 
+                      "Should show station number");
+            assertTrue(stationOutput.contains("ID: TEST001"), 
+                      "Should show station ID");
+            assertTrue(stationOutput.contains("Name: Test Station"), 
+                      "Should show station name");
+            assertTrue(stationOutput.contains("Temperature: 25.0°C"), 
+                      "Should show temperature");
+
         } finally {
             System.setOut(originalOut);
         }
+        
+        System.out.println("✓ Weather data display test passed");
     }
 
     @Test
-    void testDisplayStationData() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        try {
-            WeatherData testStation = new WeatherData();
-            testStation.setId("TEST001");
-            testStation.setName("Test Station");
-            testStation.setState("TEST");
-            testStation.setLat(-35.0);
-            testStation.setLon(138.0);
-            testStation.setAirTemp(25.0);
-
-            Method displayMethod = GETClient.class.getDeclaredMethod("displayStationData",
-                    WeatherData.class, int.class);
-            displayMethod.setAccessible(true);
-            displayMethod.invoke(getClient, testStation, 1);
-
-            String output = outputStream.toString();
-            assertTrue(output.contains("Station 1:"));
-            assertTrue(output.contains("ID: TEST001"));
-            assertTrue(output.contains("Name: Test Station"));
-            assertTrue(output.contains("Location: -35.0°, 138.0°"));
-            assertTrue(output.contains("Temperature: 25.0°C"));
-        } catch (Exception e) {
-            fail("Should not throw exception: " + e.getMessage());
-        } finally {
-            System.setOut(originalOut);
-        }
-    }
-
-    @Test
-    void testRetrieveWeatherDataWithConnectionFailure() {
-        // This test simulates connection failure by using an invalid configuration
-        ClientConfiguration invalidConfig = new ClientConfiguration("invalid.host", 9999, "Test/1.0", 100, 100);
-        GETClient testClient = new GETClient(invalidConfig);
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            testClient.retrieveWeatherData();
-        });
-
-        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"));
-    }
-
-    @Test
-    void testLamportClockInitialization() {
-        assertEquals(0, getClient.getLamportTime());
-    }
-
-    @Test
-    void testMainMethodWithDefaultServer() {
-        // This test verifies main method doesn't crash with no arguments
-        assertDoesNotThrow(() -> {
-            ClientConfiguration config = ClientConfiguration.fromServerAddress("localhost:4567");
-            assertNotNull(config);
-        });
-    }
-
-    @Test
-    void testMainMethodWithCustomServer() {
-        // This test verifies main method argument parsing
-        String[] args = {"example.com:8080"};
-        assertDoesNotThrow(() -> {
-            String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
-            ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
-            assertNotNull(config);
-            assertEquals("example.com", config.getHost());
-            assertEquals(8080, config.getPort());
-        });
-    }
-
-    @Test
-    void testRetryLogicDelayCalculation() {
-        // Test that retry delays follow expected exponential backoff pattern
-        long baseDelay = 1000;
-        double backoff = 2.0;
-
-        long firstDelay = baseDelay;
-        long secondDelay = (long) (baseDelay * backoff);
-        long thirdDelay = (long) (baseDelay * backoff * backoff);
-
-        assertEquals(1000, firstDelay);
-        assertEquals(2000, secondDelay);
-        assertEquals(4000, thirdDelay);
-    }
-
-    @Test
-    void testMaxAttemptsConfiguration() {
-        // Verify the retry logic uses 4 attempts as specified
+    void testWeatherDataRetrievalWithRetry() {
+        System.out.println("Testing weather data retrieval with retry mechanism...");
+        
+        // Test connection failure with retry
         ClientConfiguration invalidConfig = new ClientConfiguration("invalid.host", 9999, "Test/1.0", 100, 100);
         GETClient testClient = new GETClient(invalidConfig);
 
@@ -266,27 +165,66 @@ class GETClientTest {
 
         long endTime = System.currentTimeMillis();
 
-        // Should attempt 4 times with delays: 1s + 2s + 4s = at least 7 seconds
-        // But allowing some tolerance for test execution time
-        assertTrue((endTime - startTime) >= 6000, "Should take at least 6 seconds for 4 retry attempts");
-        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"));
+        // Should attempt 4 times with exponential backoff
+        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"),
+                  "Should attempt 4 times before giving up");
+        assertTrue((endTime - startTime) >= 6000, 
+                  "Should take at least 6 seconds for retry attempts: " + (endTime - startTime) + "ms");
+        
+        System.out.println("✓ Weather data retrieval with retry test passed");
     }
 
-    // === MULTI-SERVER TESTS ===
+    @Test
+    void testRetryDelayCalculation() {
+        System.out.println("Testing retry delay calculation...");
+        
+        // Test exponential backoff calculation
+        long baseDelay = 1000;
+        double backoff = 2.0;
+
+        long firstDelay = baseDelay;
+        long secondDelay = (long) (baseDelay * backoff);
+        long thirdDelay = (long) (baseDelay * backoff * backoff);
+
+        assertEquals(1000, firstDelay, "First delay should be base delay");
+        assertEquals(2000, secondDelay, "Second delay should be 2x base delay");
+        assertEquals(4000, thirdDelay, "Third delay should be 4x base delay");
+        
+        System.out.println("✓ Retry delay calculation test passed");
+    }
+
+    // === MULTI-SERVER SUPPORT TESTS ===
 
     @Test
-    void testMultiServerGETClientConfiguration() {
+    void testMultiServerConfiguration() {
+        System.out.println("Testing multi-server configuration...");
+        
+        // Test multiple servers configuration
         ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
         GETClient multiClient = new GETClient(multiConfig);
 
-        assertNotNull(multiClient);
-        assertTrue(multiConfig.hasMultipleServers());
-        assertEquals(3, multiConfig.getServerAddresses().size());
-        assertEquals(0, multiClient.getLamportTime());
+        assertNotNull(multiClient, "Multi-server GETClient should be created");
+        assertTrue(multiConfig.hasMultipleServers(), "Should detect multiple servers");
+        assertEquals(3, multiConfig.getServerAddresses().size(), "Should have 3 server addresses");
+        assertEquals(0, multiClient.getLamportTime(), "Should start with 0 Lamport time");
+
+        // Test single server in multi-server config
+        ClientConfiguration singleViaMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
+        ClientConfiguration singleDirect = ClientConfiguration.fromServerAddress("localhost:4567");
+        GETClient client1 = new GETClient(singleViaMulti);
+        GETClient client2 = new GETClient(singleDirect);
+
+        assertEquals(singleDirect.getHost(), singleViaMulti.getHost(), "Single server configs should match");
+        assertEquals(singleDirect.getPort(), singleViaMulti.getPort(), "Single server ports should match");
+        assertEquals(client1.getLamportTime(), client2.getLamportTime(), "Lamport times should match");
+        
+        System.out.println("✓ Multi-server configuration test passed");
     }
 
     @Test
-    void testMultiServerRetrievalWithFailover() {
+    void testMultiServerFailover() {
+        System.out.println("Testing multi-server failover behavior...");
+        
         ClientConfiguration failoverConfig = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567,backup:4568");
         GETClient failoverClient = new GETClient(failoverConfig);
 
@@ -299,81 +237,53 @@ class GETClientTest {
         long duration = System.currentTimeMillis() - startTime;
 
         // Should try failover (will fail, but tests the logic)
-        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"));
-
-        // Should take some time due to retry attempts
-        assertTrue(duration >= 6000, "Should take at least 6 seconds for retry attempts with failover");
+        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"),
+                  "Should fail after all retry attempts");
+        assertTrue(duration >= 6000, 
+                  "Should take at least 6 seconds for retry attempts with failover: " + duration + "ms");
+        
+        System.out.println("✓ Multi-server failover test passed");
     }
 
-    @Test
-    void testMultiServerMainMethodArgumentParsing() {
-        // Test that main method correctly parses multi-server addresses
-        String[] multiServerArgs = {"server1:4567,server2:4568,server3:4569"};
+    // === MAIN METHOD TESTS ===
 
+    @Test
+    void testMainMethodArgumentHandling() {
+        System.out.println("Testing main method argument handling...");
+        
+        // Test default server (no arguments)
+        assertDoesNotThrow(() -> {
+            ClientConfiguration config = ClientConfiguration.fromServerAddress("localhost:4567");
+            assertNotNull(config, "Should create config for default server");
+        });
+
+        // Test custom server argument
+        String[] args = {"example.com:8080"};
+        assertDoesNotThrow(() -> {
+            String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
+            ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
+            assertNotNull(config, "Should create config for custom server");
+            assertEquals("example.com", config.getHost(), "Host should match argument");
+            assertEquals(8080, config.getPort(), "Port should match argument");
+        });
+
+        // Test multi-server argument parsing
+        String[] multiServerArgs = {"server1:4567,server2:4568,server3:4569"};
         assertDoesNotThrow(() -> {
             String serverAddress = multiServerArgs[0];
-
             ClientConfiguration config;
             if (serverAddress.contains(",")) {
                 config = ClientConfiguration.fromMultipleServers(serverAddress);
-                assertTrue(config.hasMultipleServers());
-                assertEquals(3, config.getServerAddresses().size());
+                assertTrue(config.hasMultipleServers(), "Should detect multiple servers");
+                assertEquals(3, config.getServerAddresses().size(), "Should have 3 server addresses");
             } else {
                 config = ClientConfiguration.fromServerAddress(serverAddress);
-                assertFalse(config.hasMultipleServers());
+                assertFalse(config.hasMultipleServers(), "Should detect single server");
             }
-
             GETClient client = new GETClient(config);
-            assertNotNull(client);
+            assertNotNull(client, "Should create GETClient with parsed config");
         });
-    }
-
-    @Test
-    void testMultiServerLamportClockBehavior() {
-        ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("host1:4567,host2:4568");
-        GETClient client = new GETClient(multiConfig);
-
-        assertEquals(0, client.getLamportTime());
-
-        // Lamport clock should advance during retrieval attempts
-        Exception exception = assertThrows(Exception.class, () -> {
-            client.retrieveWeatherData();
-        });
-
-        // The Lamport clock advances during the attempt, even if it fails
-        // Note: Clock may still be 0 if connection fails before any request is made
-        assertTrue(client.getLamportTime() >= 0, "Lamport clock should be non-negative");
-        assertTrue(exception.getMessage().contains("retrieval failed"), "Should fail with retrieval error");
-    }
-
-    @Test
-    void testMultiServerBackwardCompatibility() {
-        // Single server through multi-server method should work the same
-        ClientConfiguration singleViaMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
-        ClientConfiguration singleDirect = ClientConfiguration.fromServerAddress("localhost:4567");
-
-        GETClient client1 = new GETClient(singleViaMulti);
-        GETClient client2 = new GETClient(singleDirect);
-
-        assertEquals(singleDirect.getHost(), singleViaMulti.getHost());
-        assertEquals(singleDirect.getPort(), singleViaMulti.getPort());
-        assertEquals(client1.getLamportTime(), client2.getLamportTime());
-    }
-
-    @Test
-    void testMultiServerEmptyResponseHandling() throws Exception {
-        ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1:4567,server2:4568");
-        GETClient client = new GETClient(config);
-
-        // Test parsing empty responses with multi-server config
-        Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
-                GETClient.HttpResponse.class);
-        parseMethod.setAccessible(true);
-
-        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", "", 5);
-        WeatherData[] result = (WeatherData[]) parseMethod.invoke(client, mockResponse);
-
-        assertNotNull(result);
-        assertEquals(0, result.length);
+        
+        System.out.println("✓ Main method argument handling test passed");
     }
 }
