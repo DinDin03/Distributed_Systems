@@ -10,7 +10,7 @@ public class ResponseParser {
 
     private final LamportClock lamportClock;
 
-    // Constructor that initializes the parser with Lamport clock for synchronization
+    // Constructor that initialises the parser with Lamport clock for synchronization
     public ResponseParser(LamportClock lamportClock) {
         this.lamportClock = lamportClock;
     }

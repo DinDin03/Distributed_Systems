@@ -11,7 +11,7 @@ import java.net.Socket;
 // Client for retrieving weather data from the aggregation server via HTTP GET requests
 public class GETClient extends HttpClientBase {
 
-    // Constructor that initializes the GET client with configuration
+    // Constructor that initialises the GET client with configuration
     public GETClient(ClientConfiguration config) {
         super(config);
     }
@@ -20,7 +20,7 @@ public class GETClient extends HttpClientBase {
     public static void main(String[] args) {
         String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
 
-        // Support multiple servers - parse server addresses and create configuration
+        // Support multiple servers, parse server addresses and create configuration
         ClientConfiguration config;
         if (serverAddress.contains(",")) {
             config = ClientConfiguration.fromMultipleServers(serverAddress);

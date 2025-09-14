@@ -3,13 +3,8 @@ package com.weathersystem.client.common;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test suite for ClientConfiguration class.
- * Tests core functionality, error handling, and multi-server support.
- */
 class ClientConfigurationTest {
 
-    // === CORE FUNCTIONALITY TESTS ===
 
     @Test
     void testConstructorWithValidParameters() {

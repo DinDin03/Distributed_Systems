@@ -12,7 +12,7 @@ public abstract class HttpClientBase {
     protected final LamportClock lamportClock; // Lamport clock for distributed ordering
     protected final ResponseParser responseParser; // Parser for HTTP responses
 
-    // Constructor initializes client configuration, Lamport clock, and response parser
+    // Constructor initialises client configuration, Lamport clock, and response parser
     public HttpClientBase(ClientConfiguration config) {
         this.config = config;
         this.lamportClock = new LamportClock();

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ContentServer extends HttpClientBase {
 
-    // Constructor that initializes the content server with client configuration
+    // Constructor that initialises the content server with client configuration
     public ContentServer(ClientConfiguration config) {
         super(config);
     }
