@@ -10,16 +10,19 @@ import com.weathersystem.shared.json.JSONUtils;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+// Handler for processing HTTP GET requests to retrieve weather data
 public class GetRequestHandler implements RequestHandler {
 
     private final WeatherDataService weatherDataService;
     private final HttpResponseBuilder responseBuilder;
 
+    // Constructor that initializes the handler with weather data service
     public GetRequestHandler(WeatherDataService weatherDataService) {
         this.weatherDataService = weatherDataService;
         this.responseBuilder = new HttpResponseBuilder();
     }
 
+    // Handles GET requests to retrieve and return all weather data as JSON
     @Override
     public void handle(HttpRequest httpRequest, BufferedReader inputReader,
                        PrintWriter outputWriter, long lamportTime) throws Exception {
@@ -32,7 +35,7 @@ public class GetRequestHandler implements RequestHandler {
             String jsonResponse = JSONUtils.toJSON(allData);
 
             System.out.println("Processing GET with Lamport time " + lamportTime +
-                    " - returning " + allData.length + " stations");
+                    " ,returning " + allData.length + " stations");
 
             // Send JSON response
             responseBuilder.sendJsonResponse(outputWriter, HttpStatusCodes.OK,
@@ -49,6 +52,7 @@ public class GetRequestHandler implements RequestHandler {
         }
     }
 
+    // Logs request statistics for monitoring and debugging purposes
     private void logRequestStatistics(WeatherData[] weatherData) {
         if (weatherData.length == 0) {
             System.out.println("No weather data available for clients");
@@ -63,7 +67,7 @@ public class GetRequestHandler implements RequestHandler {
             }
         }
 
-        System.out.println("Weather data served - Total stations: " + weatherData.length +
+        System.out.println("Weather data served, Total stations: " + weatherData.length +
                 ", States: " + stateCount);
     }
 }

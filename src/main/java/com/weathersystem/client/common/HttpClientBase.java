@@ -39,18 +39,16 @@ public abstract class HttpClientBase {
 
             try {
                 Socket socket = createSingleConnection(host, port);
-                System.out.println("Connected to server at " + serverAddress + " (failover success)");
+                System.out.println("Connected to server at " + serverAddress);
                 return socket;
             } catch (IOException e) {
                 System.out.println("Failed to connect to " + serverAddress + ": " + e.getMessage());
                 lastException = e;
-                // Continue to next server
             }
         }
 
         // All servers failed
-        throw new IOException("All servers failed to connect. Last error: " +
-                            (lastException != null ? lastException.getMessage() : "Unknown"));
+        throw new IOException("All servers failed to connect. Last error: ");
     }
 
     // Creates a single connection to specified host:port
@@ -133,7 +131,7 @@ public abstract class HttpClientBase {
             this.serverLamportTime = serverLamportTime;
         }
 
-        // Checks if the response indicates success (2xx status codes)
+        // Checks if the response indicates success 
         public boolean isSuccess() {
             return statusCode >= 200 && statusCode < 300;
         }

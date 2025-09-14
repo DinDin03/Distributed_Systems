@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+// Background service that automatically removes expired weather data based on timestamps
 public class DataExpiryService {
 
     private final long expiryTimeMs;
@@ -17,6 +18,7 @@ public class DataExpiryService {
     private final ScheduledExecutorService cleanupService;
     private final Runnable onDataExpired; // Callback for when data is removed
 
+    // Constructor that initializes the expiry service with timing parameters and data store
     public DataExpiryService(long expiryTimeMs, long cleanupIntervalMs,
                              ConcurrentHashMap<String, WeatherStationEntry> dataStore,
                              ReentrantReadWriteLock.WriteLock writeLock,
@@ -33,6 +35,7 @@ public class DataExpiryService {
         });
     }
 
+    // Starts the background cleanup service with scheduled periodic execution
     public void start() {
         cleanupService.scheduleAtFixedRate(
                 this::removeExpiredData,
@@ -44,6 +47,7 @@ public class DataExpiryService {
                 cleanupIntervalMs / 1000 + " seconds)");
     }
 
+    // Stops the background cleanup service and waits for graceful shutdown
     public void stop() {
         if (cleanupService != null && !cleanupService.isShutdown()) {
             cleanupService.shutdown();
@@ -59,12 +63,14 @@ public class DataExpiryService {
         }
     }
 
+    // Removes expired weather station data from the data store using thread-safe operations
     public void removeExpiredData() {
         writeLock.lock();
         try {
             long currentTime = System.currentTimeMillis();
             int initialSize = dataStore.size();
 
+            // Remove expired entries from the data store using atomic operation
             dataStore.entrySet().removeIf(entry -> {
                 WeatherStationEntry stationEntry = entry.getValue();
                 boolean expired = stationEntry.isExpired(currentTime, expiryTimeMs);

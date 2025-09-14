@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
+// Data class representing an HTTP request with Lamport timestamp support
 @Getter
 @AllArgsConstructor
 public class HttpRequest {

@@ -7,8 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+// Utility class for parsing weather data from text files in key:value format
 public class FileUtils {
 
+    // Parses weather data from a text file with key:value format
     public static WeatherData parseWeatherFile(String filePath) throws IOException {
         validateFilePath(filePath);
 
@@ -20,6 +22,7 @@ public class FileUtils {
         return data;
     }
 
+    // Reads weather data from BufferedReader and populates WeatherData object
     private static void parseWeatherDataFromReader(BufferedReader reader, WeatherData data) throws IOException {
         String line;
 
@@ -36,6 +39,7 @@ public class FileUtils {
         }
     }
 
+    // Sets the appropriate field in WeatherData object based on key-value pair
     private static void setWeatherDataField(WeatherData data, String key, String value) throws IOException {
         try {
             switch (key) {
@@ -63,6 +67,7 @@ public class FileUtils {
         }
     }
 
+    // Validates file path and checks file existence, type, and readability
     private static void validateFilePath(String filePath) throws IOException {
         if (filePath == null || filePath.trim().isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty");

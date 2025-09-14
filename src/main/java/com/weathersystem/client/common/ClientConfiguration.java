@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// Configuration class for HTTP clients with support for multiple servers and failover
 @Getter
 public class ClientConfiguration {
 
@@ -15,6 +16,7 @@ public class ClientConfiguration {
     private final int connectionTimeoutMs;
     private final int readTimeoutMs;
 
+    // Default configuration values for client connections
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 4567;
     private static final String DEFAULT_USER_AGENT = "WeatherClient/1.0";
@@ -32,7 +34,7 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
-    // Constructor for multiple servers
+    // Constructor for multiple servers with failover support
     public ClientConfiguration(List<String> serverAddresses, String userAgent,
                                int connectionTimeoutMs, int readTimeoutMs) {
         if (serverAddresses == null || serverAddresses.isEmpty()) {
@@ -51,7 +53,7 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
-    // Factory method to create configuration from server address string
+    // Factory method to create configuration from single server address string
     public static ClientConfiguration fromServerAddress(String serverAddress) {
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
@@ -74,7 +76,7 @@ public class ClientConfiguration {
                 DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
-    // Factory method to create configuration from multiple server addresses
+    // Factory method to create configuration from multiple server addresses with failover
     public static ClientConfiguration fromMultipleServers(String serverAddresses) {
         if (serverAddresses == null || serverAddresses.trim().isEmpty()) {
             return fromServerAddress(null); // Use defaults

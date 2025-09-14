@@ -8,29 +8,30 @@ import com.weathersystem.shared.json.JSONUtils;
 import java.io.IOException;
 import java.net.Socket;
 
+// Client for retrieving weather data from the aggregation server via HTTP GET requests
 public class GETClient extends HttpClientBase {
 
+    // Constructor that initializes the GET client with configuration
     public GETClient(ClientConfiguration config) {
         super(config);
     }
 
+    // Main entry point for GET client command-line interface
     public static void main(String[] args) {
         String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
 
-        // Support multiple servers: "localhost:4567,localhost:4568,localhost:4569"
+        // Support multiple servers - parse server addresses and create configuration
         ClientConfiguration config;
         if (serverAddress.contains(",")) {
             config = ClientConfiguration.fromMultipleServers(serverAddress);
-            System.out.println("Configured with multiple servers: " + config.getServerAddresses());
+            System.out.println("Configured with multiple servers " + config.getServerAddresses());
         } else {
             config = ClientConfiguration.fromServerAddress(serverAddress);
         }
 
         GETClient getClient = new GETClient(config);
 
-        System.out.println("GET Client starting...");
-        System.out.println("Initial Lamport clock: " + getClient.getLamportTime());
-
+        System.out.println("GET Client starting");
         try {
             WeatherData[] weatherData = getClient.retrieveWeatherData();
             getClient.displayWeatherData(weatherData);
@@ -43,11 +44,13 @@ public class GETClient extends HttpClientBase {
         System.out.println("GET Client finished. Final Lamport clock: " + getClient.getLamportTime());
     }
 
+    // Retrieves weather data with retry logic and exponential backoff
     public WeatherData[] retrieveWeatherData() throws Exception {
         int maxAttempts = 4;
         long retryDelayMs = 1000;
         double backoff = 2.0;
 
+        // Retry loop with exponential backoff for failed requests
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try {
                 return requestWeatherData();
@@ -55,8 +58,7 @@ public class GETClient extends HttpClientBase {
                 if (attempt == maxAttempts) {
                     throw new Exception("Weather data retrieval failed after " + maxAttempts + " attempts", e);
                 }
-                System.out.println("Weather data retrieval failed (attempt " + attempt + "/" + maxAttempts +
-                        "): " + e.getMessage() + ". Retrying in " + retryDelayMs + "ms...");
+                System.out.println("Weather data retrieval failed. Retrying in " + retryDelayMs + "ms");
                 Thread.sleep(retryDelayMs);
                 retryDelayMs *= (long) backoff;
             }
@@ -64,6 +66,7 @@ public class GETClient extends HttpClientBase {
         return new WeatherData[0]; // Should never reach here
     }
 
+    // Makes HTTP GET request to retrieve weather data from server
     private WeatherData[] requestWeatherData() throws Exception {
         try (Socket socket = createConnection()) {
             sendHttpRequest(socket, "GET", null, null);
@@ -78,6 +81,7 @@ public class GETClient extends HttpClientBase {
         }
     }
 
+    // Parses JSON response from server into WeatherData array
     private WeatherData[] parseWeatherResponse(HttpResponse response) throws Exception {
         String jsonContent = response.getContent();
 
@@ -93,6 +97,7 @@ public class GETClient extends HttpClientBase {
         }
     }
 
+    // Displays weather data in a formatted, human-readable format
     private void displayWeatherData(WeatherData[] weatherStations) {
         System.out.println("\n=== CURRENT WEATHER DATA ===");
 
@@ -109,6 +114,7 @@ public class GETClient extends HttpClientBase {
         }
     }
 
+    // Displays individual weather station data with all available fields
     private void displayStationData(WeatherData station, int stationNumber) {
         System.out.println("Station " + stationNumber + ":");
         System.out.println("  ID: " + station.getId());

@@ -1,5 +1,6 @@
 package com.weathersystem.server.http;
 
+// Constants for HTTP status codes and their corresponding text descriptions
 public class HttpStatusCodes {
 
     // Success codes

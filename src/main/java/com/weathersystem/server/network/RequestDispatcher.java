@@ -37,7 +37,7 @@ public class RequestDispatcher {
             // Find appropriate handler
             RequestHandler handler = handlers.get(method);
 
-            // Check if handler exists - assignment requires 400 for unsupported methods
+            // Check if handler exists
             if (handler == null) {
                 System.out.println("No handler found for method: " + method);
                 responseBuilder.sendErrorResponse(request.getOutputWriter(),

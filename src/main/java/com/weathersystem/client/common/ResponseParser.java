@@ -5,14 +5,17 @@ import com.weathersystem.shared.clock.LamportClock;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+// Parser for HTTP responses with Lamport clock synchronization support
 public class ResponseParser {
 
     private final LamportClock lamportClock;
 
+    // Constructor that initializes the parser with Lamport clock for synchronization
     public ResponseParser(LamportClock lamportClock) {
         this.lamportClock = lamportClock;
     }
 
+    // Parses HTTP response from input stream and updates Lamport clock
     public HttpClientBase.HttpResponse parseResponse(BufferedReader in) throws IOException {
         // Read status line
         String statusLine = in.readLine();
@@ -22,12 +25,12 @@ public class ResponseParser {
 
         System.out.println("Server response: " + statusLine);
 
-        // Parse status code and text
+        // Parse status code and text from HTTP status line
         String[] statusParts = statusLine.split(" ", 3);
         int statusCode = Integer.parseInt(statusParts[1]);
         String statusText = statusParts.length > 2 ? statusParts[2] : "";
 
-        // Read headers
+        // Read headers and extract important values
         String headerLine;
         int contentLength = 0;
         long serverLamportTime = -1;
@@ -53,10 +56,10 @@ public class ResponseParser {
         if (serverLamportTime != -1) {
             long updatedTime = lamportClock.update(serverLamportTime);
             System.out.println("Updated Lamport clock from server response: " +
-                    serverLamportTime + " -> " + updatedTime);
+                    serverLamportTime + " to " + updatedTime);
         }
 
-        // Read content body
+        // Read content body based on Content-Length header
         String content = null;
         if (contentLength > 0) {
             char[] contentChars = new char[contentLength];

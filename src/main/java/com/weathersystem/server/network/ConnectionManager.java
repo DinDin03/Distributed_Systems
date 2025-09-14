@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+// Manages client connections using thread pool and handles HTTP request parsing with Lamport clock synchronization
 public class ConnectionManager {
 
     private final int threadPoolSize;
@@ -18,6 +19,7 @@ public class ConnectionManager {
     private final Consumer<TimestampedRequest> requestSubmitter;
     private ExecutorService connectionHandlerPool;
 
+    // Constructor that initializes connection manager with thread pool size, Lamport clock, and request submitter
     public ConnectionManager(int threadPoolSize, LamportClock lamportClock,
                              Consumer<TimestampedRequest> requestSubmitter) {
         this.threadPoolSize = threadPoolSize;
@@ -25,6 +27,7 @@ public class ConnectionManager {
         this.requestSubmitter = requestSubmitter;
     }
 
+    // Starts the connection manager by creating a fixed thread pool for handling client connections
     public void start() {
         connectionHandlerPool = Executors.newFixedThreadPool(threadPoolSize, r -> {
             Thread t = new Thread(r, "ConnectionHandler");
@@ -34,6 +37,7 @@ public class ConnectionManager {
         System.out.println("Connection manager started with " + threadPoolSize + " threads");
     }
 
+    // Handles incoming client connection by submitting it to the thread pool for processing
     public void handleConnection(Socket clientSocket) {
         if (connectionHandlerPool == null || connectionHandlerPool.isShutdown()) {
             System.out.println("Connection manager not started or already shutdown");
@@ -44,6 +48,7 @@ public class ConnectionManager {
         connectionHandlerPool.submit(new ConnectionHandler(clientSocket));
     }
 
+    // Gracefully shuts down the connection manager and waits for all threads to complete
     public void shutdown() {
         if (connectionHandlerPool != null && !connectionHandlerPool.isShutdown()) {
             connectionHandlerPool.shutdown();
@@ -59,17 +64,19 @@ public class ConnectionManager {
         }
     }
 
+    // Inner class that handles individual client connections in separate threads
     private class ConnectionHandler implements Runnable {
         private final Socket clientSocket;
 
+        // Constructor that initialises the connection handler with client socket
         public ConnectionHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
         }
 
+        // Main run method that processes client connection and HTTP request
         @Override
         public void run() {
-            System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress() +
-                    " (Thread: " + Thread.currentThread().getName() + ")");
+            System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
 
             BufferedReader in = null;
             PrintWriter out = null;
@@ -78,7 +85,7 @@ public class ConnectionManager {
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-                // Parse HTTP request
+                // Parse HTTP request from client input stream
                 HttpRequestParser parser = new HttpRequestParser();
                 HttpRequest httpRequest;
 
@@ -93,7 +100,7 @@ public class ConnectionManager {
                 System.out.println("Parsed request: " + httpRequest.getMethod() + " " +
                         httpRequest.getPath() + " (Thread: " + Thread.currentThread().getName() + ")");
 
-                // Update server's Lamport clock
+                // Update server's Lamport clock based on client timestamp
                 long updatedTime = updateServerClock(httpRequest.getLamportTime());
 
                 // Create timestamped request and submit for processing
@@ -110,6 +117,7 @@ public class ConnectionManager {
             }
         }
 
+        // Updates server's Lamport clock based on client timestamp for distributed ordering
         private long updateServerClock(long clientLamportTime) {
             long updatedTime;
 
@@ -126,6 +134,7 @@ public class ConnectionManager {
         }
     }
 
+    // Safely closes client socket connection
     private void closeSocket(Socket socket) {
         try {
             if (socket != null && !socket.isClosed()) {
@@ -136,6 +145,7 @@ public class ConnectionManager {
         }
     }
 
+    // Safely closes input and output streams for client connection
     private void closeStreams(BufferedReader in, PrintWriter out) {
         try {
             if (in != null) {
