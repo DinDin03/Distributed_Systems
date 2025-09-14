@@ -61,7 +61,12 @@ public class FileStorageManager {
             return new WeatherData[0];
         }
 
-        return JSONUtils.fromJSONArray(jsonContent);
+        try {
+            return JSONUtils.fromJSONArray(jsonContent);
+        } catch (Exception e) {
+            // Convert any JSON parsing exception to IOException for consistent error handling
+            throw new IOException("Failed to parse JSON content: " + e.getMessage(), e);
+        }
     }
 
     private void performAtomicFileWrite(String jsonData) throws IOException {

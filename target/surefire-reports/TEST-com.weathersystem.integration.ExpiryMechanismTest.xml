@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.integration.ExpiryMechanismTest" time="167.926" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Projects/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire/surefirebooter-20250914201500409_3.jar /Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire 2025-09-14T20-15-00_324-jvmRun1 surefire-20250914201500409_1tmp surefire_0-20250914201500409_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Projects/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Projects/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire/surefirebooter-20250914201500409_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Projects/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testDataNotExpiredWithinTimeWindow" classname="com.weathersystem.integration.ExpiryMechanismTest" time="10.123">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51106
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Cleared all weather data (0 stations)
+Loaded 49 weather stations from storage
+Loaded 49 weather stations from data/weather.json
+Server listening on port 51106
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51107 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: NOTEXPIRED001
+Connected to server at localhost:51106
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51108 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: NOTEXPIRED001 (new station)
+Processing PUT with Lamport time 3 for station: NOTEXPIRED001 (new)
+Retrieved weather data for 50 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Weather data saved to persistent storage (50 stations)
+Async save completed successfully
+Connected to server at localhost:51106
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51111 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 4
+Queued GET request with timestamp: 4 (Queue size: 1)
+Processing GET request with Lamport time: 4
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 50 active stations
+Processing GET with Lamport time 4 - returning 50 stations
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 4 -> 5
+Weather data served - Total stations: 50, States: {TEST=49, SA=1}
+
+Shutting down aggregation server...
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 50 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@502f8b57 rejected from java.util.concurrent.ThreadPoolExecutor@5652f555[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testServerContinuesAfterDataExpiry" classname="com.weathersystem.integration.ExpiryMechanismTest" time="35.122">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51112
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Cleared all weather data (0 stations)
+Loaded 50 weather stations from storage
+Loaded 50 weather stations from data/weather.json
+Server listening on port 51112
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51113 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: CONTINUE001
+Connected to server at localhost:51112
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51114 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: CONTINUE001 (new station)
+Processing PUT with Lamport time 3 for station: CONTINUE001 (new)
+Retrieved weather data for 51 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Weather data saved to persistent storage (51 stations)
+Async save completed successfully
+Removing expired weather station: TEST016 (last update: 30s ago)
+Removing expired weather station: TEST014 (last update: 30s ago)
+Removing expired weather station: TEST018 (last update: 30s ago)
+Removing expired weather station: NOTEXPIRED001 (last update: 30s ago)
+Removing expired weather station: PERSIST001 (last update: 30s ago)
+Removing expired weather station: CONCURRENT0 (last update: 30s ago)
+Removing expired weather station: INTEGRITY001 (last update: 30s ago)
+Removing expired weather station: CONCURRENT1 (last update: 30s ago)
+Removing expired weather station: CONCURRENT2 (last update: 30s ago)
+Removing expired weather station: CONCURRENT3 (last update: 30s ago)
+Removing expired weather station: CONCURRENT4 (last update: 30s ago)
+Removing expired weather station: CONCURRENT5 (last update: 30s ago)
+Removing expired weather station: CONCURRENT6 (last update: 30s ago)
+Removing expired weather station: TEST100 (last update: 30s ago)
+Removing expired weather station: TEST301 (last update: 30s ago)
+Removing expired weather station: TEST302 (last update: 30s ago)
+Removing expired weather station: TEST101 (last update: 30s ago)
+Removing expired weather station: TEST102 (last update: 30s ago)
+Removing expired weather station: TEST300 (last update: 30s ago)
+Removing expired weather station: ORDER0 (last update: 30s ago)
+Removing expired weather station: CONCURRENT7 (last update: 30s ago)
+Removing expired weather station: CONCURRENT8 (last update: 30s ago)
+Removing expired weather station: CONCURRENT9 (last update: 30s ago)
+Removing expired weather station: FILESYS001 (last update: 30s ago)
+Removing expired weather station: TEST000 (last update: 30s ago)
+Removing expired weather station: TEST001 (last update: 30s ago)
+Removing expired weather station: TEST400 (last update: 30s ago)
+Removing expired weather station: TEST202 (last update: 30s ago)
+Removing expired weather station: TEST004 (last update: 30s ago)
+Removing expired weather station: TEST401 (last update: 30s ago)
+Removing expired weather station: TEST002 (last update: 30s ago)
+Removing expired weather station: TEST200 (last update: 30s ago)
+Removing expired weather station: TEST201 (last update: 30s ago)
+Removing expired weather station: TEST003 (last update: 30s ago)
+Removing expired weather station: TEST008 (last update: 30s ago)
+Removing expired weather station: DELAYED1 (last update: 30s ago)
+Removing expired weather station: DELAYED0 (last update: 30s ago)
+Removing expired weather station: MULTI001 (last update: 30s ago)
+Removing expired weather station: TEST006 (last update: 30s ago)
+Removing expired weather station: TEST402 (last update: 30s ago)
+Removing expired weather station: IDS60901 (last update: 30s ago)
+Removing expired weather station: MULTI002 (last update: 30s ago)
+Removing expired weather station: ONGOING1 (last update: 30s ago)
+Removing expired weather station: ONGOING2 (last update: 30s ago)
+Removing expired weather station: ONGOING0 (last update: 30s ago)
+Removing expired weather station: DELAYED2 (last update: 30s ago)
+Removing expired weather station: TEST012 (last update: 30s ago)
+Removing expired weather station: ONGOING3 (last update: 30s ago)
+Removing expired weather station: TEST010 (last update: 30s ago)
+Removing expired weather station: ONGOING4 (last update: 30s ago)
+Removed 50 expired stations, 1 active stations remaining
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Removing expired weather station: CONTINUE001 (last update: 34s ago)
+Removed 1 expired stations, 0 active stations remaining
+Retrieved weather data for 0 active stations
+Weather data saved to persistent storage (0 stations)
+Async save completed successfully
+
+Processing weather file (Lamport time: 5)
+Uploading weather data for station: CONTINUE002
+Connected to server at localhost:51112
+Sending PUT request (Lamport time: 6)
+Client connected from: /127.0.0.1:51122 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued PUT request with timestamp: 7 (Queue size: 1)
+Processing PUT request with Lamport time: 7
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: CONTINUE002 (new station)
+Processing PUT with Lamport time 7 for station: CONTINUE002 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 7 -> 8
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Connected to server at localhost:51112
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51123 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 8
+Queued GET request with timestamp: 8 (Queue size: 1)
+Processing GET request with Lamport time: 8
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 8 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 8 -> 9
+
+Shutting down aggregation server...
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@794b435f rejected from java.util.concurrent.ThreadPoolExecutor@38f2e97e[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 4]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testExpiryTimingAccuracy" classname="com.weathersystem.integration.ExpiryMechanismTest" time="36.21">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51124
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Cleared all weather data (0 stations)
+Loaded 1 weather stations from storage
+Loaded 1 weather stations from data/weather.json
+Server listening on port 51124
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51125 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: TIMING001
+Connected to server at localhost:51124
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51126 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: TIMING001 (new station)
+Processing PUT with Lamport time 3 for station: TIMING001 (new)
+Retrieved weather data for 2 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51127 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 4
+Queued GET request with timestamp: 4 (Queue size: 1)
+Processing GET request with Lamport time: 4
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 4 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 4 -> 5
+Weather data saved to persistent storage (2 stations)
+Async save completed successfully
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 6)
+Client connected from: /127.0.0.1:51130 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued GET request with timestamp: 7 (Queue size: 1)
+Processing GET request with Lamport time: 7
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 7 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 7 -> 8
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 9)
+Client connected from: /127.0.0.1:51133 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 9 -> 10
+Queued GET request with timestamp: 10 (Queue size: 1)
+Processing GET request with Lamport time: 10
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 10 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 10 -> 11
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 12)
+Client connected from: /127.0.0.1:51134 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 12 -> 13
+Queued GET request with timestamp: 13 (Queue size: 1)
+Processing GET request with Lamport time: 13
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 13 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 13 -> 14
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 15)
+Client connected from: /127.0.0.1:51135 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 15 -> 16
+Queued GET request with timestamp: 16 (Queue size: 1)
+Processing GET request with Lamport time: 16
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 16 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 16 -> 17
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 18)
+Client connected from: /127.0.0.1:51136 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 18 -> 19
+Queued GET request with timestamp: 19 (Queue size: 1)
+Processing GET request with Lamport time: 19
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 19 - returning 2 stations
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 19 -> 20
+Weather data served - Total stations: 2, States: {TEST=2}
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 21)
+Client connected from: /127.0.0.1:51138 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 21 -> 22
+Queued GET request with timestamp: 22 (Queue size: 1)
+Processing GET request with Lamport time: 22
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 22 - returning 2 stations
+Server response: HTTP/1.1 200 OK
+Weather data served - Total stations: 2, States: {TEST=2}
+Updated Lamport clock from server response: 22 -> 23
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 24)
+Client connected from: /127.0.0.1:51141 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 24 -> 25
+Queued GET request with timestamp: 25 (Queue size: 1)
+Processing GET request with Lamport time: 25
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 25 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 25 -> 26
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 27)
+Client connected from: /127.0.0.1:51143 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 27 -> 28
+Queued GET request with timestamp: 28 (Queue size: 1)
+Processing GET request with Lamport time: 28
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 28 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 28 -> 29
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 30)
+Client connected from: /127.0.0.1:51144 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 30 -> 31
+Queued GET request with timestamp: 31 (Queue size: 1)
+Processing GET request with Lamport time: 31
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 31 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 31 -> 32
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 33)
+Client connected from: /127.0.0.1:51145 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 33 -> 34
+Queued GET request with timestamp: 34 (Queue size: 1)
+Processing GET request with Lamport time: 34
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 34 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 34 -> 35
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 36)
+Client connected from: /127.0.0.1:51146 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 36 -> 37
+Queued GET request with timestamp: 37 (Queue size: 1)
+Processing GET request with Lamport time: 37
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 37 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 37 -> 38
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 39)
+Client connected from: /127.0.0.1:51147 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 39 -> 40
+Queued GET request with timestamp: 40 (Queue size: 1)
+Processing GET request with Lamport time: 40
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 40 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 40 -> 41
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 42)
+Client connected from: /127.0.0.1:51148 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 42 -> 43
+Queued GET request with timestamp: 43 (Queue size: 1)
+Processing GET request with Lamport time: 43
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 43 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 43 -> 44
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 45)
+Client connected from: /127.0.0.1:51149 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 45 -> 46
+Queued GET request with timestamp: 46 (Queue size: 1)
+Processing GET request with Lamport time: 46
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 46 - returning 2 stations
+Weather data served - Total stations: 2, States: {TEST=2}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 46 -> 47
+Removing expired weather station: CONTINUE002 (last update: 30s ago)
+Removed 1 expired stations, 1 active stations remaining
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 48)
+Client connected from: /127.0.0.1:51162 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 48 -> 49
+Queued GET request with timestamp: 49 (Queue size: 1)
+Processing GET request with Lamport time: 49
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 49 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 49 -> 50
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 51)
+Client connected from: /127.0.0.1:51164 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 51 -> 52
+Queued GET request with timestamp: 52 (Queue size: 1)
+Processing GET request with Lamport time: 52
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 52 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 52 -> 53
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 54)
+Client connected from: /127.0.0.1:51166 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 54 -> 55
+Queued GET request with timestamp: 55 (Queue size: 1)
+Processing GET request with Lamport time: 55
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 55 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 55 -> 56
+Removing expired weather station: TIMING001 (last update: 34s ago)
+Removed 1 expired stations, 0 active stations remaining
+Retrieved weather data for 0 active stations
+Weather data saved to persistent storage (0 stations)
+Async save completed successfully
+Connected to server at localhost:51124
+Sending GET request (Lamport time: 57)
+Client connected from: /127.0.0.1:51172 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 57 -> 58
+Queued GET request with timestamp: 58 (Queue size: 1)
+Processing GET request with Lamport time: 58
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 58 - returning 0 stations
+No weather data available for clients
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 58 -> 59
+Data expired after 36102ms
+
+Shutting down aggregation server...
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@323659f8 rejected from java.util.concurrent.ThreadPoolExecutor@1144a55a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testMultipleStationsExpiryHandling" classname="com.weathersystem.integration.ExpiryMechanismTest" time="35.128">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51173
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Loaded 0 weather stations from data/weather.json
+Server listening on port 51173
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51174 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: MULTI001
+Connected to server at localhost:51173
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51175 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: MULTI001 (new station)
+Processing PUT with Lamport time 3 for station: MULTI001 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+
+Processing weather file (Lamport time: 5)
+Uploading weather data for station: MULTI002
+Connected to server at localhost:51173
+Sending PUT request (Lamport time: 6)
+Client connected from: /127.0.0.1:51176 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued PUT request with timestamp: 7 (Queue size: 1)
+Processing PUT request with Lamport time: 7
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: MULTI002 (new station)
+Processing PUT with Lamport time 7 for station: MULTI002 (new)
+Retrieved weather data for 2 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 7 -> 8
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Weather data saved to persistent storage (2 stations)
+Async save completed successfully
+Removing expired weather station: MULTI001 (last update: 34s ago)
+Removed 1 expired stations, 1 active stations remaining
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Connected to server at localhost:51173
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51179 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 8
+Queued GET request with timestamp: 8 (Queue size: 1)
+Processing GET request with Lamport time: 8
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 8 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 8 -> 9
+Multi001 present: false, Multi002 present: true
+Connected to server at localhost:51173
+Sending GET request (Lamport time: 10)
+Client connected from: /127.0.0.1:51180 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 10 -> 11
+Queued GET request with timestamp: 11 (Queue size: 1)
+Processing GET request with Lamport time: 11
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 11 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 11 -> 12
+
+Shutting down aggregation server...
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@265c5d69 rejected from java.util.concurrent.ThreadPoolExecutor@1286528d[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testExpiryDoesNotInterferWithActiveOperations" classname="com.weathersystem.integration.ExpiryMechanismTest" time="15.121">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51181
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Cleared all weather data (0 stations)
+Loaded 1 weather stations from storage
+Loaded 1 weather stations from data/weather.json
+Server listening on port 51181
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51182 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: ACTIVE001
+Connected to server at localhost:51181
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51183 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: ACTIVE001 (new station)
+Processing PUT with Lamport time 3 for station: ACTIVE001 (new)
+Retrieved weather data for 2 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Weather data saved to persistent storage (2 stations)
+Async save completed successfully
+
+Processing weather file (Lamport time: 5)
+Uploading weather data for station: ACTIVE002
+Connected to server at localhost:51181
+Sending PUT request (Lamport time: 6)
+Client connected from: /127.0.0.1:51199 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued PUT request with timestamp: 7 (Queue size: 1)
+Processing PUT request with Lamport time: 7
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: ACTIVE002 (new station)
+Processing PUT with Lamport time 7 for station: ACTIVE002 (new)
+Retrieved weather data for 3 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 7 -> 8
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Connected to server at localhost:51181
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51200 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 8
+Queued GET request with timestamp: 8 (Queue size: 1)
+Processing GET request with Lamport time: 8
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 3 active stations
+Processing GET with Lamport time 8 - returning 3 stations
+Weather data served - Total stations: 3, States: {TEST=3}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 8 -> 9
+Retrieved 3 stations during expiry processing
+
+Shutting down aggregation server...
+Weather data saved to persistent storage (3 stations)
+Async save completed successfully
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 3 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@33a630fa rejected from java.util.concurrent.ThreadPoolExecutor@775594f2[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testDataExpiryAfter30Seconds" classname="com.weathersystem.integration.ExpiryMechanismTest" time="36.215">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 51201
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Cleared all weather data (0 stations)
+Loaded 3 weather stations from storage
+Loaded 3 weather stations from data/weather.json
+Server listening on port 51201
+Press Ctrl+C to stop the server
+
+Client connected from: /127.0.0.1:51202 (Thread: ConnectionHandler)
+Failed to parse HTTP request: Empty request line
+
+Processing weather file (Lamport time: 1)
+Uploading weather data for station: EXPIRY001
+Connected to server at localhost:51201
+Sending PUT request (Lamport time: 2)
+Client connected from: /127.0.0.1:51203 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 2 -> 3
+Queued PUT request with timestamp: 3 (Queue size: 1)
+Processing PUT request with Lamport time: 3
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: EXPIRY001 (new station)
+Processing PUT with Lamport time 3 for station: EXPIRY001 (new)
+Retrieved weather data for 4 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 3 -> 4
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 1)
+Client connected from: /127.0.0.1:51204 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 1 -> 4
+Queued GET request with timestamp: 4 (Queue size: 1)
+Processing GET request with Lamport time: 4
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 4 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 4 -> 5
+Waiting for data to expire (this may take up to 40 seconds)...
+Weather data saved to persistent storage (4 stations)
+Async save completed successfully
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 6)
+Client connected from: /127.0.0.1:51205 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued GET request with timestamp: 7 (Queue size: 1)
+Processing GET request with Lamport time: 7
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 7 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 7 -> 8
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 9)
+Client connected from: /127.0.0.1:51206 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 9 -> 10
+Queued GET request with timestamp: 10 (Queue size: 1)
+Processing GET request with Lamport time: 10
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 10 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 10 -> 11
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 12)
+Client connected from: /127.0.0.1:51207 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 12 -> 13
+Queued GET request with timestamp: 13 (Queue size: 1)
+Processing GET request with Lamport time: 13
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 13 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 13 -> 14
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 15)
+Client connected from: /127.0.0.1:51210 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 15 -> 16
+Queued GET request with timestamp: 16 (Queue size: 1)
+Processing GET request with Lamport time: 16
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 16 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 16 -> 17
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 18)
+Client connected from: /127.0.0.1:51219 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 18 -> 19
+Queued GET request with timestamp: 19 (Queue size: 1)
+Processing GET request with Lamport time: 19
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 19 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 19 -> 20
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 21)
+Client connected from: /127.0.0.1:51220 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 21 -> 22
+Queued GET request with timestamp: 22 (Queue size: 1)
+Processing GET request with Lamport time: 22
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 22 - returning 4 stations
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 22 -> 23
+Weather data served - Total stations: 4, States: {TEST=4}
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 24)
+Client connected from: /127.0.0.1:51221 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 24 -> 25
+Queued GET request with timestamp: 25 (Queue size: 1)
+Processing GET request with Lamport time: 25
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 25 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 25 -> 26
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 27)
+Client connected from: /127.0.0.1:51222 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 27 -> 28
+Queued GET request with timestamp: 28 (Queue size: 1)
+Processing GET request with Lamport time: 28
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 28 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 28 -> 29
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 30)
+Client connected from: /127.0.0.1:51223 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 30 -> 31
+Queued GET request with timestamp: 31 (Queue size: 1)
+Processing GET request with Lamport time: 31
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 31 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 31 -> 32
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 33)
+Client connected from: /127.0.0.1:51224 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 33 -> 34
+Queued GET request with timestamp: 34 (Queue size: 1)
+Processing GET request with Lamport time: 34
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 34 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 34 -> 35
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 36)
+Client connected from: /127.0.0.1:51225 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 36 -> 37
+Queued GET request with timestamp: 37 (Queue size: 1)
+Processing GET request with Lamport time: 37
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 37 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 37 -> 38
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 39)
+Client connected from: /127.0.0.1:51226 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 39 -> 40
+Queued GET request with timestamp: 40 (Queue size: 1)
+Processing GET request with Lamport time: 40
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 40 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 40 -> 41
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 42)
+Client connected from: /127.0.0.1:51227 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 42 -> 43
+Queued GET request with timestamp: 43 (Queue size: 1)
+Processing GET request with Lamport time: 43
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 43 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 43 -> 44
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 45)
+Client connected from: /127.0.0.1:51230 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 45 -> 46
+Queued GET request with timestamp: 46 (Queue size: 1)
+Processing GET request with Lamport time: 46
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 4 active stations
+Processing GET with Lamport time 46 - returning 4 stations
+Weather data served - Total stations: 4, States: {TEST=4}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 46 -> 47
+Removing expired weather station: ACTIVE001 (last update: 30s ago)
+Removing expired weather station: ACTIVE002 (last update: 30s ago)
+Removing expired weather station: MULTI002 (last update: 30s ago)
+Removed 3 expired stations, 1 active stations remaining
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 48)
+Client connected from: /127.0.0.1:51234 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 48 -> 49
+Processing GET request with Lamport time: 49
+Queued GET request with timestamp: 49 (Queue size: 0)
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 49 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 49 -> 50
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 51)
+Client connected from: /127.0.0.1:51235 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 51 -> 52
+Queued GET request with timestamp: 52 (Queue size: 1)
+Processing GET request with Lamport time: 52
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 52 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 52 -> 53
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 54)
+Client connected from: /127.0.0.1:51236 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 54 -> 55
+Queued GET request with timestamp: 55 (Queue size: 1)
+Processing GET request with Lamport time: 55
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 55 - returning 1 stations
+Weather data served - Total stations: 1, States: {TEST=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 55 -> 56
+Removing expired weather station: EXPIRY001 (last update: 34s ago)
+Removed 1 expired stations, 0 active stations remaining
+Retrieved weather data for 0 active stations
+Weather data saved to persistent storage (0 stations)
+Async save completed successfully
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 57)
+Client connected from: /127.0.0.1:51237 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 57 -> 58
+Queued GET request with timestamp: 58 (Queue size: 1)
+Processing GET request with Lamport time: 58
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 58 - returning 0 stations
+No weather data available for clients
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 58 -> 59
+Connected to server at localhost:51201
+Sending GET request (Lamport time: 60)
+Client connected from: /127.0.0.1:51238 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 60 -> 61
+Queued GET request with timestamp: 61 (Queue size: 1)
+Processing GET request with Lamport time: 61
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 61 - returning 0 stations
+No weather data available for clients
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 61 -> 62
+
+Shutting down aggregation server...
+Data expiry service stopped
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@547c04c4 rejected from java.util.concurrent.ThreadPoolExecutor@30e92cb9[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+</testsuite>
