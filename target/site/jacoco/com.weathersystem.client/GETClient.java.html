@@ -11,8 +11,8 @@ import java.net.Socket;
 public class GETClient extends HttpClientBase {
 
     public GETClient(ClientConfiguration config) {
-<span class="fc" id="L14">        super(config);</span>
-<span class="fc" id="L15">    }</span>
+<span class="nc" id="L14">        super(config);</span>
+<span class="nc" id="L15">    }</span>
 
     public static void main(String[] args) {
 <span class="nc bnc" id="L18" title="All 2 branches missed.">        String serverAddress = args.length &gt; 0 ? args[0] : &quot;localhost:4567&quot;;</span>
@@ -30,19 +30,19 @@ public class GETClient extends HttpClientBase {
 <span class="nc" id="L30">        } catch (Exception e) {</span>
 <span class="nc" id="L31">            System.out.println(&quot;Failed to retrieve weather data: &quot; + e.getMessage());</span>
 <span class="nc" id="L32">            System.exit(1);</span>
-<span class="nc" id="L33">        }</span>
+        }
 
 <span class="nc" id="L35">        System.out.println(&quot;GET Client finished. Final Lamport clock: &quot; + getClient.getLamportTime());</span>
 <span class="nc" id="L36">    }</span>
 
     public WeatherData[] retrieveWeatherData() throws Exception {
-<span class="fc" id="L39">        int maxAttempts = 4;</span>
-<span class="fc" id="L40">        long retryDelayMs = 1000;</span>
-<span class="fc" id="L41">        double backoff = 2.0;</span>
+<span class="nc" id="L39">        int maxAttempts = 4;</span>
+<span class="nc" id="L40">        long retryDelayMs = 1000;</span>
+<span class="nc" id="L41">        double backoff = 2.0;</span>
 
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        for (int attempt = 1; attempt &lt;= maxAttempts; attempt++) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (int attempt = 1; attempt &lt;= maxAttempts; attempt++) {</span>
             try {
-<span class="fc" id="L45">                return requestWeatherData();</span>
+<span class="nc" id="L45">                return requestWeatherData();</span>
 <span class="nc" id="L46">            } catch (Exception e) {</span>
 <span class="nc bnc" id="L47" title="All 2 branches missed.">                if (attempt == maxAttempts) {</span>
 <span class="nc" id="L48">                    throw new Exception(&quot;Weather data retrieval failed after &quot; + maxAttempts + &quot; attempts&quot;, e);</span>
@@ -57,29 +57,29 @@ public class GETClient extends HttpClientBase {
     }
 
     private WeatherData[] requestWeatherData() throws Exception {
-<span class="fc" id="L60">        try (Socket socket = createConnection()) {</span>
-<span class="fc" id="L61">            sendHttpRequest(socket, &quot;GET&quot;, null, null);</span>
-<span class="fc" id="L62">            HttpResponse response = receiveHttpResponse(socket);</span>
+<span class="nc" id="L60">        try (Socket socket = createConnection()) {</span>
+<span class="nc" id="L61">            sendHttpRequest(socket, &quot;GET&quot;, null, null);</span>
+<span class="nc" id="L62">            HttpResponse response = receiveHttpResponse(socket);</span>
 
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            if (!response.isSuccess()) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (!response.isSuccess()) {</span>
 <span class="nc" id="L65">                throw new IOException(&quot;Server returned error: &quot; +</span>
 <span class="nc" id="L66">                        response.getStatusCode() + &quot; &quot; + response.getStatusText());</span>
             }
 
-<span class="fc" id="L69">            return parseWeatherResponse(response);</span>
+<span class="nc" id="L69">            return parseWeatherResponse(response);</span>
         }
     }
 
     private WeatherData[] parseWeatherResponse(HttpResponse response) throws Exception {
-<span class="fc" id="L74">        String jsonContent = response.getContent();</span>
+<span class="nc" id="L74">        String jsonContent = response.getContent();</span>
 
-<span class="pc bpc" id="L76" title="2 of 4 branches missed.">        if (jsonContent == null || jsonContent.trim().isEmpty()) {</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">        if (jsonContent == null || jsonContent.trim().isEmpty()) {</span>
 <span class="nc" id="L77">            System.out.println(&quot;No weather data available from server&quot;);</span>
 <span class="nc" id="L78">            return new WeatherData[0];</span>
         }
 
         try {
-<span class="fc" id="L82">            return JSONUtils.fromJSONArray(jsonContent);</span>
+<span class="nc" id="L82">            return JSONUtils.fromJSONArray(jsonContent);</span>
 <span class="nc" id="L83">        } catch (Exception e) {</span>
 <span class="nc" id="L84">            throw new Exception(&quot;Failed to parse weather data from server: &quot; + e.getMessage());</span>
         }

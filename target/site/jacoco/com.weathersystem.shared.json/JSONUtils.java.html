@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 <span class="fc" id="L10">            .create();</span>
 
     public static String toJSON(WeatherData data) {
-<span class="fc" id="L13">        return gson.toJson(data);</span>
+<span class="nc" id="L13">        return gson.toJson(data);</span>
     }
 
     public static String toJSON(WeatherData[] dataArray) {
@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
     }
 
     public static WeatherData[] fromJSONArray(String json) {
-<span class="fc" id="L25">        return gson.fromJson(json, WeatherData[].class);</span>
+<span class="nc" id="L25">        return gson.fromJson(json, WeatherData[].class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

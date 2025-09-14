@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.weathersystem.shared.json.JSONUtilsTest
 -------------------------------------------------------------------------------
-Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s - in com.weathersystem.shared.json.JSONUtilsTest
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s - in com.weathersystem.shared.json.JSONUtilsTest

@@ -18,8 +18,8 @@ public class ClientConfiguration {
     private static final int DEFAULT_READ_TIMEOUT = 10000;
 
     // Constructor to create client configuration with custom parameters
-    public ClientConfiguration(String host, int port, String userAgent,
-<span class="fc" id="L22">                               int connectionTimeoutMs, int readTimeoutMs) {</span>
+<span class="fc" id="L21">    public ClientConfiguration(String host, int port, String userAgent,</span>
+                               int connectionTimeoutMs, int readTimeoutMs) {
 <span class="fc" id="L23">        this.host = host;</span>
 <span class="fc" id="L24">        this.port = port;</span>
 <span class="fc" id="L25">        this.userAgent = userAgent;</span>
@@ -39,11 +39,11 @@ public class ClientConfiguration {
 <span class="nc" id="L39">                port = Integer.parseInt(parts[1]);</span>
 <span class="nc" id="L40">            } catch (NumberFormatException e) {</span>
 <span class="nc" id="L41">                System.out.println(&quot;Invalid port in server address&quot;);</span>
-<span class="nc" id="L42">            }</span>
+            }
         }
 
 <span class="nc" id="L45">        return new ClientConfiguration(host, port, DEFAULT_USER_AGENT,</span>
-                DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
+<span class="nc" id="L46">                DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);</span>
     }
 
     // Returns the server URL as a string (in my case it is localhost:4567)

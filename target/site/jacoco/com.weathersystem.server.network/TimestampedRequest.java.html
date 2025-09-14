@@ -20,7 +20,7 @@ public class TimestampedRequest implements Comparable&lt;TimestampedRequest&gt; 
     // Compare based on Lamport timestamp for priority queue ordering
     @Override
     public int compareTo(TimestampedRequest other) {
-<span class="fc" id="L23">        return Long.compare(this.lamportTime, other.lamportTime);</span>
+<span class="nc" id="L23">        return Long.compare(this.lamportTime, other.lamportTime);</span>
     }
 
 }

@@ -1,11 +1,11 @@
 com/weathersystem/server/http/HttpRequestParserTest$1.class
-com/weathersystem/server/http/HttpRequestParserTest.class
-com/weathersystem/shared/json/JSONUtilsTest.class
-com/weathersystem/integration/BasicClientServerTest.class
 com/weathersystem/server/persistence/FileStorageManagerTest.class
 com/weathersystem/server/persistence/WeatherDataRepositoryTest.class
-com/weathersystem/integration/MultiClientCoordinationTest.class
 com/weathersystem/integration/LamportClockOrderingTest.class
 com/weathersystem/integration/DataPersistenceTest.class
 com/weathersystem/integration/ExpiryMechanismTest.class
+com/weathersystem/server/http/HttpRequestParserTest.class
+com/weathersystem/shared/json/JSONUtilsTest.class
+com/weathersystem/integration/BasicClientServerTest.class
+com/weathersystem/integration/MultiClientCoordinationTest.class
 com/weathersystem/shared/clock/LamportClockTest.class

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.023" tests="19" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T23-32-55_534-jvmRun1 surefire-20250914233255622_1tmp surefire_0-20250914233255622_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testHandleNoContent" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[PUT request has no content - returning 204 No Content
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleMalformedJsonStructure" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Invalid JSON data: java.io.EOFException: End of input at line 1 column 60 path $.state
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleEmptyContent" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[PUT request has no content - returning 204 No Content
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleZeroContentLength" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0">
+    <system-out><![CDATA[PUT request has no content - returning 204 No Content
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleValidExistingStation" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.002">
+    <system-out><![CDATA[Stored weather data for station: EXIST001 (new station)
+Processing PUT with Lamport time 3 for station: EXIST001 (new)
+Stored weather data for station: EXIST001 (updated existing)
+Processing PUT with Lamport time 7 for station: EXIST001 (update)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleSpecialCharactersInJson" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Stored weather data for station: SPECIAL001 (new station)
+Processing PUT with Lamport time 14 for station: SPECIAL001 (new)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleEmptyNameField" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Invalid JSON data: Weather data missing required 'name' field
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleMissingRequiredFields" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0">
+    <system-out><![CDATA[Invalid JSON data: Weather data missing required 'id' field
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleJsonWithExtraFields" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Stored weather data for station: EXTRA001 (new station)
+Processing PUT with Lamport time 21 for station: EXTRA001 (new)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleLargeJsonData" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.002">
+    <system-out><![CDATA[Stored weather data for station: LARGE001 (new station)
+Processing PUT with Lamport time 13 for station: LARGE001 (new)
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleEmptyIdField" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Invalid JSON data: Weather data missing required 'id' field
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleIOExceptionDuringRead" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Error reading request body: Simulated IO error
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleNegativeContentLength" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0">
+    <system-out><![CDATA[PUT request has no content - returning 204 No Content
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleValidNewStation" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Stored weather data for station: NEW001 (new station)
+Processing PUT with Lamport time 5 for station: NEW001 (new)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleNullWeatherData" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0">
+    <system-out><![CDATA[Invalid JSON data: Weather data is null
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleMultipleStationsSequentially" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.002">
+    <system-out><![CDATA[Stored weather data for station: MULTI001 (new station)
+Processing PUT with Lamport time 15 for station: MULTI001 (new)
+Stored weather data for station: MULTI002 (new station)
+Processing PUT with Lamport time 16 for station: MULTI002 (new)
+Retrieved weather data for 2 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleUnexpectedEndOfStream" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Error reading request body: Unexpected end of stream while reading request body
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleWhitespaceOnlyContent" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0">
+    <system-out><![CDATA[PUT request has empty content - returning 204 No Content
+]]></system-out>
+  </testcase>
+  <testcase name="testHandleInvalidJson" classname="com.weathersystem.server.handlers.PutRequestHandlerTest" time="0.001">
+    <system-out><![CDATA[Invalid JSON data: com.google.gson.stream.MalformedJsonException: Expected value at line 1 column 52 path $.invalid
+]]></system-out>
+  </testcase>
+</testsuite>

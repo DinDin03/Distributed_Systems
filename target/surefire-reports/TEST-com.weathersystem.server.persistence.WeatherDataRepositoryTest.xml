@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="6.297" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="6.331" tests="16" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
-    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T20-46-21_578-jvmRun1 surefire-20250914204621686_1tmp surefire_0-20250914204621686_2tmp"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T23-32-55_534-jvmRun1 surefire-20250914233255622_1tmp surefire_0-20250914233255622_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="17.0.9+9"/>
@@ -55,7 +55,7 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testDataIntegrityAfterMultipleSaves" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.422">
+  <testcase name="testDataIntegrityAfterMultipleSaves" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.455">
     <system-out><![CDATA[Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data saved to persistent storage (1 stations)
@@ -71,13 +71,13 @@ No valid data files found, starting with empty database
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testAsyncSaveErrorHandling" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="2.109">
+  <testcase name="testAsyncSaveErrorHandling" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="2.111">
     <system-out><![CDATA[Async save failed: /invalid/path/that/does/not/exist.tmp (No such file or directory)
 Weather data repository shutdown complete
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testLoadWithEmptyFile" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.106">
+  <testcase name="testLoadWithEmptyFile" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.104">
     <system-out><![CDATA[Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
@@ -87,7 +87,7 @@ Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 ]]></system-out>
   </testcase>
-  <testcase name="testBackupAndRecovery" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.316">
+  <testcase name="testBackupAndRecovery" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.318">
     <system-out><![CDATA[Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data saved to persistent storage (1 stations)
@@ -98,38 +98,38 @@ Data restored from backup file
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testFilePermissionsHandling" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="1.109">
+  <testcase name="testFilePermissionsHandling" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="1.112">
     <system-out><![CDATA[Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testSaveAndLoadMultipleStations" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.215">
+  <testcase name="testSaveAndLoadMultipleStations" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.21">
     <system-out><![CDATA[Weather data saved to persistent storage (3 stations)
 Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testBothFilesCorrupted" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.109">
+  <testcase name="testBothFilesCorrupted" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.107">
     <system-out><![CDATA[Primary data file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
 Backup file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
 No valid data files found, starting with empty database
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testSaveEmptyArray" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.208">
+  <testcase name="testSaveEmptyArray" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.213">
     <system-out><![CDATA[Weather data saved to persistent storage (0 stations)
 Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testLargeDataSet" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.214">
+  <testcase name="testLargeDataSet" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.22">
     <system-out><![CDATA[Weather data saved to persistent storage (1000 stations)
 Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testMultipleAsyncSaves" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.214">
+  <testcase name="testMultipleAsyncSaves" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.213">
     <system-out><![CDATA[Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data saved to persistent storage (1 stations)
@@ -153,32 +153,32 @@ Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testLoadFromEmptyRepository" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.106">
+  <testcase name="testLoadFromEmptyRepository" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.107">
     <system-out><![CDATA[No valid data files found, starting with empty database
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testSaveNullArray" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.612">
+  <testcase name="testSaveNullArray" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.61">
     <system-out><![CDATA[Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testSaveAndLoadSingleStation" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.215">
+  <testcase name="testSaveAndLoadSingleStation" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.214">
     <system-out><![CDATA[Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data repository shutdown complete
 ]]></system-out>
   </testcase>
-  <testcase name="testConcurrentSaveAndLoad" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.114">
+  <testcase name="testConcurrentSaveAndLoad" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.11">
     <system-out><![CDATA[No valid data files found, starting with empty database
+No valid data files found, starting with empty database
 No valid data files found, starting with empty database
 Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data saved to persistent storage (1 stations)
 Async save completed successfully
-Weather data saved to persistent storage (1 stations)
-Data restored from backup file
-Async save failed: /var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/junit15847118843558799078/weather_data_backup.json
 Weather data repository shutdown complete
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
 Weather data saved to persistent storage (1 stations)
 Async save completed successfully
 Weather data saved to persistent storage (1 stations)

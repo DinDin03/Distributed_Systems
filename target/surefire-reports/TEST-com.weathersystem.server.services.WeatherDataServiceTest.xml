@@ -1,0 +1,1657 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.services.WeatherDataServiceTest" time="0.025" tests="21" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T23-32-55_534-jvmRun1 surefire-20250914233255622_1tmp surefire_0-20250914233255622_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testLoadWeatherDataWithNullIdElements" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Cleared all weather data (0 stations)
+Loaded 1 weather stations from storage
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataNewStation" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: NEW001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testGetAllWeatherDataAfterClear" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: CLEAR001 (new station)
+Cleared all weather data (1 stations)
+Retrieved weather data for 0 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithEmptyFields" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: EMPTY001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testLoadWeatherData" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Cleared all weather data (0 stations)
+Loaded 2 weather stations from storage
+Retrieved weather data for 2 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testConcurrentReadAndWrite" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0.009">
+    <system-out><![CDATA[Retrieved weather data for 0 active stations
+Retrieved weather data for 0 active stations
+Retrieved weather data for 0 active stations
+Retrieved weather data for 0 active stations
+Retrieved weather data for 0 active stations
+Retrieved weather data for 0 active stations
+Stored weather data for station: WRITER1_0 (new station)
+Stored weather data for station: WRITER0_0 (new station)
+Stored weather data for station: WRITER0_1 (new station)
+Stored weather data for station: WRITER0_2 (new station)
+Stored weather data for station: WRITER4_0 (new station)
+Stored weather data for station: WRITER2_0 (new station)
+Stored weather data for station: WRITER2_1 (new station)
+Stored weather data for station: WRITER2_2 (new station)
+Stored weather data for station: WRITER3_0 (new station)
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Retrieved weather data for 9 active stations
+Stored weather data for station: WRITER1_1 (new station)
+Stored weather data for station: WRITER1_2 (new station)
+Stored weather data for station: WRITER1_3 (new station)
+Stored weather data for station: WRITER1_4 (new station)
+Stored weather data for station: WRITER0_3 (new station)
+Stored weather data for station: WRITER0_4 (new station)
+Stored weather data for station: WRITER4_1 (new station)
+Stored weather data for station: WRITER4_2 (new station)
+Stored weather data for station: WRITER4_3 (new station)
+Stored weather data for station: WRITER4_4 (new station)
+Stored weather data for station: WRITER4_5 (new station)
+Stored weather data for station: WRITER4_6 (new station)
+Stored weather data for station: WRITER4_7 (new station)
+Stored weather data for station: WRITER4_8 (new station)
+Stored weather data for station: WRITER2_3 (new station)
+Stored weather data for station: WRITER2_4 (new station)
+Stored weather data for station: WRITER2_5 (new station)
+Stored weather data for station: WRITER3_1 (new station)
+Stored weather data for station: WRITER3_2 (new station)
+Stored weather data for station: WRITER3_3 (new station)
+Stored weather data for station: WRITER3_4 (new station)
+Stored weather data for station: WRITER3_5 (new station)
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Retrieved weather data for 31 active stations
+Stored weather data for station: WRITER1_5 (new station)
+Stored weather data for station: WRITER1_6 (new station)
+Stored weather data for station: WRITER0_5 (new station)
+Stored weather data for station: WRITER0_6 (new station)
+Stored weather data for station: WRITER4_9 (new station)
+Stored weather data for station: WRITER4_10 (new station)
+Stored weather data for station: WRITER2_6 (new station)
+Stored weather data for station: WRITER3_6 (new station)
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Retrieved weather data for 39 active stations
+Stored weather data for station: WRITER1_7 (new station)
+Stored weather data for station: WRITER0_7 (new station)
+Stored weather data for station: WRITER0_8 (new station)
+Stored weather data for station: WRITER0_9 (new station)
+Stored weather data for station: WRITER0_10 (new station)
+Stored weather data for station: WRITER4_11 (new station)
+Stored weather data for station: WRITER2_7 (new station)
+Stored weather data for station: WRITER3_7 (new station)
+Stored weather data for station: WRITER3_8 (new station)
+Stored weather data for station: WRITER3_9 (new station)
+Stored weather data for station: WRITER3_10 (new station)
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Retrieved weather data for 50 active stations
+Stored weather data for station: WRITER1_8 (new station)
+Stored weather data for station: WRITER0_11 (new station)
+Stored weather data for station: WRITER4_12 (new station)
+Stored weather data for station: WRITER2_8 (new station)
+Stored weather data for station: WRITER2_9 (new station)
+Stored weather data for station: WRITER2_10 (new station)
+Stored weather data for station: WRITER2_11 (new station)
+Stored weather data for station: WRITER2_12 (new station)
+Stored weather data for station: WRITER2_13 (new station)
+Stored weather data for station: WRITER3_11 (new station)
+Stored weather data for station: WRITER3_12 (new station)
+Stored weather data for station: WRITER3_13 (new station)
+Stored weather data for station: WRITER3_14 (new station)
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Retrieved weather data for 63 active stations
+Stored weather data for station: WRITER1_9 (new station)
+Stored weather data for station: WRITER1_10 (new station)
+Stored weather data for station: WRITER1_11 (new station)
+Stored weather data for station: WRITER1_12 (new station)
+Stored weather data for station: WRITER1_13 (new station)
+Stored weather data for station: WRITER1_14 (new station)
+Stored weather data for station: WRITER1_15 (new station)
+Stored weather data for station: WRITER0_12 (new station)
+Stored weather data for station: WRITER4_13 (new station)
+Stored weather data for station: WRITER2_14 (new station)
+Stored weather data for station: WRITER4_14 (new station)
+Stored weather data for station: WRITER3_15 (new station)
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Retrieved weather data for 75 active stations
+Stored weather data for station: WRITER1_16 (new station)
+Stored weather data for station: WRITER1_17 (new station)
+Stored weather data for station: WRITER1_18 (new station)
+Stored weather data for station: WRITER1_19 (new station)
+Stored weather data for station: WRITER1_20 (new station)
+Stored weather data for station: WRITER0_13 (new station)
+Stored weather data for station: WRITER2_15 (new station)
+Stored weather data for station: WRITER4_15 (new station)
+Stored weather data for station: WRITER3_16 (new station)
+Stored weather data for station: WRITER3_17 (new station)
+Stored weather data for station: WRITER3_18 (new station)
+Stored weather data for station: WRITER3_19 (new station)
+Stored weather data for station: WRITER3_20 (new station)
+Stored weather data for station: WRITER3_21 (new station)
+Stored weather data for station: WRITER3_22 (new station)
+Stored weather data for station: WRITER3_23 (new station)
+Retrieved weather data for 91 active stations
+Retrieved weather data for 91 active stations
+Retrieved weather data for 91 active stations
+Retrieved weather data for 91 active stations
+Retrieved weather data for 91 active stations
+Stored weather data for station: WRITER1_21 (new station)
+Stored weather data for station: WRITER0_14 (new station)
+Stored weather data for station: WRITER2_16 (new station)
+Stored weather data for station: WRITER4_16 (new station)
+Stored weather data for station: WRITER3_24 (new station)
+Retrieved weather data for 96 active stations
+Retrieved weather data for 96 active stations
+Retrieved weather data for 96 active stations
+Retrieved weather data for 96 active stations
+Retrieved weather data for 96 active stations
+Retrieved weather data for 96 active stations
+Stored weather data for station: WRITER1_22 (new station)
+Stored weather data for station: WRITER1_23 (new station)
+Stored weather data for station: WRITER1_24 (new station)
+Stored weather data for station: WRITER1_25 (new station)
+Stored weather data for station: WRITER1_26 (new station)
+Stored weather data for station: WRITER0_15 (new station)
+Stored weather data for station: WRITER0_16 (new station)
+Stored weather data for station: WRITER0_17 (new station)
+Stored weather data for station: WRITER0_18 (new station)
+Stored weather data for station: WRITER0_19 (new station)
+Stored weather data for station: WRITER0_20 (new station)
+Stored weather data for station: WRITER0_21 (new station)
+Stored weather data for station: WRITER2_17 (new station)
+Stored weather data for station: WRITER2_18 (new station)
+Stored weather data for station: WRITER4_17 (new station)
+Stored weather data for station: WRITER2_19 (new station)
+Stored weather data for station: WRITER2_20 (new station)
+Stored weather data for station: WRITER4_18 (new station)
+Stored weather data for station: WRITER4_19 (new station)
+Stored weather data for station: WRITER4_20 (new station)
+Stored weather data for station: WRITER4_21 (new station)
+Stored weather data for station: WRITER4_22 (new station)
+Stored weather data for station: WRITER4_23 (new station)
+Stored weather data for station: WRITER3_25 (new station)
+Stored weather data for station: WRITER4_24 (new station)
+Stored weather data for station: WRITER4_25 (new station)
+Stored weather data for station: WRITER3_26 (new station)
+Stored weather data for station: WRITER3_27 (new station)
+Stored weather data for station: WRITER3_28 (new station)
+Stored weather data for station: WRITER3_29 (new station)
+Stored weather data for station: WRITER3_30 (new station)
+Stored weather data for station: WRITER3_31 (new station)
+Stored weather data for station: WRITER3_32 (new station)
+Stored weather data for station: WRITER3_33 (new station)
+Stored weather data for station: WRITER3_34 (new station)
+Stored weather data for station: WRITER3_35 (new station)
+Stored weather data for station: WRITER3_36 (new station)
+Stored weather data for station: WRITER3_37 (new station)
+Stored weather data for station: WRITER3_38 (new station)
+Stored weather data for station: WRITER3_39 (new station)
+Stored weather data for station: WRITER3_40 (new station)
+Stored weather data for station: WRITER3_41 (new station)
+Stored weather data for station: WRITER3_42 (new station)
+Stored weather data for station: WRITER3_43 (new station)
+Stored weather data for station: WRITER3_44 (new station)
+Stored weather data for station: WRITER3_45 (new station)
+Stored weather data for station: WRITER3_46 (new station)
+Stored weather data for station: WRITER3_47 (new station)
+Stored weather data for station: WRITER3_48 (new station)
+Stored weather data for station: WRITER3_49 (new station)
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Retrieved weather data for 146 active stations
+Stored weather data for station: WRITER1_27 (new station)
+Stored weather data for station: WRITER0_22 (new station)
+Stored weather data for station: WRITER0_23 (new station)
+Stored weather data for station: WRITER0_24 (new station)
+Stored weather data for station: WRITER0_25 (new station)
+Stored weather data for station: WRITER0_26 (new station)
+Stored weather data for station: WRITER0_27 (new station)
+Stored weather data for station: WRITER2_21 (new station)
+Stored weather data for station: WRITER2_22 (new station)
+Stored weather data for station: WRITER2_23 (new station)
+Stored weather data for station: WRITER4_26 (new station)
+Retrieved weather data for 157 active stations
+Retrieved weather data for 157 active stations
+Retrieved weather data for 157 active stations
+Retrieved weather data for 157 active stations
+Retrieved weather data for 157 active stations
+Stored weather data for station: WRITER1_28 (new station)
+Stored weather data for station: WRITER0_28 (new station)
+Stored weather data for station: WRITER0_29 (new station)
+Stored weather data for station: WRITER0_30 (new station)
+Stored weather data for station: WRITER0_31 (new station)
+Stored weather data for station: WRITER2_24 (new station)
+Stored weather data for station: WRITER2_25 (new station)
+Stored weather data for station: WRITER2_26 (new station)
+Stored weather data for station: WRITER2_27 (new station)
+Stored weather data for station: WRITER4_27 (new station)
+Stored weather data for station: WRITER4_28 (new station)
+Stored weather data for station: WRITER4_29 (new station)
+Stored weather data for station: WRITER4_30 (new station)
+Stored weather data for station: WRITER4_31 (new station)
+Stored weather data for station: WRITER4_32 (new station)
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Retrieved weather data for 172 active stations
+Stored weather data for station: WRITER1_29 (new station)
+Stored weather data for station: WRITER1_30 (new station)
+Stored weather data for station: WRITER1_31 (new station)
+Stored weather data for station: WRITER1_32 (new station)
+Stored weather data for station: WRITER1_33 (new station)
+Stored weather data for station: WRITER1_34 (new station)
+Stored weather data for station: WRITER1_35 (new station)
+Stored weather data for station: WRITER1_36 (new station)
+Stored weather data for station: WRITER1_37 (new station)
+Stored weather data for station: WRITER1_38 (new station)
+Stored weather data for station: WRITER0_32 (new station)
+Stored weather data for station: WRITER0_33 (new station)
+Stored weather data for station: WRITER0_34 (new station)
+Stored weather data for station: WRITER0_35 (new station)
+Stored weather data for station: WRITER0_36 (new station)
+Stored weather data for station: WRITER0_37 (new station)
+Stored weather data for station: WRITER0_38 (new station)
+Stored weather data for station: WRITER0_39 (new station)
+Stored weather data for station: WRITER0_40 (new station)
+Stored weather data for station: WRITER0_41 (new station)
+Stored weather data for station: WRITER0_42 (new station)
+Stored weather data for station: WRITER0_43 (new station)
+Stored weather data for station: WRITER2_28 (new station)
+Stored weather data for station: WRITER2_29 (new station)
+Stored weather data for station: WRITER2_30 (new station)
+Stored weather data for station: WRITER2_31 (new station)
+Stored weather data for station: WRITER2_32 (new station)
+Stored weather data for station: WRITER2_33 (new station)
+Stored weather data for station: WRITER2_34 (new station)
+Stored weather data for station: WRITER2_35 (new station)
+Stored weather data for station: WRITER2_36 (new station)
+Stored weather data for station: WRITER2_37 (new station)
+Stored weather data for station: WRITER2_38 (new station)
+Stored weather data for station: WRITER2_39 (new station)
+Stored weather data for station: WRITER4_33 (new station)
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Retrieved weather data for 207 active stations
+Stored weather data for station: WRITER1_39 (new station)
+Stored weather data for station: WRITER0_44 (new station)
+Stored weather data for station: WRITER0_45 (new station)
+Stored weather data for station: WRITER0_46 (new station)
+Stored weather data for station: WRITER2_40 (new station)
+Stored weather data for station: WRITER4_34 (new station)
+Stored weather data for station: WRITER4_35 (new station)
+Stored weather data for station: WRITER4_36 (new station)
+Stored weather data for station: WRITER4_37 (new station)
+Retrieved weather data for 216 active stations
+Retrieved weather data for 216 active stations
+Retrieved weather data for 216 active stations
+Retrieved weather data for 216 active stations
+Stored weather data for station: WRITER1_40 (new station)
+Stored weather data for station: WRITER1_41 (new station)
+Stored weather data for station: WRITER1_42 (new station)
+Stored weather data for station: WRITER0_47 (new station)
+Stored weather data for station: WRITER0_48 (new station)
+Stored weather data for station: WRITER2_41 (new station)
+Stored weather data for station: WRITER2_42 (new station)
+Stored weather data for station: WRITER2_43 (new station)
+Stored weather data for station: WRITER4_38 (new station)
+Stored weather data for station: WRITER4_39 (new station)
+Stored weather data for station: WRITER4_40 (new station)
+Stored weather data for station: WRITER4_41 (new station)
+Retrieved weather data for 228 active stations
+Retrieved weather data for 228 active stations
+Retrieved weather data for 228 active stations
+Retrieved weather data for 228 active stations
+Stored weather data for station: WRITER1_43 (new station)
+Stored weather data for station: WRITER0_49 (new station)
+Stored weather data for station: WRITER2_44 (new station)
+Stored weather data for station: WRITER2_45 (new station)
+Stored weather data for station: WRITER2_46 (new station)
+Stored weather data for station: WRITER4_42 (new station)
+Stored weather data for station: WRITER4_43 (new station)
+Stored weather data for station: WRITER4_44 (new station)
+Stored weather data for station: WRITER4_45 (new station)
+Retrieved weather data for 237 active stations
+Retrieved weather data for 237 active stations
+Retrieved weather data for 237 active stations
+Retrieved weather data for 237 active stations
+Stored weather data for station: WRITER1_44 (new station)
+Stored weather data for station: WRITER2_47 (new station)
+Stored weather data for station: WRITER2_48 (new station)
+Stored weather data for station: WRITER2_49 (new station)
+Stored weather data for station: WRITER4_46 (new station)
+Retrieved weather data for 242 active stations
+Retrieved weather data for 242 active stations
+Retrieved weather data for 242 active stations
+Retrieved weather data for 242 active stations
+Stored weather data for station: WRITER1_45 (new station)
+Stored weather data for station: WRITER4_47 (new station)
+Retrieved weather data for 244 active stations
+Retrieved weather data for 244 active stations
+Retrieved weather data for 244 active stations
+Retrieved weather data for 244 active stations
+Stored weather data for station: WRITER1_46 (new station)
+Stored weather data for station: WRITER4_48 (new station)
+Retrieved weather data for 246 active stations
+Retrieved weather data for 246 active stations
+Retrieved weather data for 246 active stations
+Retrieved weather data for 246 active stations
+Stored weather data for station: WRITER1_47 (new station)
+Stored weather data for station: WRITER4_49 (new station)
+Retrieved weather data for 248 active stations
+Retrieved weather data for 248 active stations
+Retrieved weather data for 248 active stations
+Retrieved weather data for 248 active stations
+Stored weather data for station: WRITER1_48 (new station)
+Retrieved weather data for 249 active stations
+Retrieved weather data for 249 active stations
+Retrieved weather data for 249 active stations
+Retrieved weather data for 249 active stations
+Stored weather data for station: WRITER1_49 (new station)
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+Retrieved weather data for 250 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithNumericPrecision" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: PRECISION001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithZeroValues" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: ZERO001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataMultipleStations" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: MULTI001 (new station)
+Stored weather data for station: MULTI002 (new station)
+Stored weather data for station: MULTI003 (new station)
+Retrieved weather data for 3 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithLargeValues" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0.001">
+    <system-out><![CDATA[Stored weather data for station: LARGE001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testGetAllWeatherDataEmpty" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0.001">
+    <system-out><![CDATA[Retrieved weather data for 0 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithNullData" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0"/>
+  <testcase name="testLoadWeatherDataWithNull" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0"/>
+  <testcase name="testStoreWeatherDataExistingStation" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: EXIST001 (new station)
+Stored weather data for station: EXIST001 (updated existing)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithNegativeValues" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: NEGATIVE001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testLoadWeatherDataClearsExisting" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: INITIAL001 (new station)
+Cleared all weather data (1 stations)
+Loaded 2 weather stations from storage
+Retrieved weather data for 2 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithSpecialCharacters" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: SPECIAL001 (new station)
+Retrieved weather data for 1 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testStoreWeatherDataWithNullId" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0"/>
+  <testcase name="testGetStationCount" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Stored weather data for station: COUNT001 (new station)
+Stored weather data for station: COUNT002 (new station)
+Stored weather data for station: COUNT001 (updated existing)
+Cleared all weather data (2 stations)
+]]></system-out>
+  </testcase>
+  <testcase name="testLoadWeatherDataWithNullElements" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0">
+    <system-out><![CDATA[Cleared all weather data (0 stations)
+Loaded 2 weather stations from storage
+Retrieved weather data for 2 active stations
+]]></system-out>
+  </testcase>
+  <testcase name="testConcurrentAccess" classname="com.weathersystem.server.services.WeatherDataServiceTest" time="0.008">
+    <system-out><![CDATA[Stored weather data for station: CONCURRENT1_0 (new station)
+Stored weather data for station: CONCURRENT1_1 (new station)
+Stored weather data for station: CONCURRENT1_2 (new station)
+Stored weather data for station: CONCURRENT3_0 (new station)
+Stored weather data for station: CONCURRENT3_1 (new station)
+Stored weather data for station: CONCURRENT3_2 (new station)
+Stored weather data for station: CONCURRENT3_3 (new station)
+Stored weather data for station: CONCURRENT3_4 (new station)
+Stored weather data for station: CONCURRENT3_5 (new station)
+Stored weather data for station: CONCURRENT3_6 (new station)
+Stored weather data for station: CONCURRENT3_7 (new station)
+Stored weather data for station: CONCURRENT3_8 (new station)
+Stored weather data for station: CONCURRENT3_9 (new station)
+Stored weather data for station: CONCURRENT3_10 (new station)
+Stored weather data for station: CONCURRENT3_11 (new station)
+Stored weather data for station: CONCURRENT3_12 (new station)
+Stored weather data for station: CONCURRENT7_0 (new station)
+Stored weather data for station: CONCURRENT7_1 (new station)
+Stored weather data for station: CONCURRENT7_2 (new station)
+Stored weather data for station: CONCURRENT7_3 (new station)
+Stored weather data for station: CONCURRENT7_4 (new station)
+Stored weather data for station: CONCURRENT7_5 (new station)
+Stored weather data for station: CONCURRENT2_0 (new station)
+Stored weather data for station: CONCURRENT8_0 (new station)
+Stored weather data for station: CONCURRENT8_1 (new station)
+Stored weather data for station: CONCURRENT8_2 (new station)
+Stored weather data for station: CONCURRENT8_3 (new station)
+Stored weather data for station: CONCURRENT8_4 (new station)
+Stored weather data for station: CONCURRENT8_5 (new station)
+Stored weather data for station: CONCURRENT5_0 (new station)
+Stored weather data for station: CONCURRENT5_1 (new station)
+Stored weather data for station: CONCURRENT5_2 (new station)
+Stored weather data for station: CONCURRENT5_3 (new station)
+Stored weather data for station: CONCURRENT5_4 (new station)
+Stored weather data for station: CONCURRENT5_5 (new station)
+Stored weather data for station: CONCURRENT5_6 (new station)
+Stored weather data for station: CONCURRENT9_0 (new station)
+Stored weather data for station: CONCURRENT9_1 (new station)
+Stored weather data for station: CONCURRENT9_2 (new station)
+Stored weather data for station: CONCURRENT0_0 (new station)
+Stored weather data for station: CONCURRENT0_1 (new station)
+Stored weather data for station: CONCURRENT0_2 (new station)
+Stored weather data for station: CONCURRENT0_3 (new station)
+Stored weather data for station: CONCURRENT0_4 (new station)
+Stored weather data for station: CONCURRENT0_5 (new station)
+Stored weather data for station: CONCURRENT4_0 (new station)
+Stored weather data for station: CONCURRENT4_1 (new station)
+Stored weather data for station: CONCURRENT4_2 (new station)
+Stored weather data for station: CONCURRENT4_3 (new station)
+Stored weather data for station: CONCURRENT4_4 (new station)
+Stored weather data for station: CONCURRENT4_5 (new station)
+Stored weather data for station: CONCURRENT6_0 (new station)
+Stored weather data for station: CONCURRENT6_1 (new station)
+Stored weather data for station: CONCURRENT1_3 (new station)
+Stored weather data for station: CONCURRENT1_4 (new station)
+Stored weather data for station: CONCURRENT3_13 (new station)
+Stored weather data for station: CONCURRENT3_14 (new station)
+Stored weather data for station: CONCURRENT3_15 (new station)
+Stored weather data for station: CONCURRENT3_16 (new station)
+Stored weather data for station: CONCURRENT3_17 (new station)
+Stored weather data for station: CONCURRENT3_18 (new station)
+Stored weather data for station: CONCURRENT7_6 (new station)
+Stored weather data for station: CONCURRENT7_7 (new station)
+Stored weather data for station: CONCURRENT2_1 (new station)
+Stored weather data for station: CONCURRENT2_2 (new station)
+Stored weather data for station: CONCURRENT2_3 (new station)
+Stored weather data for station: CONCURRENT2_4 (new station)
+Stored weather data for station: CONCURRENT2_5 (new station)
+Stored weather data for station: CONCURRENT2_6 (new station)
+Stored weather data for station: CONCURRENT2_7 (new station)
+Stored weather data for station: CONCURRENT2_8 (new station)
+Stored weather data for station: CONCURRENT2_9 (new station)
+Stored weather data for station: CONCURRENT2_10 (new station)
+Stored weather data for station: CONCURRENT8_6 (new station)
+Stored weather data for station: CONCURRENT8_7 (new station)
+Stored weather data for station: CONCURRENT5_7 (new station)
+Stored weather data for station: CONCURRENT5_8 (new station)
+Stored weather data for station: CONCURRENT5_9 (new station)
+Stored weather data for station: CONCURRENT5_10 (new station)
+Stored weather data for station: CONCURRENT5_11 (new station)
+Stored weather data for station: CONCURRENT5_12 (new station)
+Stored weather data for station: CONCURRENT5_13 (new station)
+Stored weather data for station: CONCURRENT5_14 (new station)
+Stored weather data for station: CONCURRENT5_15 (new station)
+Stored weather data for station: CONCURRENT5_16 (new station)
+Stored weather data for station: CONCURRENT5_17 (new station)
+Stored weather data for station: CONCURRENT9_3 (new station)
+Stored weather data for station: CONCURRENT9_4 (new station)
+Stored weather data for station: CONCURRENT9_5 (new station)
+Stored weather data for station: CONCURRENT9_6 (new station)
+Stored weather data for station: CONCURRENT0_6 (new station)
+Stored weather data for station: CONCURRENT0_7 (new station)
+Stored weather data for station: CONCURRENT4_6 (new station)
+Stored weather data for station: CONCURRENT4_7 (new station)
+Stored weather data for station: CONCURRENT4_8 (new station)
+Stored weather data for station: CONCURRENT4_9 (new station)
+Stored weather data for station: CONCURRENT4_10 (new station)
+Stored weather data for station: CONCURRENT4_11 (new station)
+Stored weather data for station: CONCURRENT4_12 (new station)
+Stored weather data for station: CONCURRENT6_2 (new station)
+Stored weather data for station: CONCURRENT6_3 (new station)
+Stored weather data for station: CONCURRENT6_4 (new station)
+Stored weather data for station: CONCURRENT6_5 (new station)
+Stored weather data for station: CONCURRENT6_6 (new station)
+Stored weather data for station: CONCURRENT6_7 (new station)
+Stored weather data for station: CONCURRENT6_8 (new station)
+Stored weather data for station: CONCURRENT6_9 (new station)
+Stored weather data for station: CONCURRENT1_5 (new station)
+Stored weather data for station: CONCURRENT1_6 (new station)
+Stored weather data for station: CONCURRENT1_7 (new station)
+Stored weather data for station: CONCURRENT1_8 (new station)
+Stored weather data for station: CONCURRENT1_9 (new station)
+Stored weather data for station: CONCURRENT1_10 (new station)
+Stored weather data for station: CONCURRENT1_11 (new station)
+Stored weather data for station: CONCURRENT3_19 (new station)
+Stored weather data for station: CONCURRENT3_20 (new station)
+Stored weather data for station: CONCURRENT3_21 (new station)
+Stored weather data for station: CONCURRENT3_22 (new station)
+Stored weather data for station: CONCURRENT3_23 (new station)
+Stored weather data for station: CONCURRENT7_8 (new station)
+Stored weather data for station: CONCURRENT7_9 (new station)
+Stored weather data for station: CONCURRENT7_10 (new station)
+Stored weather data for station: CONCURRENT2_11 (new station)
+Stored weather data for station: CONCURRENT7_11 (new station)
+Stored weather data for station: CONCURRENT2_12 (new station)
+Stored weather data for station: CONCURRENT2_13 (new station)
+Stored weather data for station: CONCURRENT2_14 (new station)
+Stored weather data for station: CONCURRENT2_15 (new station)
+Stored weather data for station: CONCURRENT8_8 (new station)
+Stored weather data for station: CONCURRENT8_9 (new station)
+Stored weather data for station: CONCURRENT8_10 (new station)
+Stored weather data for station: CONCURRENT8_11 (new station)
+Stored weather data for station: CONCURRENT8_12 (new station)
+Stored weather data for station: CONCURRENT5_18 (new station)
+Stored weather data for station: CONCURRENT9_7 (new station)
+Stored weather data for station: CONCURRENT9_8 (new station)
+Stored weather data for station: CONCURRENT0_8 (new station)
+Stored weather data for station: CONCURRENT0_9 (new station)
+Stored weather data for station: CONCURRENT0_10 (new station)
+Stored weather data for station: CONCURRENT0_11 (new station)
+Stored weather data for station: CONCURRENT0_12 (new station)
+Stored weather data for station: CONCURRENT0_13 (new station)
+Stored weather data for station: CONCURRENT0_14 (new station)
+Stored weather data for station: CONCURRENT0_15 (new station)
+Stored weather data for station: CONCURRENT0_16 (new station)
+Stored weather data for station: CONCURRENT4_13 (new station)
+Stored weather data for station: CONCURRENT4_14 (new station)
+Stored weather data for station: CONCURRENT4_15 (new station)
+Stored weather data for station: CONCURRENT4_16 (new station)
+Stored weather data for station: CONCURRENT4_17 (new station)
+Stored weather data for station: CONCURRENT4_18 (new station)
+Stored weather data for station: CONCURRENT4_19 (new station)
+Stored weather data for station: CONCURRENT6_10 (new station)
+Stored weather data for station: CONCURRENT6_11 (new station)
+Stored weather data for station: CONCURRENT1_12 (new station)
+Stored weather data for station: CONCURRENT6_12 (new station)
+Stored weather data for station: CONCURRENT3_24 (new station)
+Stored weather data for station: CONCURRENT3_25 (new station)
+Stored weather data for station: CONCURRENT7_12 (new station)
+Stored weather data for station: CONCURRENT3_26 (new station)
+Stored weather data for station: CONCURRENT2_16 (new station)
+Stored weather data for station: CONCURRENT2_17 (new station)
+Stored weather data for station: CONCURRENT2_18 (new station)
+Stored weather data for station: CONCURRENT2_19 (new station)
+Stored weather data for station: CONCURRENT2_20 (new station)
+Stored weather data for station: CONCURRENT8_13 (new station)
+Stored weather data for station: CONCURRENT8_14 (new station)
+Stored weather data for station: CONCURRENT8_15 (new station)
+Stored weather data for station: CONCURRENT8_16 (new station)
+Stored weather data for station: CONCURRENT8_17 (new station)
+Stored weather data for station: CONCURRENT8_18 (new station)
+Stored weather data for station: CONCURRENT5_19 (new station)
+Stored weather data for station: CONCURRENT9_9 (new station)
+Stored weather data for station: CONCURRENT5_20 (new station)
+Stored weather data for station: CONCURRENT5_21 (new station)
+Stored weather data for station: CONCURRENT0_17 (new station)
+Stored weather data for station: CONCURRENT4_20 (new station)
+Stored weather data for station: CONCURRENT4_21 (new station)
+Stored weather data for station: CONCURRENT4_22 (new station)
+Stored weather data for station: CONCURRENT4_23 (new station)
+Stored weather data for station: CONCURRENT1_13 (new station)
+Stored weather data for station: CONCURRENT1_14 (new station)
+Stored weather data for station: CONCURRENT1_15 (new station)
+Stored weather data for station: CONCURRENT1_16 (new station)
+Stored weather data for station: CONCURRENT1_17 (new station)
+Stored weather data for station: CONCURRENT6_13 (new station)
+Stored weather data for station: CONCURRENT6_14 (new station)
+Stored weather data for station: CONCURRENT7_13 (new station)
+Stored weather data for station: CONCURRENT6_15 (new station)
+Stored weather data for station: CONCURRENT3_27 (new station)
+Stored weather data for station: CONCURRENT3_28 (new station)
+Stored weather data for station: CONCURRENT3_29 (new station)
+Stored weather data for station: CONCURRENT3_30 (new station)
+Stored weather data for station: CONCURRENT3_31 (new station)
+Stored weather data for station: CONCURRENT3_32 (new station)
+Stored weather data for station: CONCURRENT2_21 (new station)
+Stored weather data for station: CONCURRENT2_22 (new station)
+Stored weather data for station: CONCURRENT2_23 (new station)
+Stored weather data for station: CONCURRENT2_24 (new station)
+Stored weather data for station: CONCURRENT2_25 (new station)
+Stored weather data for station: CONCURRENT8_19 (new station)
+Stored weather data for station: CONCURRENT8_20 (new station)
+Stored weather data for station: CONCURRENT8_21 (new station)
+Stored weather data for station: CONCURRENT8_22 (new station)
+Stored weather data for station: CONCURRENT8_23 (new station)
+Stored weather data for station: CONCURRENT8_24 (new station)
+Stored weather data for station: CONCURRENT8_25 (new station)
+Stored weather data for station: CONCURRENT8_26 (new station)
+Stored weather data for station: CONCURRENT8_27 (new station)
+Stored weather data for station: CONCURRENT9_10 (new station)
+Stored weather data for station: CONCURRENT9_11 (new station)
+Stored weather data for station: CONCURRENT9_12 (new station)
+Stored weather data for station: CONCURRENT9_13 (new station)
+Stored weather data for station: CONCURRENT9_14 (new station)
+Stored weather data for station: CONCURRENT9_15 (new station)
+Stored weather data for station: CONCURRENT9_16 (new station)
+Stored weather data for station: CONCURRENT9_17 (new station)
+Stored weather data for station: CONCURRENT9_18 (new station)
+Stored weather data for station: CONCURRENT9_19 (new station)
+Stored weather data for station: CONCURRENT9_20 (new station)
+Stored weather data for station: CONCURRENT9_21 (new station)
+Stored weather data for station: CONCURRENT9_22 (new station)
+Stored weather data for station: CONCURRENT9_23 (new station)
+Stored weather data for station: CONCURRENT9_24 (new station)
+Stored weather data for station: CONCURRENT9_25 (new station)
+Stored weather data for station: CONCURRENT5_22 (new station)
+Stored weather data for station: CONCURRENT5_23 (new station)
+Stored weather data for station: CONCURRENT5_24 (new station)
+Stored weather data for station: CONCURRENT5_25 (new station)
+Stored weather data for station: CONCURRENT5_26 (new station)
+Stored weather data for station: CONCURRENT5_27 (new station)
+Stored weather data for station: CONCURRENT5_28 (new station)
+Stored weather data for station: CONCURRENT5_29 (new station)
+Stored weather data for station: CONCURRENT5_30 (new station)
+Stored weather data for station: CONCURRENT5_31 (new station)
+Stored weather data for station: CONCURRENT5_32 (new station)
+Stored weather data for station: CONCURRENT5_33 (new station)
+Stored weather data for station: CONCURRENT5_34 (new station)
+Stored weather data for station: CONCURRENT5_35 (new station)
+Stored weather data for station: CONCURRENT5_36 (new station)
+Stored weather data for station: CONCURRENT5_37 (new station)
+Stored weather data for station: CONCURRENT5_38 (new station)
+Stored weather data for station: CONCURRENT5_39 (new station)
+Stored weather data for station: CONCURRENT0_18 (new station)
+Stored weather data for station: CONCURRENT0_19 (new station)
+Stored weather data for station: CONCURRENT0_20 (new station)
+Stored weather data for station: CONCURRENT0_21 (new station)
+Stored weather data for station: CONCURRENT0_22 (new station)
+Stored weather data for station: CONCURRENT0_23 (new station)
+Stored weather data for station: CONCURRENT0_24 (new station)
+Stored weather data for station: CONCURRENT0_25 (new station)
+Stored weather data for station: CONCURRENT0_26 (new station)
+Stored weather data for station: CONCURRENT0_27 (new station)
+Stored weather data for station: CONCURRENT0_28 (new station)
+Stored weather data for station: CONCURRENT0_29 (new station)
+Stored weather data for station: CONCURRENT0_30 (new station)
+Stored weather data for station: CONCURRENT0_31 (new station)
+Stored weather data for station: CONCURRENT4_24 (new station)
+Stored weather data for station: CONCURRENT4_25 (new station)
+Stored weather data for station: CONCURRENT4_26 (new station)
+Stored weather data for station: CONCURRENT4_27 (new station)
+Stored weather data for station: CONCURRENT4_28 (new station)
+Stored weather data for station: CONCURRENT4_29 (new station)
+Stored weather data for station: CONCURRENT4_30 (new station)
+Stored weather data for station: CONCURRENT1_18 (new station)
+Stored weather data for station: CONCURRENT1_19 (new station)
+Stored weather data for station: CONCURRENT1_20 (new station)
+Stored weather data for station: CONCURRENT1_21 (new station)
+Stored weather data for station: CONCURRENT1_22 (new station)
+Stored weather data for station: CONCURRENT1_23 (new station)
+Stored weather data for station: CONCURRENT1_24 (new station)
+Stored weather data for station: CONCURRENT7_14 (new station)
+Stored weather data for station: CONCURRENT7_15 (new station)
+Stored weather data for station: CONCURRENT7_16 (new station)
+Stored weather data for station: CONCURRENT7_17 (new station)
+Stored weather data for station: CONCURRENT7_18 (new station)
+Stored weather data for station: CONCURRENT7_19 (new station)
+Stored weather data for station: CONCURRENT7_20 (new station)
+Stored weather data for station: CONCURRENT7_21 (new station)
+Stored weather data for station: CONCURRENT7_22 (new station)
+Stored weather data for station: CONCURRENT7_23 (new station)
+Stored weather data for station: CONCURRENT7_24 (new station)
+Stored weather data for station: CONCURRENT7_25 (new station)
+Stored weather data for station: CONCURRENT6_16 (new station)
+Stored weather data for station: CONCURRENT6_17 (new station)
+Stored weather data for station: CONCURRENT6_18 (new station)
+Stored weather data for station: CONCURRENT6_19 (new station)
+Stored weather data for station: CONCURRENT6_20 (new station)
+Stored weather data for station: CONCURRENT3_33 (new station)
+Stored weather data for station: CONCURRENT3_34 (new station)
+Stored weather data for station: CONCURRENT3_35 (new station)
+Stored weather data for station: CONCURRENT3_36 (new station)
+Stored weather data for station: CONCURRENT3_37 (new station)
+Stored weather data for station: CONCURRENT2_26 (new station)
+Stored weather data for station: CONCURRENT2_27 (new station)
+Stored weather data for station: CONCURRENT2_28 (new station)
+Stored weather data for station: CONCURRENT2_29 (new station)
+Stored weather data for station: CONCURRENT2_30 (new station)
+Stored weather data for station: CONCURRENT2_31 (new station)
+Stored weather data for station: CONCURRENT8_28 (new station)
+Stored weather data for station: CONCURRENT8_29 (new station)
+Stored weather data for station: CONCURRENT8_30 (new station)
+Stored weather data for station: CONCURRENT8_31 (new station)
+Stored weather data for station: CONCURRENT8_32 (new station)
+Stored weather data for station: CONCURRENT8_33 (new station)
+Stored weather data for station: CONCURRENT8_34 (new station)
+Stored weather data for station: CONCURRENT8_35 (new station)
+Stored weather data for station: CONCURRENT8_36 (new station)
+Stored weather data for station: CONCURRENT8_37 (new station)
+Stored weather data for station: CONCURRENT8_38 (new station)
+Stored weather data for station: CONCURRENT8_39 (new station)
+Stored weather data for station: CONCURRENT8_40 (new station)
+Stored weather data for station: CONCURRENT9_26 (new station)
+Stored weather data for station: CONCURRENT9_27 (new station)
+Stored weather data for station: CONCURRENT9_28 (new station)
+Stored weather data for station: CONCURRENT9_29 (new station)
+Stored weather data for station: CONCURRENT9_30 (new station)
+Stored weather data for station: CONCURRENT9_31 (new station)
+Stored weather data for station: CONCURRENT9_32 (new station)
+Stored weather data for station: CONCURRENT9_33 (new station)
+Stored weather data for station: CONCURRENT9_34 (new station)
+Stored weather data for station: CONCURRENT9_35 (new station)
+Stored weather data for station: CONCURRENT5_40 (new station)
+Stored weather data for station: CONCURRENT5_41 (new station)
+Stored weather data for station: CONCURRENT5_42 (new station)
+Stored weather data for station: CONCURRENT5_43 (new station)
+Stored weather data for station: CONCURRENT5_44 (new station)
+Stored weather data for station: CONCURRENT5_45 (new station)
+Stored weather data for station: CONCURRENT5_46 (new station)
+Stored weather data for station: CONCURRENT5_47 (new station)
+Stored weather data for station: CONCURRENT0_32 (new station)
+Stored weather data for station: CONCURRENT0_33 (new station)
+Stored weather data for station: CONCURRENT0_34 (new station)
+Stored weather data for station: CONCURRENT0_35 (new station)
+Stored weather data for station: CONCURRENT0_36 (new station)
+Stored weather data for station: CONCURRENT0_37 (new station)
+Stored weather data for station: CONCURRENT0_38 (new station)
+Stored weather data for station: CONCURRENT4_31 (new station)
+Stored weather data for station: CONCURRENT4_32 (new station)
+Stored weather data for station: CONCURRENT4_33 (new station)
+Stored weather data for station: CONCURRENT4_34 (new station)
+Stored weather data for station: CONCURRENT4_35 (new station)
+Stored weather data for station: CONCURRENT4_36 (new station)
+Stored weather data for station: CONCURRENT4_37 (new station)
+Stored weather data for station: CONCURRENT1_25 (new station)
+Stored weather data for station: CONCURRENT1_26 (new station)
+Stored weather data for station: CONCURRENT7_26 (new station)
+Stored weather data for station: CONCURRENT1_27 (new station)
+Stored weather data for station: CONCURRENT1_28 (new station)
+Stored weather data for station: CONCURRENT1_29 (new station)
+Stored weather data for station: CONCURRENT1_30 (new station)
+Stored weather data for station: CONCURRENT1_31 (new station)
+Stored weather data for station: CONCURRENT1_32 (new station)
+Stored weather data for station: CONCURRENT1_33 (new station)
+Stored weather data for station: CONCURRENT1_34 (new station)
+Stored weather data for station: CONCURRENT1_35 (new station)
+Stored weather data for station: CONCURRENT6_21 (new station)
+Stored weather data for station: CONCURRENT6_22 (new station)
+Stored weather data for station: CONCURRENT6_23 (new station)
+Stored weather data for station: CONCURRENT6_24 (new station)
+Stored weather data for station: CONCURRENT6_25 (new station)
+Stored weather data for station: CONCURRENT6_26 (new station)
+Stored weather data for station: CONCURRENT3_38 (new station)
+Stored weather data for station: CONCURRENT3_39 (new station)
+Stored weather data for station: CONCURRENT3_40 (new station)
+Stored weather data for station: CONCURRENT3_41 (new station)
+Stored weather data for station: CONCURRENT3_42 (new station)
+Stored weather data for station: CONCURRENT3_43 (new station)
+Stored weather data for station: CONCURRENT3_44 (new station)
+Stored weather data for station: CONCURRENT2_32 (new station)
+Stored weather data for station: CONCURRENT2_33 (new station)
+Stored weather data for station: CONCURRENT2_34 (new station)
+Stored weather data for station: CONCURRENT8_41 (new station)
+Stored weather data for station: CONCURRENT8_42 (new station)
+Stored weather data for station: CONCURRENT8_43 (new station)
+Stored weather data for station: CONCURRENT9_36 (new station)
+Stored weather data for station: CONCURRENT9_37 (new station)
+Stored weather data for station: CONCURRENT5_48 (new station)
+Stored weather data for station: CONCURRENT5_49 (new station)
+Stored weather data for station: CONCURRENT0_39 (new station)
+Stored weather data for station: CONCURRENT0_40 (new station)
+Stored weather data for station: CONCURRENT0_41 (new station)
+Stored weather data for station: CONCURRENT0_42 (new station)
+Stored weather data for station: CONCURRENT0_43 (new station)
+Stored weather data for station: CONCURRENT0_44 (new station)
+Stored weather data for station: CONCURRENT0_45 (new station)
+Stored weather data for station: CONCURRENT4_38 (new station)
+Stored weather data for station: CONCURRENT4_39 (new station)
+Stored weather data for station: CONCURRENT4_40 (new station)
+Stored weather data for station: CONCURRENT7_27 (new station)
+Stored weather data for station: CONCURRENT7_28 (new station)
+Stored weather data for station: CONCURRENT7_29 (new station)
+Stored weather data for station: CONCURRENT7_30 (new station)
+Stored weather data for station: CONCURRENT7_31 (new station)
+Stored weather data for station: CONCURRENT1_36 (new station)
+Stored weather data for station: CONCURRENT1_37 (new station)
+Stored weather data for station: CONCURRENT1_38 (new station)
+Stored weather data for station: CONCURRENT1_39 (new station)
+Stored weather data for station: CONCURRENT1_40 (new station)
+Stored weather data for station: CONCURRENT1_41 (new station)
+Stored weather data for station: CONCURRENT6_27 (new station)
+Stored weather data for station: CONCURRENT6_28 (new station)
+Stored weather data for station: CONCURRENT6_29 (new station)
+Stored weather data for station: CONCURRENT6_30 (new station)
+Stored weather data for station: CONCURRENT6_31 (new station)
+Stored weather data for station: CONCURRENT3_45 (new station)
+Stored weather data for station: CONCURRENT6_32 (new station)
+Stored weather data for station: CONCURRENT6_33 (new station)
+Stored weather data for station: CONCURRENT6_34 (new station)
+Stored weather data for station: CONCURRENT6_35 (new station)
+Stored weather data for station: CONCURRENT6_36 (new station)
+Stored weather data for station: CONCURRENT6_37 (new station)
+Stored weather data for station: CONCURRENT6_38 (new station)
+Stored weather data for station: CONCURRENT6_39 (new station)
+Stored weather data for station: CONCURRENT2_35 (new station)
+Stored weather data for station: CONCURRENT2_36 (new station)
+Stored weather data for station: CONCURRENT2_37 (new station)
+Stored weather data for station: CONCURRENT2_38 (new station)
+Stored weather data for station: CONCURRENT2_39 (new station)
+Stored weather data for station: CONCURRENT2_40 (new station)
+Stored weather data for station: CONCURRENT8_44 (new station)
+Stored weather data for station: CONCURRENT8_45 (new station)
+Stored weather data for station: CONCURRENT8_46 (new station)
+Stored weather data for station: CONCURRENT8_47 (new station)
+Stored weather data for station: CONCURRENT8_48 (new station)
+Stored weather data for station: CONCURRENT8_49 (new station)
+Stored weather data for station: CONCURRENT9_38 (new station)
+Stored weather data for station: CONCURRENT5_50 (new station)
+Stored weather data for station: CONCURRENT5_51 (new station)
+Stored weather data for station: CONCURRENT5_52 (new station)
+Stored weather data for station: CONCURRENT5_53 (new station)
+Stored weather data for station: CONCURRENT5_54 (new station)
+Stored weather data for station: CONCURRENT0_46 (new station)
+Stored weather data for station: CONCURRENT0_47 (new station)
+Stored weather data for station: CONCURRENT0_48 (new station)
+Stored weather data for station: CONCURRENT0_49 (new station)
+Stored weather data for station: CONCURRENT0_50 (new station)
+Stored weather data for station: CONCURRENT0_51 (new station)
+Stored weather data for station: CONCURRENT0_52 (new station)
+Stored weather data for station: CONCURRENT4_41 (new station)
+Stored weather data for station: CONCURRENT7_32 (new station)
+Stored weather data for station: CONCURRENT1_42 (new station)
+Stored weather data for station: CONCURRENT4_42 (new station)
+Stored weather data for station: CONCURRENT4_43 (new station)
+Stored weather data for station: CONCURRENT3_46 (new station)
+Stored weather data for station: CONCURRENT4_44 (new station)
+Stored weather data for station: CONCURRENT6_40 (new station)
+Stored weather data for station: CONCURRENT6_41 (new station)
+Stored weather data for station: CONCURRENT6_42 (new station)
+Stored weather data for station: CONCURRENT6_43 (new station)
+Stored weather data for station: CONCURRENT2_41 (new station)
+Stored weather data for station: CONCURRENT2_42 (new station)
+Stored weather data for station: CONCURRENT2_43 (new station)
+Stored weather data for station: CONCURRENT8_50 (new station)
+Stored weather data for station: CONCURRENT8_51 (new station)
+Stored weather data for station: CONCURRENT8_52 (new station)
+Stored weather data for station: CONCURRENT8_53 (new station)
+Stored weather data for station: CONCURRENT9_39 (new station)
+Stored weather data for station: CONCURRENT9_40 (new station)
+Stored weather data for station: CONCURRENT9_41 (new station)
+Stored weather data for station: CONCURRENT5_55 (new station)
+Stored weather data for station: CONCURRENT5_56 (new station)
+Stored weather data for station: CONCURRENT0_53 (new station)
+Stored weather data for station: CONCURRENT0_54 (new station)
+Stored weather data for station: CONCURRENT0_55 (new station)
+Stored weather data for station: CONCURRENT0_56 (new station)
+Stored weather data for station: CONCURRENT1_43 (new station)
+Stored weather data for station: CONCURRENT1_44 (new station)
+Stored weather data for station: CONCURRENT7_33 (new station)
+Stored weather data for station: CONCURRENT7_34 (new station)
+Stored weather data for station: CONCURRENT7_35 (new station)
+Stored weather data for station: CONCURRENT3_47 (new station)
+Stored weather data for station: CONCURRENT3_48 (new station)
+Stored weather data for station: CONCURRENT4_45 (new station)
+Stored weather data for station: CONCURRENT4_46 (new station)
+Stored weather data for station: CONCURRENT4_47 (new station)
+Stored weather data for station: CONCURRENT4_48 (new station)
+Stored weather data for station: CONCURRENT4_49 (new station)
+Stored weather data for station: CONCURRENT4_50 (new station)
+Stored weather data for station: CONCURRENT4_51 (new station)
+Stored weather data for station: CONCURRENT4_52 (new station)
+Stored weather data for station: CONCURRENT6_44 (new station)
+Stored weather data for station: CONCURRENT6_45 (new station)
+Stored weather data for station: CONCURRENT6_46 (new station)
+Stored weather data for station: CONCURRENT6_47 (new station)
+Stored weather data for station: CONCURRENT6_48 (new station)
+Stored weather data for station: CONCURRENT2_44 (new station)
+Stored weather data for station: CONCURRENT2_45 (new station)
+Stored weather data for station: CONCURRENT2_46 (new station)
+Stored weather data for station: CONCURRENT2_47 (new station)
+Stored weather data for station: CONCURRENT2_48 (new station)
+Stored weather data for station: CONCURRENT2_49 (new station)
+Stored weather data for station: CONCURRENT8_54 (new station)
+Stored weather data for station: CONCURRENT8_55 (new station)
+Stored weather data for station: CONCURRENT8_56 (new station)
+Stored weather data for station: CONCURRENT8_57 (new station)
+Stored weather data for station: CONCURRENT8_58 (new station)
+Stored weather data for station: CONCURRENT8_59 (new station)
+Stored weather data for station: CONCURRENT8_60 (new station)
+Stored weather data for station: CONCURRENT8_61 (new station)
+Stored weather data for station: CONCURRENT9_42 (new station)
+Stored weather data for station: CONCURRENT9_43 (new station)
+Stored weather data for station: CONCURRENT5_57 (new station)
+Stored weather data for station: CONCURRENT0_57 (new station)
+Stored weather data for station: CONCURRENT0_58 (new station)
+Stored weather data for station: CONCURRENT0_59 (new station)
+Stored weather data for station: CONCURRENT1_45 (new station)
+Stored weather data for station: CONCURRENT1_46 (new station)
+Stored weather data for station: CONCURRENT1_47 (new station)
+Stored weather data for station: CONCURRENT7_36 (new station)
+Stored weather data for station: CONCURRENT7_37 (new station)
+Stored weather data for station: CONCURRENT7_38 (new station)
+Stored weather data for station: CONCURRENT7_39 (new station)
+Stored weather data for station: CONCURRENT7_40 (new station)
+Stored weather data for station: CONCURRENT7_41 (new station)
+Stored weather data for station: CONCURRENT3_49 (new station)
+Stored weather data for station: CONCURRENT3_50 (new station)
+Stored weather data for station: CONCURRENT3_51 (new station)
+Stored weather data for station: CONCURRENT3_52 (new station)
+Stored weather data for station: CONCURRENT3_53 (new station)
+Stored weather data for station: CONCURRENT4_53 (new station)
+Stored weather data for station: CONCURRENT6_49 (new station)
+Stored weather data for station: CONCURRENT4_54 (new station)
+Stored weather data for station: CONCURRENT4_55 (new station)
+Stored weather data for station: CONCURRENT4_56 (new station)
+Stored weather data for station: CONCURRENT4_57 (new station)
+Stored weather data for station: CONCURRENT4_58 (new station)
+Stored weather data for station: CONCURRENT4_59 (new station)
+Stored weather data for station: CONCURRENT4_60 (new station)
+Stored weather data for station: CONCURRENT4_61 (new station)
+Stored weather data for station: CONCURRENT4_62 (new station)
+Stored weather data for station: CONCURRENT4_63 (new station)
+Stored weather data for station: CONCURRENT2_50 (new station)
+Stored weather data for station: CONCURRENT8_62 (new station)
+Stored weather data for station: CONCURRENT2_51 (new station)
+Stored weather data for station: CONCURRENT2_52 (new station)
+Stored weather data for station: CONCURRENT9_44 (new station)
+Stored weather data for station: CONCURRENT2_53 (new station)
+Stored weather data for station: CONCURRENT5_58 (new station)
+Stored weather data for station: CONCURRENT5_59 (new station)
+Stored weather data for station: CONCURRENT5_60 (new station)
+Stored weather data for station: CONCURRENT5_61 (new station)
+Stored weather data for station: CONCURRENT5_62 (new station)
+Stored weather data for station: CONCURRENT5_63 (new station)
+Stored weather data for station: CONCURRENT5_64 (new station)
+Stored weather data for station: CONCURRENT5_65 (new station)
+Stored weather data for station: CONCURRENT5_66 (new station)
+Stored weather data for station: CONCURRENT5_67 (new station)
+Stored weather data for station: CONCURRENT5_68 (new station)
+Stored weather data for station: CONCURRENT0_60 (new station)
+Stored weather data for station: CONCURRENT0_61 (new station)
+Stored weather data for station: CONCURRENT0_62 (new station)
+Stored weather data for station: CONCURRENT0_63 (new station)
+Stored weather data for station: CONCURRENT0_64 (new station)
+Stored weather data for station: CONCURRENT1_48 (new station)
+Stored weather data for station: CONCURRENT1_49 (new station)
+Stored weather data for station: CONCURRENT1_50 (new station)
+Stored weather data for station: CONCURRENT1_51 (new station)
+Stored weather data for station: CONCURRENT1_52 (new station)
+Stored weather data for station: CONCURRENT1_53 (new station)
+Stored weather data for station: CONCURRENT1_54 (new station)
+Stored weather data for station: CONCURRENT1_55 (new station)
+Stored weather data for station: CONCURRENT7_42 (new station)
+Stored weather data for station: CONCURRENT7_43 (new station)
+Stored weather data for station: CONCURRENT7_44 (new station)
+Stored weather data for station: CONCURRENT7_45 (new station)
+Stored weather data for station: CONCURRENT7_46 (new station)
+Stored weather data for station: CONCURRENT3_54 (new station)
+Stored weather data for station: CONCURRENT6_50 (new station)
+Stored weather data for station: CONCURRENT3_55 (new station)
+Stored weather data for station: CONCURRENT4_64 (new station)
+Stored weather data for station: CONCURRENT8_63 (new station)
+Stored weather data for station: CONCURRENT8_64 (new station)
+Stored weather data for station: CONCURRENT9_45 (new station)
+Stored weather data for station: CONCURRENT9_46 (new station)
+Stored weather data for station: CONCURRENT9_47 (new station)
+Stored weather data for station: CONCURRENT9_48 (new station)
+Stored weather data for station: CONCURRENT2_54 (new station)
+Stored weather data for station: CONCURRENT2_55 (new station)
+Stored weather data for station: CONCURRENT5_69 (new station)
+Stored weather data for station: CONCURRENT0_65 (new station)
+Stored weather data for station: CONCURRENT0_66 (new station)
+Stored weather data for station: CONCURRENT1_56 (new station)
+Stored weather data for station: CONCURRENT1_57 (new station)
+Stored weather data for station: CONCURRENT1_58 (new station)
+Stored weather data for station: CONCURRENT1_59 (new station)
+Stored weather data for station: CONCURRENT1_60 (new station)
+Stored weather data for station: CONCURRENT1_61 (new station)
+Stored weather data for station: CONCURRENT7_47 (new station)
+Stored weather data for station: CONCURRENT7_48 (new station)
+Stored weather data for station: CONCURRENT7_49 (new station)
+Stored weather data for station: CONCURRENT7_50 (new station)
+Stored weather data for station: CONCURRENT7_51 (new station)
+Stored weather data for station: CONCURRENT7_52 (new station)
+Stored weather data for station: CONCURRENT7_53 (new station)
+Stored weather data for station: CONCURRENT7_54 (new station)
+Stored weather data for station: CONCURRENT7_55 (new station)
+Stored weather data for station: CONCURRENT6_51 (new station)
+Stored weather data for station: CONCURRENT6_52 (new station)
+Stored weather data for station: CONCURRENT6_53 (new station)
+Stored weather data for station: CONCURRENT3_56 (new station)
+Stored weather data for station: CONCURRENT3_57 (new station)
+Stored weather data for station: CONCURRENT3_58 (new station)
+Stored weather data for station: CONCURRENT3_59 (new station)
+Stored weather data for station: CONCURRENT3_60 (new station)
+Stored weather data for station: CONCURRENT3_61 (new station)
+Stored weather data for station: CONCURRENT3_62 (new station)
+Stored weather data for station: CONCURRENT3_63 (new station)
+Stored weather data for station: CONCURRENT4_65 (new station)
+Stored weather data for station: CONCURRENT4_66 (new station)
+Stored weather data for station: CONCURRENT4_67 (new station)
+Stored weather data for station: CONCURRENT4_68 (new station)
+Stored weather data for station: CONCURRENT4_69 (new station)
+Stored weather data for station: CONCURRENT4_70 (new station)
+Stored weather data for station: CONCURRENT4_71 (new station)
+Stored weather data for station: CONCURRENT4_72 (new station)
+Stored weather data for station: CONCURRENT4_73 (new station)
+Stored weather data for station: CONCURRENT4_74 (new station)
+Stored weather data for station: CONCURRENT8_65 (new station)
+Stored weather data for station: CONCURRENT4_75 (new station)
+Stored weather data for station: CONCURRENT8_66 (new station)
+Stored weather data for station: CONCURRENT4_76 (new station)
+Stored weather data for station: CONCURRENT4_77 (new station)
+Stored weather data for station: CONCURRENT4_78 (new station)
+Stored weather data for station: CONCURRENT4_79 (new station)
+Stored weather data for station: CONCURRENT4_80 (new station)
+Stored weather data for station: CONCURRENT4_81 (new station)
+Stored weather data for station: CONCURRENT4_82 (new station)
+Stored weather data for station: CONCURRENT4_83 (new station)
+Stored weather data for station: CONCURRENT4_84 (new station)
+Stored weather data for station: CONCURRENT4_85 (new station)
+Stored weather data for station: CONCURRENT4_86 (new station)
+Stored weather data for station: CONCURRENT4_87 (new station)
+Stored weather data for station: CONCURRENT4_88 (new station)
+Stored weather data for station: CONCURRENT4_89 (new station)
+Stored weather data for station: CONCURRENT4_90 (new station)
+Stored weather data for station: CONCURRENT4_91 (new station)
+Stored weather data for station: CONCURRENT4_92 (new station)
+Stored weather data for station: CONCURRENT4_93 (new station)
+Stored weather data for station: CONCURRENT4_94 (new station)
+Stored weather data for station: CONCURRENT4_95 (new station)
+Stored weather data for station: CONCURRENT4_96 (new station)
+Stored weather data for station: CONCURRENT4_97 (new station)
+Stored weather data for station: CONCURRENT4_98 (new station)
+Stored weather data for station: CONCURRENT4_99 (new station)
+Stored weather data for station: CONCURRENT9_49 (new station)
+Stored weather data for station: CONCURRENT9_50 (new station)
+Stored weather data for station: CONCURRENT9_51 (new station)
+Stored weather data for station: CONCURRENT9_52 (new station)
+Stored weather data for station: CONCURRENT9_53 (new station)
+Stored weather data for station: CONCURRENT9_54 (new station)
+Stored weather data for station: CONCURRENT2_56 (new station)
+Stored weather data for station: CONCURRENT2_57 (new station)
+Stored weather data for station: CONCURRENT5_70 (new station)
+Stored weather data for station: CONCURRENT5_71 (new station)
+Stored weather data for station: CONCURRENT5_72 (new station)
+Stored weather data for station: CONCURRENT5_73 (new station)
+Stored weather data for station: CONCURRENT5_74 (new station)
+Stored weather data for station: CONCURRENT5_75 (new station)
+Stored weather data for station: CONCURRENT5_76 (new station)
+Stored weather data for station: CONCURRENT5_77 (new station)
+Stored weather data for station: CONCURRENT0_67 (new station)
+Stored weather data for station: CONCURRENT0_68 (new station)
+Stored weather data for station: CONCURRENT1_62 (new station)
+Stored weather data for station: CONCURRENT1_63 (new station)
+Stored weather data for station: CONCURRENT1_64 (new station)
+Stored weather data for station: CONCURRENT1_65 (new station)
+Stored weather data for station: CONCURRENT1_66 (new station)
+Stored weather data for station: CONCURRENT7_56 (new station)
+Stored weather data for station: CONCURRENT7_57 (new station)
+Stored weather data for station: CONCURRENT7_58 (new station)
+Stored weather data for station: CONCURRENT6_54 (new station)
+Stored weather data for station: CONCURRENT3_64 (new station)
+Stored weather data for station: CONCURRENT3_65 (new station)
+Stored weather data for station: CONCURRENT3_66 (new station)
+Stored weather data for station: CONCURRENT3_67 (new station)
+Stored weather data for station: CONCURRENT3_68 (new station)
+Stored weather data for station: CONCURRENT3_69 (new station)
+Stored weather data for station: CONCURRENT8_67 (new station)
+Stored weather data for station: CONCURRENT8_68 (new station)
+Stored weather data for station: CONCURRENT8_69 (new station)
+Stored weather data for station: CONCURRENT8_70 (new station)
+Stored weather data for station: CONCURRENT8_71 (new station)
+Stored weather data for station: CONCURRENT9_55 (new station)
+Stored weather data for station: CONCURRENT9_56 (new station)
+Stored weather data for station: CONCURRENT9_57 (new station)
+Stored weather data for station: CONCURRENT9_58 (new station)
+Stored weather data for station: CONCURRENT9_59 (new station)
+Stored weather data for station: CONCURRENT2_58 (new station)
+Stored weather data for station: CONCURRENT2_59 (new station)
+Stored weather data for station: CONCURRENT2_60 (new station)
+Stored weather data for station: CONCURRENT2_61 (new station)
+Stored weather data for station: CONCURRENT2_62 (new station)
+Stored weather data for station: CONCURRENT2_63 (new station)
+Stored weather data for station: CONCURRENT2_64 (new station)
+Stored weather data for station: CONCURRENT2_65 (new station)
+Stored weather data for station: CONCURRENT2_66 (new station)
+Stored weather data for station: CONCURRENT2_67 (new station)
+Stored weather data for station: CONCURRENT2_68 (new station)
+Stored weather data for station: CONCURRENT2_69 (new station)
+Stored weather data for station: CONCURRENT2_70 (new station)
+Stored weather data for station: CONCURRENT2_71 (new station)
+Stored weather data for station: CONCURRENT2_72 (new station)
+Stored weather data for station: CONCURRENT2_73 (new station)
+Stored weather data for station: CONCURRENT2_74 (new station)
+Stored weather data for station: CONCURRENT2_75 (new station)
+Stored weather data for station: CONCURRENT5_78 (new station)
+Stored weather data for station: CONCURRENT5_79 (new station)
+Stored weather data for station: CONCURRENT5_80 (new station)
+Stored weather data for station: CONCURRENT0_69 (new station)
+Stored weather data for station: CONCURRENT0_70 (new station)
+Stored weather data for station: CONCURRENT0_71 (new station)
+Stored weather data for station: CONCURRENT0_72 (new station)
+Stored weather data for station: CONCURRENT0_73 (new station)
+Stored weather data for station: CONCURRENT0_74 (new station)
+Stored weather data for station: CONCURRENT0_75 (new station)
+Stored weather data for station: CONCURRENT0_76 (new station)
+Stored weather data for station: CONCURRENT0_77 (new station)
+Stored weather data for station: CONCURRENT0_78 (new station)
+Stored weather data for station: CONCURRENT0_79 (new station)
+Stored weather data for station: CONCURRENT0_80 (new station)
+Stored weather data for station: CONCURRENT0_81 (new station)
+Stored weather data for station: CONCURRENT0_82 (new station)
+Stored weather data for station: CONCURRENT0_83 (new station)
+Stored weather data for station: CONCURRENT0_84 (new station)
+Stored weather data for station: CONCURRENT0_85 (new station)
+Stored weather data for station: CONCURRENT0_86 (new station)
+Stored weather data for station: CONCURRENT0_87 (new station)
+Stored weather data for station: CONCURRENT0_88 (new station)
+Stored weather data for station: CONCURRENT0_89 (new station)
+Stored weather data for station: CONCURRENT0_90 (new station)
+Stored weather data for station: CONCURRENT0_91 (new station)
+Stored weather data for station: CONCURRENT0_92 (new station)
+Stored weather data for station: CONCURRENT0_93 (new station)
+Stored weather data for station: CONCURRENT0_94 (new station)
+Stored weather data for station: CONCURRENT0_95 (new station)
+Stored weather data for station: CONCURRENT0_96 (new station)
+Stored weather data for station: CONCURRENT0_97 (new station)
+Stored weather data for station: CONCURRENT0_98 (new station)
+Stored weather data for station: CONCURRENT1_67 (new station)
+Stored weather data for station: CONCURRENT1_68 (new station)
+Stored weather data for station: CONCURRENT1_69 (new station)
+Stored weather data for station: CONCURRENT1_70 (new station)
+Stored weather data for station: CONCURRENT1_71 (new station)
+Stored weather data for station: CONCURRENT1_72 (new station)
+Stored weather data for station: CONCURRENT1_73 (new station)
+Stored weather data for station: CONCURRENT1_74 (new station)
+Stored weather data for station: CONCURRENT1_75 (new station)
+Stored weather data for station: CONCURRENT1_76 (new station)
+Stored weather data for station: CONCURRENT1_77 (new station)
+Stored weather data for station: CONCURRENT1_78 (new station)
+Stored weather data for station: CONCURRENT1_79 (new station)
+Stored weather data for station: CONCURRENT1_80 (new station)
+Stored weather data for station: CONCURRENT1_81 (new station)
+Stored weather data for station: CONCURRENT1_82 (new station)
+Stored weather data for station: CONCURRENT1_83 (new station)
+Stored weather data for station: CONCURRENT1_84 (new station)
+Stored weather data for station: CONCURRENT1_85 (new station)
+Stored weather data for station: CONCURRENT7_59 (new station)
+Stored weather data for station: CONCURRENT7_60 (new station)
+Stored weather data for station: CONCURRENT7_61 (new station)
+Stored weather data for station: CONCURRENT7_62 (new station)
+Stored weather data for station: CONCURRENT7_63 (new station)
+Stored weather data for station: CONCURRENT7_64 (new station)
+Stored weather data for station: CONCURRENT7_65 (new station)
+Stored weather data for station: CONCURRENT7_66 (new station)
+Stored weather data for station: CONCURRENT7_67 (new station)
+Stored weather data for station: CONCURRENT7_68 (new station)
+Stored weather data for station: CONCURRENT6_55 (new station)
+Stored weather data for station: CONCURRENT7_69 (new station)
+Stored weather data for station: CONCURRENT7_70 (new station)
+Stored weather data for station: CONCURRENT3_70 (new station)
+Stored weather data for station: CONCURRENT7_71 (new station)
+Stored weather data for station: CONCURRENT8_72 (new station)
+Stored weather data for station: CONCURRENT9_60 (new station)
+Stored weather data for station: CONCURRENT9_61 (new station)
+Stored weather data for station: CONCURRENT9_62 (new station)
+Stored weather data for station: CONCURRENT9_63 (new station)
+Stored weather data for station: CONCURRENT2_76 (new station)
+Stored weather data for station: CONCURRENT5_81 (new station)
+Stored weather data for station: CONCURRENT2_77 (new station)
+Stored weather data for station: CONCURRENT0_99 (new station)
+Stored weather data for station: CONCURRENT2_78 (new station)
+Stored weather data for station: CONCURRENT2_79 (new station)
+Stored weather data for station: CONCURRENT2_80 (new station)
+Stored weather data for station: CONCURRENT1_86 (new station)
+Stored weather data for station: CONCURRENT6_56 (new station)
+Stored weather data for station: CONCURRENT2_81 (new station)
+Stored weather data for station: CONCURRENT2_82 (new station)
+Stored weather data for station: CONCURRENT2_83 (new station)
+Stored weather data for station: CONCURRENT2_84 (new station)
+Stored weather data for station: CONCURRENT2_85 (new station)
+Stored weather data for station: CONCURRENT2_86 (new station)
+Stored weather data for station: CONCURRENT2_87 (new station)
+Stored weather data for station: CONCURRENT2_88 (new station)
+Stored weather data for station: CONCURRENT3_71 (new station)
+Stored weather data for station: CONCURRENT3_72 (new station)
+Stored weather data for station: CONCURRENT7_72 (new station)
+Stored weather data for station: CONCURRENT7_73 (new station)
+Stored weather data for station: CONCURRENT7_74 (new station)
+Stored weather data for station: CONCURRENT7_75 (new station)
+Stored weather data for station: CONCURRENT8_73 (new station)
+Stored weather data for station: CONCURRENT9_64 (new station)
+Stored weather data for station: CONCURRENT9_65 (new station)
+Stored weather data for station: CONCURRENT5_82 (new station)
+Stored weather data for station: CONCURRENT1_87 (new station)
+Stored weather data for station: CONCURRENT5_83 (new station)
+Stored weather data for station: CONCURRENT5_84 (new station)
+Stored weather data for station: CONCURRENT5_85 (new station)
+Stored weather data for station: CONCURRENT6_57 (new station)
+Stored weather data for station: CONCURRENT6_58 (new station)
+Stored weather data for station: CONCURRENT6_59 (new station)
+Stored weather data for station: CONCURRENT6_60 (new station)
+Stored weather data for station: CONCURRENT6_61 (new station)
+Stored weather data for station: CONCURRENT6_62 (new station)
+Stored weather data for station: CONCURRENT6_63 (new station)
+Stored weather data for station: CONCURRENT6_64 (new station)
+Stored weather data for station: CONCURRENT6_65 (new station)
+Stored weather data for station: CONCURRENT6_66 (new station)
+Stored weather data for station: CONCURRENT2_89 (new station)
+Stored weather data for station: CONCURRENT2_90 (new station)
+Stored weather data for station: CONCURRENT2_91 (new station)
+Stored weather data for station: CONCURRENT2_92 (new station)
+Stored weather data for station: CONCURRENT2_93 (new station)
+Stored weather data for station: CONCURRENT3_73 (new station)
+Stored weather data for station: CONCURRENT3_74 (new station)
+Stored weather data for station: CONCURRENT7_76 (new station)
+Stored weather data for station: CONCURRENT8_74 (new station)
+Stored weather data for station: CONCURRENT7_77 (new station)
+Stored weather data for station: CONCURRENT7_78 (new station)
+Stored weather data for station: CONCURRENT9_66 (new station)
+Stored weather data for station: CONCURRENT9_67 (new station)
+Stored weather data for station: CONCURRENT9_68 (new station)
+Stored weather data for station: CONCURRENT9_69 (new station)
+Stored weather data for station: CONCURRENT9_70 (new station)
+Stored weather data for station: CONCURRENT9_71 (new station)
+Stored weather data for station: CONCURRENT9_72 (new station)
+Stored weather data for station: CONCURRENT9_73 (new station)
+Stored weather data for station: CONCURRENT9_74 (new station)
+Stored weather data for station: CONCURRENT9_75 (new station)
+Stored weather data for station: CONCURRENT9_76 (new station)
+Stored weather data for station: CONCURRENT9_77 (new station)
+Stored weather data for station: CONCURRENT9_78 (new station)
+Stored weather data for station: CONCURRENT9_79 (new station)
+Stored weather data for station: CONCURRENT9_80 (new station)
+Stored weather data for station: CONCURRENT9_81 (new station)
+Stored weather data for station: CONCURRENT9_82 (new station)
+Stored weather data for station: CONCURRENT9_83 (new station)
+Stored weather data for station: CONCURRENT9_84 (new station)
+Stored weather data for station: CONCURRENT9_85 (new station)
+Stored weather data for station: CONCURRENT9_86 (new station)
+Stored weather data for station: CONCURRENT9_87 (new station)
+Stored weather data for station: CONCURRENT9_88 (new station)
+Stored weather data for station: CONCURRENT9_89 (new station)
+Stored weather data for station: CONCURRENT9_90 (new station)
+Stored weather data for station: CONCURRENT9_91 (new station)
+Stored weather data for station: CONCURRENT9_92 (new station)
+Stored weather data for station: CONCURRENT9_93 (new station)
+Stored weather data for station: CONCURRENT9_94 (new station)
+Stored weather data for station: CONCURRENT9_95 (new station)
+Stored weather data for station: CONCURRENT9_96 (new station)
+Stored weather data for station: CONCURRENT9_97 (new station)
+Stored weather data for station: CONCURRENT9_98 (new station)
+Stored weather data for station: CONCURRENT9_99 (new station)
+Stored weather data for station: CONCURRENT1_88 (new station)
+Stored weather data for station: CONCURRENT5_86 (new station)
+Stored weather data for station: CONCURRENT1_89 (new station)
+Stored weather data for station: CONCURRENT1_90 (new station)
+Stored weather data for station: CONCURRENT6_67 (new station)
+Stored weather data for station: CONCURRENT6_68 (new station)
+Stored weather data for station: CONCURRENT6_69 (new station)
+Stored weather data for station: CONCURRENT2_94 (new station)
+Stored weather data for station: CONCURRENT6_70 (new station)
+Stored weather data for station: CONCURRENT6_71 (new station)
+Stored weather data for station: CONCURRENT6_72 (new station)
+Stored weather data for station: CONCURRENT6_73 (new station)
+Stored weather data for station: CONCURRENT6_74 (new station)
+Stored weather data for station: CONCURRENT6_75 (new station)
+Stored weather data for station: CONCURRENT6_76 (new station)
+Stored weather data for station: CONCURRENT6_77 (new station)
+Stored weather data for station: CONCURRENT6_78 (new station)
+Stored weather data for station: CONCURRENT6_79 (new station)
+Stored weather data for station: CONCURRENT6_80 (new station)
+Stored weather data for station: CONCURRENT6_81 (new station)
+Stored weather data for station: CONCURRENT3_75 (new station)
+Stored weather data for station: CONCURRENT6_82 (new station)
+Stored weather data for station: CONCURRENT6_83 (new station)
+Stored weather data for station: CONCURRENT6_84 (new station)
+Stored weather data for station: CONCURRENT3_76 (new station)
+Stored weather data for station: CONCURRENT3_77 (new station)
+Stored weather data for station: CONCURRENT3_78 (new station)
+Stored weather data for station: CONCURRENT8_75 (new station)
+Stored weather data for station: CONCURRENT8_76 (new station)
+Stored weather data for station: CONCURRENT8_77 (new station)
+Stored weather data for station: CONCURRENT7_79 (new station)
+Stored weather data for station: CONCURRENT7_80 (new station)
+Stored weather data for station: CONCURRENT7_81 (new station)
+Stored weather data for station: CONCURRENT5_87 (new station)
+Stored weather data for station: CONCURRENT5_88 (new station)
+Stored weather data for station: CONCURRENT5_89 (new station)
+Stored weather data for station: CONCURRENT5_90 (new station)
+Stored weather data for station: CONCURRENT5_91 (new station)
+Stored weather data for station: CONCURRENT5_92 (new station)
+Stored weather data for station: CONCURRENT1_91 (new station)
+Stored weather data for station: CONCURRENT1_92 (new station)
+Stored weather data for station: CONCURRENT1_93 (new station)
+Stored weather data for station: CONCURRENT1_94 (new station)
+Stored weather data for station: CONCURRENT1_95 (new station)
+Stored weather data for station: CONCURRENT1_96 (new station)
+Stored weather data for station: CONCURRENT1_97 (new station)
+Stored weather data for station: CONCURRENT1_98 (new station)
+Stored weather data for station: CONCURRENT1_99 (new station)
+Stored weather data for station: CONCURRENT2_95 (new station)
+Stored weather data for station: CONCURRENT2_96 (new station)
+Stored weather data for station: CONCURRENT2_97 (new station)
+Stored weather data for station: CONCURRENT2_98 (new station)
+Stored weather data for station: CONCURRENT6_85 (new station)
+Stored weather data for station: CONCURRENT6_86 (new station)
+Stored weather data for station: CONCURRENT6_87 (new station)
+Stored weather data for station: CONCURRENT6_88 (new station)
+Stored weather data for station: CONCURRENT6_89 (new station)
+Stored weather data for station: CONCURRENT6_90 (new station)
+Stored weather data for station: CONCURRENT6_91 (new station)
+Stored weather data for station: CONCURRENT6_92 (new station)
+Stored weather data for station: CONCURRENT6_93 (new station)
+Stored weather data for station: CONCURRENT6_94 (new station)
+Stored weather data for station: CONCURRENT6_95 (new station)
+Stored weather data for station: CONCURRENT6_96 (new station)
+Stored weather data for station: CONCURRENT6_97 (new station)
+Stored weather data for station: CONCURRENT6_98 (new station)
+Stored weather data for station: CONCURRENT6_99 (new station)
+Stored weather data for station: CONCURRENT3_79 (new station)
+Stored weather data for station: CONCURRENT3_80 (new station)
+Stored weather data for station: CONCURRENT3_81 (new station)
+Stored weather data for station: CONCURRENT3_82 (new station)
+Stored weather data for station: CONCURRENT3_83 (new station)
+Stored weather data for station: CONCURRENT3_84 (new station)
+Stored weather data for station: CONCURRENT3_85 (new station)
+Stored weather data for station: CONCURRENT3_86 (new station)
+Stored weather data for station: CONCURRENT3_87 (new station)
+Stored weather data for station: CONCURRENT3_88 (new station)
+Stored weather data for station: CONCURRENT3_89 (new station)
+Stored weather data for station: CONCURRENT3_90 (new station)
+Stored weather data for station: CONCURRENT3_91 (new station)
+Stored weather data for station: CONCURRENT8_78 (new station)
+Stored weather data for station: CONCURRENT8_79 (new station)
+Stored weather data for station: CONCURRENT8_80 (new station)
+Stored weather data for station: CONCURRENT8_81 (new station)
+Stored weather data for station: CONCURRENT8_82 (new station)
+Stored weather data for station: CONCURRENT8_83 (new station)
+Stored weather data for station: CONCURRENT8_84 (new station)
+Stored weather data for station: CONCURRENT8_85 (new station)
+Stored weather data for station: CONCURRENT8_86 (new station)
+Stored weather data for station: CONCURRENT8_87 (new station)
+Stored weather data for station: CONCURRENT8_88 (new station)
+Stored weather data for station: CONCURRENT7_82 (new station)
+Stored weather data for station: CONCURRENT5_93 (new station)
+Stored weather data for station: CONCURRENT7_83 (new station)
+Stored weather data for station: CONCURRENT7_84 (new station)
+Stored weather data for station: CONCURRENT7_85 (new station)
+Stored weather data for station: CONCURRENT7_86 (new station)
+Stored weather data for station: CONCURRENT7_87 (new station)
+Stored weather data for station: CONCURRENT2_99 (new station)
+Stored weather data for station: CONCURRENT7_88 (new station)
+Stored weather data for station: CONCURRENT7_89 (new station)
+Stored weather data for station: CONCURRENT7_90 (new station)
+Stored weather data for station: CONCURRENT7_91 (new station)
+Stored weather data for station: CONCURRENT7_92 (new station)
+Stored weather data for station: CONCURRENT7_93 (new station)
+Stored weather data for station: CONCURRENT7_94 (new station)
+Stored weather data for station: CONCURRENT7_95 (new station)
+Stored weather data for station: CONCURRENT7_96 (new station)
+Stored weather data for station: CONCURRENT7_97 (new station)
+Stored weather data for station: CONCURRENT7_98 (new station)
+Stored weather data for station: CONCURRENT3_92 (new station)
+Stored weather data for station: CONCURRENT3_93 (new station)
+Stored weather data for station: CONCURRENT3_94 (new station)
+Stored weather data for station: CONCURRENT3_95 (new station)
+Stored weather data for station: CONCURRENT3_96 (new station)
+Stored weather data for station: CONCURRENT3_97 (new station)
+Stored weather data for station: CONCURRENT3_98 (new station)
+Stored weather data for station: CONCURRENT3_99 (new station)
+Stored weather data for station: CONCURRENT8_89 (new station)
+Stored weather data for station: CONCURRENT8_90 (new station)
+Stored weather data for station: CONCURRENT5_94 (new station)
+Stored weather data for station: CONCURRENT8_91 (new station)
+Stored weather data for station: CONCURRENT8_92 (new station)
+Stored weather data for station: CONCURRENT8_93 (new station)
+Stored weather data for station: CONCURRENT8_94 (new station)
+Stored weather data for station: CONCURRENT8_95 (new station)
+Stored weather data for station: CONCURRENT8_96 (new station)
+Stored weather data for station: CONCURRENT7_99 (new station)
+Stored weather data for station: CONCURRENT5_95 (new station)
+Stored weather data for station: CONCURRENT5_96 (new station)
+Stored weather data for station: CONCURRENT5_97 (new station)
+Stored weather data for station: CONCURRENT5_98 (new station)
+Stored weather data for station: CONCURRENT5_99 (new station)
+Stored weather data for station: CONCURRENT8_97 (new station)
+Stored weather data for station: CONCURRENT8_98 (new station)
+Stored weather data for station: CONCURRENT8_99 (new station)
+]]></system-out>
+  </testcase>
+</testsuite>

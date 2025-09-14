@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 public class ContentServer extends HttpClientBase {
 
     public ContentServer(ClientConfiguration config) {
-<span class="fc" id="L16">        super(config);</span>
-<span class="fc" id="L17">    }</span>
+<span class="nc" id="L16">        super(config);</span>
+<span class="nc" id="L17">    }</span>
 
     public static void main(String[] args) {
 
@@ -33,67 +33,67 @@ public class ContentServer extends HttpClientBase {
 <span class="nc" id="L33">        } catch (Exception e) {</span>
 <span class="nc" id="L34">            System.out.println(&quot;\nFailed to publish weather data: &quot; + e.getMessage() + &quot;\n&quot;);</span>
 <span class="nc" id="L35">            System.exit(1);</span>
-<span class="nc" id="L36">        }</span>
+        }
 <span class="nc" id="L37">    }</span>
 
     public void publishWeatherData(String weatherFile) throws Exception {
-<span class="fc" id="L40">        int maxAttempts = 4;</span>
-<span class="fc" id="L41">        long retryDelayMs = 1000;</span>
-<span class="fc" id="L42">        double backoff = 2.0;</span>
+<span class="nc" id="L40">        int maxAttempts = 4;</span>
+<span class="nc" id="L41">        long retryDelayMs = 1000;</span>
+<span class="nc" id="L42">        double backoff = 2.0;</span>
 
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        for (int attempt = 1; attempt &lt;= maxAttempts; attempt++) {</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int attempt = 1; attempt &lt;= maxAttempts; attempt++) {</span>
             try {
-<span class="fc" id="L46">                uploadWeatherFile(weatherFile);</span>
-<span class="fc" id="L47">                System.out.println(&quot;\nWeather data published successfully\n&quot;);</span>
-<span class="fc" id="L48">                return;</span>
-<span class="fc" id="L49">            } catch (Exception e) {</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                if (attempt == maxAttempts) {</span>
-<span class="fc" id="L51">                    throw new Exception(&quot;Weather data upload failed after &quot; + maxAttempts + &quot; attempts&quot;, e);</span>
+<span class="nc" id="L46">                uploadWeatherFile(weatherFile);</span>
+<span class="nc" id="L47">                System.out.println(&quot;\nWeather data published successfully\n&quot;);</span>
+<span class="nc" id="L48">                return;</span>
+<span class="nc" id="L49">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (attempt == maxAttempts) {</span>
+<span class="nc" id="L51">                    throw new Exception(&quot;Weather data upload failed after &quot; + maxAttempts + &quot; attempts&quot;, e);</span>
                 }
-<span class="fc" id="L53">                System.out.println(&quot;Weather data upload failed (attempt &quot; + attempt + &quot;/&quot; + maxAttempts +</span>
-<span class="fc" id="L54">                        &quot;): &quot; + e.getMessage() + &quot;. Retrying in &quot; + retryDelayMs + &quot;ms...&quot;);</span>
-<span class="fc" id="L55">                Thread.sleep(retryDelayMs);</span>
-<span class="fc" id="L56">                retryDelayMs *= (long) backoff;</span>
+<span class="nc" id="L53">                System.out.println(&quot;Weather data upload failed (attempt &quot; + attempt + &quot;/&quot; + maxAttempts +</span>
+<span class="nc" id="L54">                        &quot;): &quot; + e.getMessage() + &quot;. Retrying in &quot; + retryDelayMs + &quot;ms...&quot;);</span>
+<span class="nc" id="L55">                Thread.sleep(retryDelayMs);</span>
+<span class="nc" id="L56">                retryDelayMs *= (long) backoff;</span>
             }
         }
 <span class="nc" id="L59">    }</span>
 
     private void uploadWeatherFile(String weatherFile) throws Exception {
-<span class="fc" id="L62">        long processingTime = lamportClock.tick();</span>
-<span class="fc" id="L63">        System.out.println(&quot;\nProcessing weather file (Lamport time: &quot; + processingTime + &quot;)&quot;);</span>
+<span class="nc" id="L62">        long processingTime = lamportClock.tick();</span>
+<span class="nc" id="L63">        System.out.println(&quot;\nProcessing weather file (Lamport time: &quot; + processingTime + &quot;)&quot;);</span>
 
-<span class="fc" id="L65">        WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);</span>
-<span class="fc" id="L66">        String jsonData = JSONUtils.toJSON(weatherData);</span>
-<span class="fc" id="L67">        byte[] jsonBytes = jsonData.getBytes(StandardCharsets.UTF_8);</span>
+<span class="nc" id="L65">        WeatherData weatherData = FileUtils.parseWeatherFile(weatherFile);</span>
+<span class="nc" id="L66">        String jsonData = JSONUtils.toJSON(weatherData);</span>
+<span class="nc" id="L67">        byte[] jsonBytes = jsonData.getBytes(StandardCharsets.UTF_8);</span>
 
-<span class="fc" id="L69">        System.out.println(&quot;Uploading weather data for station: &quot; + weatherData.getId());</span>
+<span class="nc" id="L69">        System.out.println(&quot;Uploading weather data for station: &quot; + weatherData.getId());</span>
 
-<span class="fc" id="L71">        Socket socket = null;</span>
+<span class="nc" id="L71">        Socket socket = null;</span>
         try {
-<span class="fc" id="L73">            socket = createConnection();</span>
-<span class="fc" id="L74">            sendHttpRequest(socket, &quot;PUT&quot;, &quot;application/json&quot;, jsonBytes);</span>
-<span class="fc" id="L75">            HttpResponse response = receiveHttpResponse(socket);</span>
+<span class="nc" id="L73">            socket = createConnection();</span>
+<span class="nc" id="L74">            sendHttpRequest(socket, &quot;PUT&quot;, &quot;application/json&quot;, jsonBytes);</span>
+<span class="nc" id="L75">            HttpResponse response = receiveHttpResponse(socket);</span>
 
-<span class="fc" id="L77">            validateResponse(response);</span>
-<span class="fc" id="L78">            System.out.println(&quot;Server accepted weather data with status: &quot; +</span>
-<span class="fc" id="L79">                    response.getStatusCode() + &quot; &quot; + response.getStatusText());</span>
+<span class="nc" id="L77">            validateResponse(response);</span>
+<span class="nc" id="L78">            System.out.println(&quot;Server accepted weather data with status: &quot; +</span>
+<span class="nc" id="L79">                    response.getStatusCode() + &quot; &quot; + response.getStatusText());</span>
 
-        } finally {
-<span class="fc" id="L82">            closeConnection(socket);</span>
+<span class="nc" id="L81">        } finally {</span>
+<span class="nc" id="L82">            closeConnection(socket);</span>
         }
-<span class="fc" id="L84">    }</span>
+<span class="nc" id="L84">    }</span>
 
     private void validateResponse(HttpResponse response) throws IOException {
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (!response.isSuccess()) {</span>
-<span class="fc" id="L88">            throw new IOException(&quot;Server rejected weather data: &quot; +</span>
-<span class="fc" id="L89">                    response.getStatusCode() + &quot; &quot; + response.getStatusText());</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!response.isSuccess()) {</span>
+<span class="nc" id="L88">            throw new IOException(&quot;Server rejected weather data: &quot; +</span>
+<span class="nc" id="L89">                    response.getStatusCode() + &quot; &quot; + response.getStatusText());</span>
         }
 
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (response.getStatusCode() == 201) {</span>
-<span class="fc" id="L93">            System.out.println(&quot;New weather station registered&quot;);</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        } else if (response.getStatusCode() == 200) {</span>
-<span class="fc" id="L95">            System.out.println(&quot;Existing weather station data updated&quot;);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (response.getStatusCode() == 201) {</span>
+<span class="nc" id="L93">            System.out.println(&quot;New weather station registered&quot;);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        } else if (response.getStatusCode() == 200) {</span>
+<span class="nc" id="L95">            System.out.println(&quot;Existing weather station data updated&quot;);</span>
         }
-<span class="fc" id="L97">    }</span>
+<span class="nc" id="L97">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

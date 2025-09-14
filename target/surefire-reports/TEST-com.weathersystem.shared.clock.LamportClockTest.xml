@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
-    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T20-46-21_578-jvmRun1 surefire-20250914204621686_1tmp surefire_0-20250914204621686_2tmp"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T23-32-55_534-jvmRun1 surefire-20250914233255622_1tmp surefire_0-20250914233255622_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914233255622_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="17.0.9+9"/>
@@ -55,23 +55,23 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testZeroReceivedTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
-  <testcase name="testConsistencyAfterManyOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.004"/>
+  <testcase name="testZeroReceivedTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
+  <testcase name="testConsistencyAfterManyOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.005"/>
   <testcase name="testUpdateMechanismWithEqualTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
-  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.01"/>
-  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.003"/>
+  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.011"/>
+  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.008"/>
+  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.004"/>
   <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.004"/>
   <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.002"/>
-  <testcase name="testThreadSafetyUnderStress" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.002"/>
-  <testcase name="testMixedConcurrentOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.002"/>
+  <testcase name="testMixedConcurrentOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
   <testcase name="testLargeTimestampValues" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
   <testcase name="testLamportClockAlgorithmCorrectness" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
   <testcase name="testBasicTickOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
   <testcase name="testUpdateMechanismWithLowerTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
   <testcase name="testConcurrentTickOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.004"/>
-  <testcase name="testGetTimeDoesNotIncrement" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
+  <testcase name="testGetTimeDoesNotIncrement" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
   <testcase name="testUpdateMechanismWithHigherTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
-  <testcase name="testConcurrentUpdateOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
-  <testcase name="testInitialClockTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0.001"/>
+  <testcase name="testConcurrentUpdateOperations" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
+  <testcase name="testInitialClockTime" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
   <testcase name="testToStringMethod" classname="com.weathersystem.shared.clock.LamportClockTest" time="0"/>
 </testsuite>

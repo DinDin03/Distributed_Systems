@@ -72,9 +72,9 @@ public abstract class HttpClientBase {
 <span class="pc bpc" id="L72" title="2 of 4 branches missed.">            if (socket != null &amp;&amp; !socket.isClosed()) {</span>
 <span class="fc" id="L73">                socket.close();</span>
             }
-<span class="nc" id="L75">        } catch (IOException e) {</span>
+<span class="pc" id="L75">        } catch (IOException e) {</span>
 <span class="nc" id="L76">            System.out.println(&quot;Error closing connection: &quot; + e.getMessage());</span>
-<span class="fc" id="L77">        }</span>
+        }
 <span class="fc" id="L78">    }</span>
 
     // Returns the current Lamport clock time

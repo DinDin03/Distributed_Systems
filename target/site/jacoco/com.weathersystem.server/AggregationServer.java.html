@@ -35,31 +35,31 @@ public class AggregationServer {
 
     // Server state
     private ServerSocket serverSocket;
-<span class="fc" id="L38">    private volatile boolean isRunning = false;</span>
+<span class="nc" id="L38">    private volatile boolean isRunning = false;</span>
 
-<span class="fc" id="L40">    public AggregationServer() {</span>
+<span class="nc" id="L40">    public AggregationServer() {</span>
         // Initialize core services
-<span class="fc" id="L42">        this.lamportClock = new LamportClock();</span>
-<span class="fc" id="L43">        this.weatherDataService = new WeatherDataService();</span>
-<span class="fc" id="L44">        this.weatherDataRepository = new WeatherDataRepository(DATA_FILE, BACKUP_FILE);</span>
+<span class="nc" id="L42">        this.lamportClock = new LamportClock();</span>
+<span class="nc" id="L43">        this.weatherDataService = new WeatherDataService();</span>
+<span class="nc" id="L44">        this.weatherDataRepository = new WeatherDataRepository(DATA_FILE, BACKUP_FILE);</span>
 
         // Initialize request processing pipeline
-<span class="fc" id="L47">        this.requestDispatcher = new RequestDispatcher();</span>
-<span class="fc" id="L48">        this.requestOrderingService = new RequestOrderingService(this.requestDispatcher::processRequest);</span>
-<span class="fc" id="L49">        this.connectionManager = new ConnectionManager(THREAD_POOL_SIZE, lamportClock,</span>
-<span class="fc" id="L50">                this.requestOrderingService::submitRequest);</span>
+<span class="nc" id="L47">        this.requestDispatcher = new RequestDispatcher();</span>
+<span class="nc" id="L48">        this.requestOrderingService = new RequestOrderingService(this.requestDispatcher::processRequest);</span>
+<span class="nc" id="L49">        this.connectionManager = new ConnectionManager(THREAD_POOL_SIZE, lamportClock,</span>
+<span class="nc" id="L50">                this.requestOrderingService::submitRequest);</span>
 
         // Initialize data expiry service
-<span class="fc" id="L53">        this.dataExpiryService = new DataExpiryService(</span>
-                EXPIRY_TIME_MS, CLEANUP_INTERVAL_MS,
-<span class="fc" id="L55">                weatherDataService.getInternalStorage(),</span>
-<span class="fc" id="L56">                weatherDataService.getWriteLock(),</span>
-                this::saveDataToFile
+<span class="nc" id="L53">        this.dataExpiryService = new DataExpiryService(</span>
+<span class="nc" id="L54">                EXPIRY_TIME_MS, CLEANUP_INTERVAL_MS,</span>
+<span class="nc" id="L55">                weatherDataService.getInternalStorage(),</span>
+<span class="nc" id="L56">                weatherDataService.getWriteLock(),</span>
+<span class="nc" id="L57">                this::saveDataToFile</span>
         );
 
         // Register request handlers
-<span class="fc" id="L61">        setupRequestHandlers();</span>
-<span class="fc" id="L62">    }</span>
+<span class="nc" id="L61">        setupRequestHandlers();</span>
+<span class="nc" id="L62">    }</span>
 
     public static void main(String[] args) {
 <span class="nc" id="L65">        int port = parsePortFromArgs(args);</span>
@@ -77,133 +77,133 @@ public class AggregationServer {
 <span class="nc" id="L77">        } catch (Exception e) {</span>
 <span class="nc" id="L78">            System.out.println(&quot;Server failed to start: &quot; + e.getMessage());</span>
 <span class="nc" id="L79">            System.exit(1);</span>
-<span class="nc" id="L80">        }</span>
+        }
 <span class="nc" id="L81">    }</span>
 
     public void start(int port) throws IOException {
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (isRunning) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (isRunning) {</span>
 <span class="nc" id="L85">            System.out.println(&quot;Server is already running&quot;);</span>
 <span class="nc" id="L86">            return;</span>
         }
 
-<span class="fc" id="L89">        System.out.println(&quot;\n=== Aggregation Server Starting ===&quot;);</span>
-<span class="fc" id="L90">        System.out.println(&quot;Starting on port: &quot; + port);</span>
-<span class="fc" id="L91">        System.out.println(&quot;Initial Lamport clock: &quot; + lamportClock.getTime());</span>
+<span class="nc" id="L89">        System.out.println(&quot;\n=== Aggregation Server Starting ===&quot;);</span>
+<span class="nc" id="L90">        System.out.println(&quot;Starting on port: &quot; + port);</span>
+<span class="nc" id="L91">        System.out.println(&quot;Initial Lamport clock: &quot; + lamportClock.getTime());</span>
 
         // Initialize all services
-<span class="fc" id="L94">        initializeServices();</span>
+<span class="nc" id="L94">        initializeServices();</span>
 
         // Load existing data
-<span class="fc" id="L97">        loadPersistedData();</span>
+<span class="nc" id="L97">        loadPersistedData();</span>
 
         // Start server socket
-<span class="fc" id="L100">        serverSocket = new ServerSocket(port);</span>
-<span class="fc" id="L101">        isRunning = true;</span>
+<span class="nc" id="L100">        serverSocket = new ServerSocket(port);</span>
+<span class="nc" id="L101">        isRunning = true;</span>
 
-<span class="fc" id="L103">        System.out.println(&quot;Server listening on port &quot; + port);</span>
-<span class="fc" id="L104">        System.out.println(&quot;Press Ctrl+C to stop the server\n&quot;);</span>
+<span class="nc" id="L103">        System.out.println(&quot;Server listening on port &quot; + port);</span>
+<span class="nc" id="L104">        System.out.println(&quot;Press Ctrl+C to stop the server\n&quot;);</span>
 
         // Main server loop
-<span class="fc" id="L107">        runServerLoop();</span>
-<span class="fc" id="L108">    }</span>
+<span class="nc" id="L107">        runServerLoop();</span>
+<span class="nc" id="L108">    }</span>
 
     public void shutdown() {
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (!isRunning) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (!isRunning) {</span>
 <span class="nc" id="L112">            return;</span>
         }
 
-<span class="fc" id="L115">        System.out.println(&quot;\nShutting down aggregation server...&quot;);</span>
-<span class="fc" id="L116">        isRunning = false;</span>
+<span class="nc" id="L115">        System.out.println(&quot;\nShutting down aggregation server...&quot;);</span>
+<span class="nc" id="L116">        isRunning = false;</span>
 
         // Stop accepting new connections
-<span class="fc" id="L119">        closeServerSocket();</span>
+<span class="nc" id="L119">        closeServerSocket();</span>
 
         // Shutdown services in reverse dependency order
-<span class="fc" id="L122">        shutdownServices();</span>
+<span class="nc" id="L122">        shutdownServices();</span>
 
         // Final data save
-<span class="fc" id="L125">        saveDataToFile();</span>
+<span class="nc" id="L125">        saveDataToFile();</span>
 
-<span class="fc" id="L127">        System.out.println(&quot;Server shutdown complete\n&quot;);</span>
-<span class="fc" id="L128">    }</span>
+<span class="nc" id="L127">        System.out.println(&quot;Server shutdown complete\n&quot;);</span>
+<span class="nc" id="L128">    }</span>
 
     private void setupRequestHandlers() {
         // Create handlers with dependencies
-<span class="fc" id="L132">        PutRequestHandler putHandler = new PutRequestHandler(weatherDataService, this::saveDataToFile);</span>
-<span class="fc" id="L133">        GetRequestHandler getHandler = new GetRequestHandler(weatherDataService);</span>
+<span class="nc" id="L132">        PutRequestHandler putHandler = new PutRequestHandler(weatherDataService, this::saveDataToFile);</span>
+<span class="nc" id="L133">        GetRequestHandler getHandler = new GetRequestHandler(weatherDataService);</span>
 
         // Register handlers with dispatcher
-<span class="fc" id="L136">        requestDispatcher.registerHandler(&quot;PUT&quot;, putHandler);</span>
-<span class="fc" id="L137">        requestDispatcher.registerHandler(&quot;GET&quot;, getHandler);</span>
+<span class="nc" id="L136">        requestDispatcher.registerHandler(&quot;PUT&quot;, putHandler);</span>
+<span class="nc" id="L137">        requestDispatcher.registerHandler(&quot;GET&quot;, getHandler);</span>
 
-<span class="fc" id="L139">        System.out.println(&quot;Request handlers configured for &quot; +</span>
-<span class="fc" id="L140">                requestDispatcher.getHandlerCount() + &quot; HTTP methods&quot;);</span>
-<span class="fc" id="L141">    }</span>
+<span class="nc" id="L139">        System.out.println(&quot;Request handlers configured for &quot; +</span>
+<span class="nc" id="L140">                requestDispatcher.getHandlerCount() + &quot; HTTP methods&quot;);</span>
+<span class="nc" id="L141">    }</span>
 
     private void initializeServices() {
-<span class="fc" id="L144">        connectionManager.start();</span>
-<span class="fc" id="L145">        requestOrderingService.start();</span>
-<span class="fc" id="L146">        dataExpiryService.start();</span>
+<span class="nc" id="L144">        connectionManager.start();</span>
+<span class="nc" id="L145">        requestOrderingService.start();</span>
+<span class="nc" id="L146">        dataExpiryService.start();</span>
 
-<span class="fc" id="L148">        System.out.println(&quot;All services initialized successfully&quot;);</span>
-<span class="fc" id="L149">    }</span>
+<span class="nc" id="L148">        System.out.println(&quot;All services initialized successfully&quot;);</span>
+<span class="nc" id="L149">    }</span>
 
     private void loadPersistedData() {
-<span class="fc" id="L152">        System.out.println(&quot;Loading weather data from persistent storage...&quot;);</span>
+<span class="nc" id="L152">        System.out.println(&quot;Loading weather data from persistent storage...&quot;);</span>
 
-<span class="fc" id="L154">        WeatherData[] weatherData = weatherDataRepository.load();</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (weatherData.length &gt; 0) {</span>
-<span class="fc" id="L156">            long currentTime = System.currentTimeMillis();</span>
-<span class="fc" id="L157">            weatherDataService.loadWeatherData(weatherData, currentTime);</span>
+<span class="nc" id="L154">        WeatherData[] weatherData = weatherDataRepository.load();</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (weatherData.length &gt; 0) {</span>
+<span class="nc" id="L156">            long currentTime = System.currentTimeMillis();</span>
+<span class="nc" id="L157">            weatherDataService.loadWeatherData(weatherData, currentTime);</span>
         }
 
-<span class="fc" id="L160">        System.out.println(&quot;Loaded &quot; + weatherDataService.getStationCount() +</span>
+<span class="nc" id="L160">        System.out.println(&quot;Loaded &quot; + weatherDataService.getStationCount() +</span>
                 &quot; weather stations from &quot; + DATA_FILE);
-<span class="fc" id="L162">    }</span>
+<span class="nc" id="L162">    }</span>
 
     private void runServerLoop() {
-<span class="pc bpc" id="L165" title="1 of 4 branches missed.">        while (isRunning &amp;&amp; !serverSocket.isClosed()) {</span>
+<span class="nc bnc" id="L165" title="All 4 branches missed.">        while (isRunning &amp;&amp; !serverSocket.isClosed()) {</span>
             try {
-<span class="fc" id="L167">                var clientSocket = serverSocket.accept();</span>
-<span class="fc" id="L168">                connectionManager.handleConnection(clientSocket);</span>
+<span class="nc" id="L167">                var clientSocket = serverSocket.accept();</span>
+<span class="nc" id="L168">                connectionManager.handleConnection(clientSocket);</span>
 
-<span class="fc" id="L170">            } catch (IOException e) {</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">                if (isRunning) {</span>
+<span class="nc" id="L170">            } catch (IOException e) {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                if (isRunning) {</span>
 <span class="nc" id="L172">                    System.out.println(&quot;Error accepting client connection: &quot; + e.getMessage());</span>
                 }
                 // If not running, this is expected during shutdown
-<span class="fc" id="L175">            }</span>
+            }
         }
-<span class="fc" id="L177">    }</span>
+<span class="nc" id="L177">    }</span>
 
     private void saveDataToFile() {
         try {
-<span class="fc" id="L181">            WeatherData[] allData = weatherDataService.getAllWeatherData();</span>
-<span class="fc" id="L182">            weatherDataRepository.saveAsync(allData);</span>
-<span class="fc" id="L183">        } catch (Exception e) {</span>
-<span class="fc" id="L184">            System.out.println(&quot;Error saving weather data: &quot; + e.getMessage());</span>
-<span class="fc" id="L185">        }</span>
-<span class="fc" id="L186">    }</span>
+<span class="nc" id="L181">            WeatherData[] allData = weatherDataService.getAllWeatherData();</span>
+<span class="nc" id="L182">            weatherDataRepository.saveAsync(allData);</span>
+<span class="nc" id="L183">        } catch (Exception e) {</span>
+<span class="nc" id="L184">            System.out.println(&quot;Error saving weather data: &quot; + e.getMessage());</span>
+        }
+<span class="nc" id="L186">    }</span>
 
     private void shutdownServices() {
         // Stop services that generate new work first
-<span class="fc" id="L190">        dataExpiryService.stop();</span>
-<span class="fc" id="L191">        requestOrderingService.stop();</span>
-<span class="fc" id="L192">        connectionManager.shutdown();</span>
+<span class="nc" id="L190">        dataExpiryService.stop();</span>
+<span class="nc" id="L191">        requestOrderingService.stop();</span>
+<span class="nc" id="L192">        connectionManager.shutdown();</span>
 
         // Close repository last
-<span class="fc" id="L195">        weatherDataRepository.shutdown();</span>
-<span class="fc" id="L196">    }</span>
+<span class="nc" id="L195">        weatherDataRepository.shutdown();</span>
+<span class="nc" id="L196">    }</span>
 
     private void closeServerSocket() {
         try {
-<span class="pc bpc" id="L200" title="2 of 4 branches missed.">            if (serverSocket != null &amp;&amp; !serverSocket.isClosed()) {</span>
-<span class="fc" id="L201">                serverSocket.close();</span>
+<span class="nc bnc" id="L200" title="All 4 branches missed.">            if (serverSocket != null &amp;&amp; !serverSocket.isClosed()) {</span>
+<span class="nc" id="L201">                serverSocket.close();</span>
             }
 <span class="nc" id="L203">        } catch (IOException e) {</span>
 <span class="nc" id="L204">            System.out.println(&quot;Error closing server socket: &quot; + e.getMessage());</span>
-<span class="fc" id="L205">        }</span>
-<span class="fc" id="L206">    }</span>
+        }
+<span class="nc" id="L206">    }</span>
 
     private static int parsePortFromArgs(String[] args) {
 <span class="nc bnc" id="L209" title="All 2 branches missed.">        if (args.length &gt; 0) {</span>
