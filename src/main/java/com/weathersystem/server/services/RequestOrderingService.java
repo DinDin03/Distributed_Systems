@@ -16,6 +16,7 @@ public class RequestOrderingService {
     private final ExecutorService requestProcessorPool;
     private final Consumer<TimestampedRequest> requestProcessor;
     private final AtomicBoolean isRunning;
+    private final boolean immediateProcessing;
 
     // Creates the service with a processor function
     public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor) {
@@ -32,6 +33,7 @@ public class RequestOrderingService {
         });
         this.requestProcessor = requestProcessor;
         this.isRunning = new AtomicBoolean(false);
+        this.immediateProcessing = immediateProcessing;
     }
 
     // Starts the service and begins processing requests in order
@@ -74,8 +76,19 @@ public class RequestOrderingService {
         System.out.println("Queued " + request.getMethod() + " request with timestamp: " +
                 request.getLamportTime() + " (Queue size: " + requestQueue.size() + ")");
 
-        // Don't process immediately - let the tests control when processing happens
-        // The tests expect all requests to be queued first, then processed in order
+        if (immediateProcessing && isRunning.get()) {
+            // Process immediately for integration tests
+            TimestampedRequest nextRequest = requestQueue.poll();
+            if (nextRequest != null) {
+                try {
+                    System.out.println("Processing " + nextRequest.getMethod() +
+                            " request immediately with Lamport time: " + nextRequest.getLamportTime());
+                    requestProcessor.accept(nextRequest);
+                } catch (Exception e) {
+                    System.out.println("Error processing request immediately: " + e.getMessage());
+                }
+            }
+        }
     }
 
     // Returns how many requests are waiting in the queue

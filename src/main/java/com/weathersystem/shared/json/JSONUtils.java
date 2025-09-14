@@ -21,6 +21,11 @@ public class JSONUtils {
         return gson.toJson(dataArray);
     }
 
+    // Generic method to convert any object to JSON string
+    public static String toJSON(Object obj) {
+        return gson.toJson(obj);
+    }
+
     // Converts JSON string to single WeatherData object
     public static WeatherData fromJSON(String json) {
         return gson.fromJson(json, WeatherData.class);
@@ -29,5 +34,10 @@ public class JSONUtils {
     // Converts JSON string to array of WeatherData objects
     public static WeatherData[] fromJSONArray(String json) {
         return gson.fromJson(json, WeatherData[].class);
+    }
+
+    // Generic method to convert JSON string to any class type
+    public static <T> T fromJSONArray(String json, Class<T> clazz) {
+        return gson.fromJson(json, clazz);
     }
 }

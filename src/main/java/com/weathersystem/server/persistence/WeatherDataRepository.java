@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Repository that handles async saving and loading of weather data to/from files
 public class WeatherDataRepository {
@@ -36,6 +37,24 @@ public class WeatherDataRepository {
         }, persistenceExecutor);
     }
 
+    // Saves timestamped weather data asynchronously from WeatherStationEntry store
+    public void saveAsync(ConcurrentHashMap<String, WeatherStationEntry> dataStore) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                // Convert WeatherStationEntry map to TimestampedWeatherData array
+                TimestampedWeatherData[] timestampedData = dataStore.values().stream()
+                    .map(TimestampedWeatherData::from)
+                    .toArray(TimestampedWeatherData[]::new);
+
+                fileStorageManager.saveTimestamped(timestampedData);
+                System.out.println("Async timestamped save completed successfully");
+            } catch (IOException e) {
+                System.out.println("Async timestamped save failed: " + e.getMessage());
+                throw new RuntimeException("Failed to save timestamped weather data", e);
+            }
+        }, persistenceExecutor);
+    }
+
     // Loads weather data synchronously from file storage
     public WeatherData[] load() {
         try {
@@ -43,6 +62,16 @@ public class WeatherDataRepository {
         } catch (IOException e) {
             System.out.println("Failed to load weather data: " + e.getMessage());
             return new WeatherData[0]; // Return empty array instead of throwing
+        }
+    }
+
+    // Loads timestamped weather data synchronously from file storage
+    public TimestampedWeatherData[] loadTimestamped() {
+        try {
+            return fileStorageManager.loadTimestamped();
+        } catch (IOException e) {
+            System.out.println("Failed to load timestamped weather data: " + e.getMessage());
+            return new TimestampedWeatherData[0]; // Return empty array instead of throwing
         }
     }
 

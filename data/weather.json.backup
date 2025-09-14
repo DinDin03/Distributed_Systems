@@ -1,0 +1,24 @@
+[
+  {
+    "weatherData": {
+      "id": "IDS60901",
+      "name": "Adelaide (West Terrace / ngayirdapira)",
+      "state": "SA",
+      "timeZone": "CST",
+      "lat": -34.9,
+      "lon": 138.6,
+      "localDateTime": "15/04:00pm",
+      "localDateTimeFull": "20230715160000",
+      "airTemp": 13.3,
+      "apparentT": 9.5,
+      "cloud": "Partly cloudy",
+      "dewpt": 5.7,
+      "press": 1023.9,
+      "relHum": 655,
+      "windDir": "S",
+      "windSpdKmh": 15,
+      "windSpdKt": 8
+    },
+    "lastUpdateTime": 1757879463135
+  }
+]

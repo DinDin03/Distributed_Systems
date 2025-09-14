@@ -5,6 +5,8 @@ import com.weathersystem.server.handlers.PutRequestHandler;
 import com.weathersystem.server.network.ConnectionManager;
 import com.weathersystem.server.network.RequestDispatcher;
 import com.weathersystem.server.persistence.WeatherDataRepository;
+import com.weathersystem.server.persistence.TimestampedWeatherData;
+import com.weathersystem.server.persistence.WeatherStationEntry;
 import com.weathersystem.server.services.DataExpiryService;
 import com.weathersystem.server.services.RequestOrderingService;
 import com.weathersystem.server.services.WeatherDataService;
@@ -155,18 +157,38 @@ public class AggregationServer {
         System.out.println("All services started");
     }
 
-    // Loads weather data from the file when the server starts
+    // Loads weather data from the file when the server starts and filters expired data
     private void loadPersistedData() {
         System.out.println("Loading weather data from file");
 
-        WeatherData[] weatherData = weatherDataRepository.load();
-        if (weatherData.length > 0) {
+        TimestampedWeatherData[] timestampedData = weatherDataRepository.loadTimestamped();
+        if (timestampedData.length > 0) {
             long currentTime = System.currentTimeMillis();
-            weatherDataService.loadWeatherData(weatherData, currentTime);
+            int expiredCount = 0;
+
+            // Load only non-expired data
+            for (TimestampedWeatherData timestamped : timestampedData) {
+                if (!timestamped.isExpired(currentTime, EXPIRY_TIME_MS)) {
+                    WeatherStationEntry entry = timestamped.toWeatherStationEntry();
+                    weatherDataService.getInternalStorage().put(
+                        timestamped.getWeatherData().getId(), entry);
+                } else {
+                    expiredCount++;
+                    System.out.println("Skipping expired weather station: " +
+                        timestamped.getWeatherData().getId() + " (expired " +
+                        (currentTime - timestamped.getLastUpdateTime()) / 1000 + "s ago)");
+                }
+            }
+
+            if (expiredCount > 0) {
+                System.out.println("Filtered out " + expiredCount + " expired stations on startup");
+                // Save the cleaned data immediately
+                saveDataToFile();
+            }
         }
 
         System.out.println("Loaded " + weatherDataService.getStationCount() +
-                " weather stations from " + DATA_FILE);
+                " active weather stations from " + DATA_FILE);
     }
 
     // Main loop that accepts client connections
@@ -185,11 +207,11 @@ public class AggregationServer {
         }
     }
 
-    // Saves current weather data to the file
+    // Saves current weather data to the file with timestamps
     private void saveDataToFile() {
         try {
-            WeatherData[] allData = weatherDataService.getAllWeatherData();
-            weatherDataRepository.saveAsync(allData);
+            // Use the new timestamped save method that preserves expiry information
+            weatherDataRepository.saveAsync(weatherDataService.getInternalStorage());
         } catch (Exception e) {
             System.out.println("Error saving data: " + e.getMessage());
         }

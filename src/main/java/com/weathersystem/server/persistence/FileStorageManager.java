@@ -28,6 +28,14 @@ public class FileStorageManager {
                 weatherData.length + " stations)");
     }
 
+    // Saves timestamped weather data to JSON file using atomic write operation
+    public void saveTimestamped(TimestampedWeatherData[] timestampedData) throws IOException {
+        String jsonData = JSONUtils.toJSON(timestampedData);
+        performAtomicFileWrite(jsonData);
+        System.out.println("Timestamped weather data saved to persistent storage (" +
+                timestampedData.length + " stations)");
+    }
+
     // Loads weather data from file, tries backup if main file is corrupted
     public WeatherData[] load() throws IOException {
         File dataFile = new File(dataFilePath);
@@ -58,6 +66,36 @@ public class FileStorageManager {
         return new WeatherData[0];
     }
 
+    // Loads timestamped weather data from file, tries backup if main file is corrupted
+    public TimestampedWeatherData[] loadTimestamped() throws IOException {
+        File dataFile = new File(dataFilePath);
+        File backupFile = new File(backupFilePath);
+
+        if (dataFile.exists()) {
+            try {
+                return loadTimestampedFromFile(dataFile);
+            } catch (IOException e) {
+                System.out.println("Primary timestamped data file corrupted: " + e.getMessage());
+            }
+        }
+
+        if (backupFile.exists()) {
+            try {
+                TimestampedWeatherData[] data = loadTimestampedFromFile(backupFile);
+                // Restore primary file from backup
+                saveTimestamped(data);
+                System.out.println("Timestamped data restored from backup file");
+                return data;
+            } catch (IOException e) {
+                System.out.println("Backup timestamped file corrupted: " + e.getMessage());
+            }
+        }
+
+        // Return empty array if no files exist or both are corrupted
+        System.out.println("No valid timestamped data files found, starting with empty database");
+        return new TimestampedWeatherData[0];
+    }
+
     // Loads weather data from a specific file and parses JSON
     private WeatherData[] loadFromFile(File file) throws IOException {
         String jsonContent = new String(Files.readAllBytes(file.toPath()));
@@ -71,6 +109,30 @@ public class FileStorageManager {
         } catch (Exception e) {
             // Convert any JSON parsing exception to IOException for consistent error handling
             throw new IOException("Failed to parse JSON content: " + e.getMessage(), e);
+        }
+    }
+
+    // Loads timestamped weather data from a specific file and parses JSON
+    private TimestampedWeatherData[] loadTimestampedFromFile(File file) throws IOException {
+        String jsonContent = new String(Files.readAllBytes(file.toPath()));
+
+        if (jsonContent.trim().isEmpty()) {
+            return new TimestampedWeatherData[0];
+        }
+
+        try {
+            return JSONUtils.fromJSONArray(jsonContent, TimestampedWeatherData[].class);
+        } catch (Exception e) {
+            // If it's not timestamped data, try loading as old format and convert
+            try {
+                WeatherData[] oldData = JSONUtils.fromJSONArray(jsonContent);
+                long currentTime = System.currentTimeMillis();
+                return java.util.Arrays.stream(oldData)
+                    .map(wd -> new TimestampedWeatherData(wd, currentTime))
+                    .toArray(TimestampedWeatherData[]::new);
+            } catch (Exception e2) {
+                throw new IOException("Failed to parse timestamped JSON content: " + e.getMessage(), e);
+            }
         }
     }
 

@@ -192,9 +192,9 @@ class WeatherDataRepositoryTest {
         WeatherData[] loaded = repository.load();
         assertEquals(0, loaded.length, "Should load empty array");
 
-        // Test save null array
+        // Test save null array (cast to specific type to resolve ambiguity)
         assertDoesNotThrow(() -> {
-            repository.saveAsync(null);
+            repository.saveAsync((WeatherData[]) null);
             // Give async operation time to complete
             Thread.sleep(500);
         }, "Should handle null array gracefully");
