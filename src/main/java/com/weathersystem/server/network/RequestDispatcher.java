@@ -9,16 +9,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+// Routes HTTP requests to the right handler based on the request method
 public class RequestDispatcher {
 
     private final Map<String, RequestHandler> handlers;
     private final HttpResponseBuilder responseBuilder;
 
+    // Sets up the dispatcher with empty handler map
     public RequestDispatcher() {
         this.handlers = new HashMap<>();
         this.responseBuilder = new HttpResponseBuilder();
     }
 
+    // Adds a new handler for a specific HTTP method
     public void registerHandler(String method, RequestHandler handler) {
         if (method == null || handler == null) {
             throw new IllegalArgumentException("Method and handler cannot be null");
@@ -29,6 +32,7 @@ public class RequestDispatcher {
                 handler.getClass().getSimpleName());
     }
 
+    // Processes incoming requests by finding the right handler and running it
     public void processRequest(TimestampedRequest request) {
         try {
             String method = request.getMethod().toUpperCase();
@@ -73,11 +77,13 @@ public class RequestDispatcher {
         }
     }
 
+    // Returns how many handlers are registered
     public int getHandlerCount() {
         return handlers.size();
     }
 
 
+    // Converts timestamped request to HTTP request object
     private HttpRequest createHttpRequestFromTimestampedRequest(TimestampedRequest request) {
         // Create minimal headers map
         Map<String, String> headers = new HashMap<>();
@@ -95,6 +101,7 @@ public class RequestDispatcher {
         );
     }
 
+    // Closes all the streams and socket after processing is done
     private void closeConnectionResources(TimestampedRequest request) {
         // Close streams first
         try {

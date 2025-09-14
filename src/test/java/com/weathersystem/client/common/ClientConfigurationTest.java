@@ -7,7 +7,7 @@ class ClientConfigurationTest {
 
 
     @Test
-    // Tests constructor with valid parameters and verifies all fields are set correctly
+    // Checks that the constructor properly sets all the fields when given valid inputs
     void testConstructorWithValidParameters() {
         System.out.println("Testing constructor with valid parameters...");
         ClientConfiguration config = new ClientConfiguration(
@@ -22,7 +22,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests parsing valid server address string and validates host, port, and default values
+    // Makes sure we can parse a proper server address like "example.com:9090" correctly
     void testFromServerAddressValidInput() {
         System.out.println("Testing fromServerAddress with valid input...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress("example.com:9090");
@@ -35,7 +35,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests server address parsing with null input to verify default values are used
+    // Tests what happens when we pass null - should use the default values
     void testFromServerAddressWithDefaults() {
         System.out.println("Testing fromServerAddress with null input (defaults)...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress(null);
@@ -49,7 +49,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests handling of invalid port in server address string and fallback to default port
+    // Checks that if someone puts rubbish for the port, it falls back to the default
     void testFromServerAddressInvalidPort() {
         System.out.println("Testing fromServerAddress with invalid port...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress("example.com:invalid");
@@ -60,7 +60,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests validation of multi-server constructor with null and empty server lists
+    // Makes sure the multi-server constructor throws exceptions for dodgy inputs
     void testMultiServerConstructorValidation() {
         System.out.println("Testing multi-server constructor validation...");
         
@@ -76,7 +76,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests parsing multiple server addresses and verifies correct configuration setup
+    // Tests parsing a bunch of servers separated by commas
     void testFromMultipleServersValidInput() {
         System.out.println("Testing fromMultipleServers with valid input...");
         ClientConfiguration config = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
@@ -91,7 +91,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests parsing mixed server addresses with and without explicit ports
+    // Tests when some servers have ports specified and others don't
     void testFromMultipleServersWithDefaultPorts() {
         System.out.println("Testing fromMultipleServers with mixed port specifications...");
         ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1,server2:8080,server3");
@@ -104,7 +104,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests edge cases for multiple server parsing including empty, null, and single server inputs
+    // Tests weird edge cases like empty strings and single servers
     void testFromMultipleServersEdgeCases() {
         System.out.println("Testing fromMultipleServers edge cases...");
         
@@ -127,7 +127,7 @@ class ClientConfigurationTest {
     }
 
     @Test
-    // Tests consistency between single and multi server configuration methods
+    // Makes sure single server and multi-server configs work the same way
     void testConfigurationConsistency() {
         System.out.println("Testing configuration consistency...");
         ClientConfiguration singleConfig = ClientConfiguration.fromServerAddress("localhost:4567");

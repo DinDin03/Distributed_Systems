@@ -22,9 +22,9 @@ class GETClientTest {
     }
 
     @Test
-    // Tests GETClient constructor and initialization with different configurations
+    // Checks that the GETClient gets created properly with different configs
     void testConstructorAndInitialization() {
-        System.out.println("Testing GETClient constructor and initialization...");
+        System.out.println("Testing GETClient constructor");
         assertNotNull(getClient, "GETClient should be created");
         assertEquals(0, getClient.getLamportTime(), "Initial Lamport clock should be 0");
         
@@ -33,13 +33,13 @@ class GETClientTest {
         GETClient testClient = new GETClient(testConfig);
         assertNotNull(testClient, "GETClient should be created with custom config");
         assertEquals(0, testClient.getLamportTime(), "Custom config should also start with 0");
-        System.out.println("✓ Constructor and initialization test passed");
+        System.out.println("Constructor test passed");
     }
 
     @Test
-    // Tests weather data parsing from JSON response including valid, empty, and invalid data
+    // Tests parsing JSON responses with weather data, including empty and dodgy ones
     void testWeatherDataParsing() throws Exception {
-        System.out.println("Testing weather data parsing functionality...");
+        System.out.println("Testing weather data parsing");
         Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
                 GETClient.HttpResponse.class);
         parseMethod.setAccessible(true);
@@ -79,13 +79,13 @@ class GETClientTest {
         assertTrue(exception.getCause().getMessage().contains("Failed to parse weather data"),
                   "Should throw appropriate error for invalid JSON");
         
-        System.out.println("✓ Weather data parsing test passed");
+        System.out.println("Weather data parsing test passed");
     }
 
     @Test
-    // Tests weather data display functionality for empty and populated data
+    // Tests showing weather data on screen, both when empty and when there is data
     void testWeatherDataDisplay() throws Exception {
-        System.out.println("Testing weather data display functionality...");
+        System.out.println("Testing weather data display");
         
         // Test empty data display
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -142,13 +142,13 @@ class GETClientTest {
             System.setOut(originalOut);
         }
         
-        System.out.println("✓ Weather data display test passed");
+        System.out.println("Weather data display test passed");
     }
 
     @Test
-    // Tests weather data retrieval with retry mechanism and exponential backoff
+    // Tests getting weather data with retries when the server is down
     void testWeatherDataRetrievalWithRetry() {
-        System.out.println("Testing weather data retrieval with retry mechanism...");
+        System.out.println("Testing weather data retrieval with retry");
         
         // Test connection failure with retry
         ClientConfiguration invalidConfig = new ClientConfiguration("invalid.host", 9999, "Test/1.0", 100, 100);
@@ -166,13 +166,13 @@ class GETClientTest {
         assertTrue((endTime - startTime) >= 6000, 
                   "Should take at least 6 seconds for retry attempts: " + (endTime - startTime) + "ms");
         
-        System.out.println("✓ Weather data retrieval with retry test passed");
+        System.out.println("Weather data retrieval with retry test passed");
     }
 
     @Test
-    // Tests retry delay calculation for exponential backoff algorithm
+    // Tests the maths for calculating how long to wait between retries
     void testRetryDelayCalculation() {
-        System.out.println("Testing retry delay calculation...");
+        System.out.println("Testing retry delay calculation");
         
         // Test exponential backoff calculation
         long baseDelay = 1000;
@@ -185,15 +185,15 @@ class GETClientTest {
         assertEquals(2000, secondDelay, "Second delay should be 2x base delay");
         assertEquals(4000, thirdDelay, "Third delay should be 4x base delay");
         
-        System.out.println("✓ Retry delay calculation test passed");
+        System.out.println("Retry delay calculation test passed");
     }
 
     // === MULTI-SERVER SUPPORT TESTS ===
 
     @Test
-    // Tests multi-server configuration setup and validation
+    // Tests setting up multiple servers for failover
     void testMultiServerConfiguration() {
-        System.out.println("Testing multi-server configuration...");
+        System.out.println("Testing multi-server configuration");
         
         // Test multiple servers configuration
         ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
@@ -214,13 +214,13 @@ class GETClientTest {
         assertEquals(singleDirect.getPort(), singleViaMulti.getPort(), "Single server ports should match");
         assertEquals(client1.getLamportTime(), client2.getLamportTime(), "Lamport times should match");
         
-        System.out.println("✓ Multi-server configuration test passed");
+        System.out.println("Multi-server configuration test passed");
     }
 
     @Test
-    // Tests multi-server failover behavior during weather data retrieval
+    // Tests what happens when one server is down and we try the next one
     void testMultiServerFailover() {
-        System.out.println("Testing multi-server failover behavior...");
+        System.out.println("Testing multi-server failover");
         
         ClientConfiguration failoverConfig = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567,backup:4568");
         GETClient failoverClient = new GETClient(failoverConfig);
@@ -237,15 +237,15 @@ class GETClientTest {
         assertTrue(duration >= 6000, 
                   "Should take at least 6 seconds for retry attempts with failover: " + duration + "ms");
         
-        System.out.println("✓ Multi-server failover test passed");
+        System.out.println("Multi-server failover test passed");
     }
 
     // === MAIN METHOD TESTS ===
 
     @Test
-    // Tests main method argument handling and server address parsing
+    // Tests that the main method handles command line arguments properly
     void testMainMethodArgumentHandling() {
-        System.out.println("Testing main method argument handling...");
+        System.out.println("Testing main method arguments");
         
         // Test default server (no arguments)
         assertDoesNotThrow(() -> {
@@ -275,6 +275,6 @@ class GETClientTest {
             assertNotNull(client, "Should create GETClient with parsed config");
         });
         
-        System.out.println("✓ Main method argument handling test passed");
+        System.out.println("Main method argument test passed");
     }
 }

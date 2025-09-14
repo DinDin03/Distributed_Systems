@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+// Orders requests by Lamport timestamp and processes them in the right order
 public class RequestOrderingService {
 
     private final PriorityBlockingQueue<TimestampedRequest> requestQueue;
@@ -16,10 +17,12 @@ public class RequestOrderingService {
     private final Consumer<TimestampedRequest> requestProcessor;
     private final AtomicBoolean isRunning;
 
+    // Creates the service with a processor function
     public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor) {
         this(requestProcessor, true); // Default to immediate processing for integration tests
     }
 
+    // Creates the service with processor and immediate processing option
     public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor, boolean immediateProcessing) {
         this.requestQueue = new PriorityBlockingQueue<>();
         this.requestProcessorPool = Executors.newSingleThreadExecutor(r -> {
@@ -31,6 +34,7 @@ public class RequestOrderingService {
         this.isRunning = new AtomicBoolean(false);
     }
 
+    // Starts the service and begins processing requests in order
     public void start() {
         if (isRunning.compareAndSet(false, true)) {
             // Create new executor if the previous one was shutdown
@@ -45,6 +49,7 @@ public class RequestOrderingService {
         }
     }
 
+    // Stops the service and processes any remaining requests
     public void stop() {
         if (isRunning.compareAndSet(true, false)) {
             if (requestProcessorPool != null && !requestProcessorPool.isShutdown()) {
@@ -63,6 +68,7 @@ public class RequestOrderingService {
         }
     }
 
+    // Adds a request to the queue for processing
     public void submitRequest(TimestampedRequest request) {
         requestQueue.offer(request);
         System.out.println("Queued " + request.getMethod() + " request with timestamp: " +
@@ -72,14 +78,17 @@ public class RequestOrderingService {
         // The tests expect all requests to be queued first, then processed in order
     }
 
+    // Returns how many requests are waiting in the queue
     public int getQueueSize() {
         return requestQueue.size();
     }
 
+    // Checks if the service is currently running
     public boolean isRunning() {
         return isRunning.get();
     }
 
+    // Main processing loop that handles requests in timestamp order
     private void processRequestsInOrder() {
         try {
             // Wait until the service is stopped to process all requests in order
@@ -95,10 +104,12 @@ public class RequestOrderingService {
         System.out.println("Request ordering service processing loop ended");
     }
 
+    // Processes all queued requests immediately
     public void processAllRequests() {
         processAllQueuedRequests();
     }
 
+    // Actually processes all requests in the queue by timestamp
     private void processAllQueuedRequests() {
         System.out.println("Processing all queued requests in Lamport timestamp order");
         while (!requestQueue.isEmpty()) {

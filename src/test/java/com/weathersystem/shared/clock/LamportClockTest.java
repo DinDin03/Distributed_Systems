@@ -29,9 +29,9 @@ class LamportClockTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
-    // Tests basic Lamport clock operations including tick, update, and getTime
+    // Tests the basic operations like tick, update, and getting the time
     void testBasicClockOperations() {
-        System.out.println("Testing basic clock operations...");
+        System.out.println("Testing basic clock operations");
         
         // Test initial state
         assertEquals(0, clock.getTime(), "Clock should start at 0");
@@ -75,15 +75,15 @@ class LamportClockTest {
         assertEquals(13, result4, "Update with 0 should increment current time");
         assertEquals(13, clock.getTime(), "Clock time should be incremented");
         
-        System.out.println("✓ Basic clock operations test passed");
+        System.out.println("Basic clock operations test passed");
     }
 
     // === CONCURRENCY TESTS ===
 
     @Test
-    // Tests concurrent Lamport clock operations and thread safety
+    // Tests that the clock works properly when multiple threads use it
     void testConcurrentOperations() throws InterruptedException {
-        System.out.println("Testing concurrent operations...");
+        System.out.println("Testing concurrent operations");
         
         // Test concurrent tick operations
         final int numThreads = 10;
@@ -177,15 +177,15 @@ class LamportClockTest {
         // Clock should have progressed
         assertTrue(clock.getTime() > 0, "Clock should have progressed");
         
-        System.out.println("✓ Concurrent operations test passed");
+        System.out.println("Concurrent operations test passed");
     }
 
     // === DISTRIBUTED SYSTEM AND EDGE CASES TESTS ===
 
     @Test
-    // Tests distributed system scenario with multiple Lamport clocks
+    // Tests how multiple clocks work together in a distributed system
     void testDistributedSystemScenario() {
-        System.out.println("Testing distributed system scenario...");
+        System.out.println("Testing distributed system scenario");
         
         LamportClock clock1 = new LamportClock();
         LamportClock clock2 = new LamportClock();
@@ -208,13 +208,13 @@ class LamportClockTest {
         assertTrue(clock1.getTime() > 2, "Clock1 should have progressed beyond its initial state");
         assertTrue(clock2.getTime() > 1, "Clock2 should have progressed beyond its initial state");
         
-        System.out.println("✓ Distributed system scenario test passed");
+        System.out.println("Distributed system scenario test passed");
     }
 
     @Test
-    // Tests edge cases and consistency of Lamport clock operations
+    // Tests weird edge cases and makes sure everything stays consistent
     void testEdgeCasesAndConsistency() {
-        System.out.println("Testing edge cases and consistency...");
+        System.out.println("Testing edge cases and consistency");
         
         // Test toString method
         clock.tick(); // time = 1
@@ -249,13 +249,13 @@ class LamportClockTest {
 
         assertEquals(lastTime, clock.getTime(), "Final getTime should match last operation result");
         
-        System.out.println("✓ Edge cases and consistency test passed");
+        System.out.println("Edge cases and consistency test passed");
     }
 
     @RepeatedTest(3) // Reduced from 5 for faster execution
-    // Tests thread safety under stress with mixed operations
+    // Tests that the clock works properly under heavy load
     void testThreadSafetyUnderStress() throws InterruptedException {
-        System.out.println("Testing thread safety under stress...");
+        System.out.println("Testing thread safety under stress");
         
         final int numThreads = 20; // Reduced for faster execution
         final int operationsPerThread = 100; // Reduced for faster execution
@@ -290,6 +290,6 @@ class LamportClockTest {
 
         assertTrue(clock.getTime() > 0, "Clock should have progressed");
         
-        System.out.println("✓ Thread safety under stress test passed");
+        System.out.println("Thread safety under stress test passed");
     }
 }

@@ -4,9 +4,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-// Data class representing weather station information with all meteorological fields
-// Uses Lombok annotations to reduce boilerplate code for getters, setters, constructor, and toString
-// Follows the JSON structure from the assignment description for weather data format
+// Holds all the weather station data
+// Uses Lombok to avoid writing heaps of getter and setter methods
+// Follows the JSON structure from the assignment for weather data format
 @Getter
 @Setter
 @NoArgsConstructor

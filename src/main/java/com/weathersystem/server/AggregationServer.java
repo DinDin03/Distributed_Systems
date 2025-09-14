@@ -14,6 +14,7 @@ import com.weathersystem.shared.domain.WeatherData;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+// Main server that handles weather data and client connections
 public class AggregationServer {
 
     // Configuration constants
@@ -37,6 +38,7 @@ public class AggregationServer {
     private ServerSocket serverSocket;
     private volatile boolean isRunning = false;
 
+    // Sets up all the services and handlers when the server starts
     public AggregationServer() {
         // Initialize core services
         this.lamportClock = new LamportClock();
@@ -61,6 +63,7 @@ public class AggregationServer {
         setupRequestHandlers();
     }
 
+    // Main method that gets called when you run the server
     public static void main(String[] args) {
         int port = parsePortFromArgs(args);
 
@@ -68,7 +71,7 @@ public class AggregationServer {
 
         // Setup shutdown hook for graceful termination
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("\nShutdown signal received...");
+            System.out.println("\nShutdown signal received");
             server.shutdown();
         }));
 
@@ -80,15 +83,16 @@ public class AggregationServer {
         }
     }
 
+    // Starts the server on the given port and begins accepting connections
     public void start(int port) throws IOException {
         if (isRunning) {
-            System.out.println("Server is already running");
+            System.out.println("Server already running");
             return;
         }
 
-        System.out.println("\n=== Aggregation Server Starting ===");
-        System.out.println("Starting on port: " + port);
-        System.out.println("Initial Lamport clock: " + lamportClock.getTime());
+        System.out.println("\nStarting aggregation server");
+        System.out.println("Starting on port " + port);
+        System.out.println("Initial time: " + lamportClock.getTime());
 
         // Initialize all services
         initializeServices();
@@ -101,18 +105,19 @@ public class AggregationServer {
         isRunning = true;
 
         System.out.println("Server listening on port " + port);
-        System.out.println("Press Ctrl+C to stop the server\n");
+        System.out.println("Press Ctrl+C to stop\n");
 
         // Main server loop
         runServerLoop();
     }
 
+    // Shuts down the server properly and saves all data
     public void shutdown() {
         if (!isRunning) {
             return;
         }
 
-        System.out.println("\nShutting down aggregation server...");
+        System.out.println("\nShutting down server");
         isRunning = false;
 
         // Stop accepting new connections
@@ -127,6 +132,7 @@ public class AggregationServer {
         System.out.println("Server shutdown complete\n");
     }
 
+    // Sets up the handlers for PUT and GET requests
     private void setupRequestHandlers() {
         // Create handlers with dependencies
         PutRequestHandler putHandler = new PutRequestHandler(weatherDataService, this::saveDataToFile);
@@ -136,20 +142,22 @@ public class AggregationServer {
         requestDispatcher.registerHandler("PUT", putHandler);
         requestDispatcher.registerHandler("GET", getHandler);
 
-        System.out.println("Request handlers configured for " +
+        System.out.println("Handlers configured for " +
                 requestDispatcher.getHandlerCount() + " HTTP methods");
     }
 
+    // Starts all the background services
     private void initializeServices() {
         connectionManager.start();
         requestOrderingService.start();
         dataExpiryService.start();
 
-        System.out.println("All services initialized successfully");
+        System.out.println("All services started");
     }
 
+    // Loads weather data from the file when the server starts
     private void loadPersistedData() {
-        System.out.println("Loading weather data from persistent storage...");
+        System.out.println("Loading weather data from file");
 
         WeatherData[] weatherData = weatherDataRepository.load();
         if (weatherData.length > 0) {
@@ -161,6 +169,7 @@ public class AggregationServer {
                 " weather stations from " + DATA_FILE);
     }
 
+    // Main loop that accepts client connections
     private void runServerLoop() {
         while (isRunning && !serverSocket.isClosed()) {
             try {
@@ -169,22 +178,24 @@ public class AggregationServer {
 
             } catch (IOException e) {
                 if (isRunning) {
-                    System.out.println("Error accepting client connection: " + e.getMessage());
+                    System.out.println("Error accepting connection: " + e.getMessage());
                 }
                 // If not running, this is expected during shutdown
             }
         }
     }
 
+    // Saves current weather data to the file
     private void saveDataToFile() {
         try {
             WeatherData[] allData = weatherDataService.getAllWeatherData();
             weatherDataRepository.saveAsync(allData);
         } catch (Exception e) {
-            System.out.println("Error saving weather data: " + e.getMessage());
+            System.out.println("Error saving data: " + e.getMessage());
         }
     }
 
+    // Stops all services in the right order when shutting down
     private void shutdownServices() {
         // Stop services that generate new work first
         dataExpiryService.stop();
@@ -195,22 +206,24 @@ public class AggregationServer {
         weatherDataRepository.shutdown();
     }
 
+    // Closes the server socket properly
     private void closeServerSocket() {
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
             }
         } catch (IOException e) {
-            System.out.println("Error closing server socket: " + e.getMessage());
+            System.out.println("Error closing socket: " + e.getMessage());
         }
     }
 
+    // Gets the port number from command line arguments
     private static int parsePortFromArgs(String[] args) {
         if (args.length > 0) {
             try {
                 return Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid port number: " + args[0] + ", using default: " + DEFAULT_PORT);
+                System.out.println("Invalid port " + args[0] + ", using default " + DEFAULT_PORT);
             }
         }
         return DEFAULT_PORT;

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.network.RequestOrderingServiceTest" time="10.684" tests="10" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-15T04-02-35_629-jvmRun1 surefire-20250915040235717_1tmp surefire_0-20250915040235717_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testDuplicateLamportTimes" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="1.024">
+    <system-out><![CDATA[Testing duplicate Lamport times...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 5 (Queue size: 1)
+Queued GET request with timestamp: 5 (Queue size: 2)
+Queued PUT request with timestamp: 5 (Queue size: 3)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 5
+Processing PUT request with Lamport time: 5
+Processing GET request with Lamport time: 5
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Duplicate Lamport times test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testBasicRequestOrdering" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="1.016">
+    <system-out><![CDATA[Testing basic request ordering...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 10 (Queue size: 1)
+Queued GET request with timestamp: 5 (Queue size: 2)
+Queued PUT request with timestamp: 15 (Queue size: 3)
+Queued GET request with timestamp: 3 (Queue size: 4)
+Processing all queued requests in Lamport timestamp order
+Processing GET request with Lamport time: 3
+Processing GET request with Lamport time: 5
+Processing PUT request with Lamport time: 10
+Processing PUT request with Lamport time: 15
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Basic request ordering test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testMixedMethodsAndOrdering" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="1.02">
+    <system-out><![CDATA[Testing mixed methods and ordering...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 4 (Queue size: 1)
+Queued PUT request with timestamp: 2 (Queue size: 2)
+Queued GET request with timestamp: 1 (Queue size: 3)
+Queued GET request with timestamp: 3 (Queue size: 4)
+Processing all queued requests in Lamport timestamp order
+Processing GET request with Lamport time: 1
+Processing PUT request with Lamport time: 2
+Processing GET request with Lamport time: 3
+Processing PUT request with Lamport time: 4
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Mixed methods and ordering test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testServiceLifecycleManagement" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="0.014">
+    <system-out><![CDATA[Testing service lifecycle management...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 5 (Queue size: 1)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 5
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Service lifecycle management test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testSpecialLamportTimes" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="3.028">
+    <system-out><![CDATA[Testing special Lamport time values...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: -5 (Queue size: 1)
+Queued GET request with timestamp: -10 (Queue size: 2)
+Queued PUT request with timestamp: -1 (Queue size: 3)
+Processing all queued requests in Lamport timestamp order
+Processing GET request with Lamport time: -10
+Processing PUT request with Lamport time: -5
+Processing PUT request with Lamport time: -1
+Request ordering service processing loop ended
+Request ordering service stopped
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 0 (Queue size: 1)
+Queued GET request with timestamp: 0 (Queue size: 2)
+Queued PUT request with timestamp: 0 (Queue size: 3)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 0
+Processing PUT request with Lamport time: 0
+Processing GET request with Lamport time: 0
+Request ordering service processing loop ended
+Request ordering service stopped
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 9223372036854775807 (Queue size: 1)
+Queued GET request with timestamp: 9223372036854775806 (Queue size: 2)
+Queued PUT request with timestamp: 9223372036854775805 (Queue size: 3)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 9223372036854775805
+Processing GET request with Lamport time: 9223372036854775806
+Processing PUT request with Lamport time: 9223372036854775807
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Special Lamport times test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testEdgeCaseScenarios" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="1.516">
+    <system-out><![CDATA[Testing edge case scenarios...
+Request ordering service started - processing in Lamport timestamp order
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 5 (Queue size: 1)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 5
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Edge case scenarios test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testRapidSubmissionAndOrdering" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="2.015">
+    <system-out><![CDATA[Testing rapid submission and ordering...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 0 (Queue size: 1)
+Queued PUT request with timestamp: 2 (Queue size: 2)
+Queued PUT request with timestamp: 4 (Queue size: 3)
+Queued PUT request with timestamp: 6 (Queue size: 4)
+Queued PUT request with timestamp: 8 (Queue size: 5)
+Queued PUT request with timestamp: 10 (Queue size: 6)
+Queued PUT request with timestamp: 12 (Queue size: 7)
+Queued PUT request with timestamp: 14 (Queue size: 8)
+Queued PUT request with timestamp: 16 (Queue size: 9)
+Queued PUT request with timestamp: 18 (Queue size: 10)
+Queued PUT request with timestamp: 20 (Queue size: 11)
+Queued PUT request with timestamp: 22 (Queue size: 12)
+Queued PUT request with timestamp: 24 (Queue size: 13)
+Queued PUT request with timestamp: 26 (Queue size: 14)
+Queued PUT request with timestamp: 28 (Queue size: 15)
+Queued PUT request with timestamp: 30 (Queue size: 16)
+Queued PUT request with timestamp: 32 (Queue size: 17)
+Queued PUT request with timestamp: 34 (Queue size: 18)
+Queued PUT request with timestamp: 36 (Queue size: 19)
+Queued PUT request with timestamp: 38 (Queue size: 20)
+Queued PUT request with timestamp: 40 (Queue size: 21)
+Queued PUT request with timestamp: 42 (Queue size: 22)
+Queued PUT request with timestamp: 44 (Queue size: 23)
+Queued PUT request with timestamp: 46 (Queue size: 24)
+Queued PUT request with timestamp: 48 (Queue size: 25)
+Queued PUT request with timestamp: 50 (Queue size: 26)
+Queued PUT request with timestamp: 52 (Queue size: 27)
+Queued PUT request with timestamp: 54 (Queue size: 28)
+Queued PUT request with timestamp: 56 (Queue size: 29)
+Queued PUT request with timestamp: 58 (Queue size: 30)
+Queued PUT request with timestamp: 60 (Queue size: 31)
+Queued PUT request with timestamp: 62 (Queue size: 32)
+Queued PUT request with timestamp: 64 (Queue size: 33)
+Queued PUT request with timestamp: 66 (Queue size: 34)
+Queued PUT request with timestamp: 68 (Queue size: 35)
+Queued PUT request with timestamp: 70 (Queue size: 36)
+Queued PUT request with timestamp: 72 (Queue size: 37)
+Queued PUT request with timestamp: 74 (Queue size: 38)
+Queued PUT request with timestamp: 76 (Queue size: 39)
+Queued PUT request with timestamp: 78 (Queue size: 40)
+Queued PUT request with timestamp: 80 (Queue size: 41)
+Queued PUT request with timestamp: 82 (Queue size: 42)
+Queued PUT request with timestamp: 84 (Queue size: 43)
+Queued PUT request with timestamp: 86 (Queue size: 44)
+Queued PUT request with timestamp: 88 (Queue size: 45)
+Queued PUT request with timestamp: 90 (Queue size: 46)
+Queued PUT request with timestamp: 92 (Queue size: 47)
+Queued PUT request with timestamp: 94 (Queue size: 48)
+Queued PUT request with timestamp: 96 (Queue size: 49)
+Queued PUT request with timestamp: 98 (Queue size: 50)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 0
+Processing PUT request with Lamport time: 2
+Processing PUT request with Lamport time: 4
+Processing PUT request with Lamport time: 6
+Processing PUT request with Lamport time: 8
+Processing PUT request with Lamport time: 10
+Processing PUT request with Lamport time: 12
+Processing PUT request with Lamport time: 14
+Processing PUT request with Lamport time: 16
+Processing PUT request with Lamport time: 18
+Processing PUT request with Lamport time: 20
+Processing PUT request with Lamport time: 22
+Processing PUT request with Lamport time: 24
+Processing PUT request with Lamport time: 26
+Processing PUT request with Lamport time: 28
+Processing PUT request with Lamport time: 30
+Processing PUT request with Lamport time: 32
+Processing PUT request with Lamport time: 34
+Processing PUT request with Lamport time: 36
+Processing PUT request with Lamport time: 38
+Processing PUT request with Lamport time: 40
+Processing PUT request with Lamport time: 42
+Processing PUT request with Lamport time: 44
+Processing PUT request with Lamport time: 46
+Processing PUT request with Lamport time: 48
+Processing PUT request with Lamport time: 50
+Processing PUT request with Lamport time: 52
+Processing PUT request with Lamport time: 54
+Processing PUT request with Lamport time: 56
+Processing PUT request with Lamport time: 58
+Processing PUT request with Lamport time: 60
+Processing PUT request with Lamport time: 62
+Processing PUT request with Lamport time: 64
+Processing PUT request with Lamport time: 66
+Processing PUT request with Lamport time: 68
+Processing PUT request with Lamport time: 70
+Processing PUT request with Lamport time: 72
+Processing PUT request with Lamport time: 74
+Processing PUT request with Lamport time: 76
+Processing PUT request with Lamport time: 78
+Processing PUT request with Lamport time: 80
+Processing PUT request with Lamport time: 82
+Processing PUT request with Lamport time: 84
+Processing PUT request with Lamport time: 86
+Processing PUT request with Lamport time: 88
+Processing PUT request with Lamport time: 90
+Processing PUT request with Lamport time: 92
+Processing PUT request with Lamport time: 94
+Processing PUT request with Lamport time: 96
+Processing PUT request with Lamport time: 98
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Rapid submission and ordering test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testErrorHandling" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="0.015">
+    <system-out><![CDATA[Testing error handling...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 1 (Queue size: 1)
+Queued GET request with timestamp: 2 (Queue size: 2)
+Queued PUT request with timestamp: 3 (Queue size: 3)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 1
+Error processing request: Test exception
+Processing GET request with Lamport time: 2
+Processing PUT request with Lamport time: 3
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Error handling test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testQueueManagement" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="0.002">
+    <system-out><![CDATA[Testing queue management...
+Queued PUT request with timestamp: 1 (Queue size: 1)
+Queued GET request with timestamp: 2 (Queue size: 2)
+Request ordering service started - processing in Lamport timestamp order
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 1
+Processing GET request with Lamport time: 2
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Queue management test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testConcurrentRequestSubmission" classname="com.weathersystem.server.network.RequestOrderingServiceTest" time="1.019">
+    <system-out><![CDATA[Testing concurrent request submission...
+Request ordering service started - processing in Lamport timestamp order
+Queued PUT request with timestamp: 4 (Queue size: 6)
+Queued PUT request with timestamp: 0 (Queue size: 2)
+Queued PUT request with timestamp: 6 (Queue size: 3)
+Queued PUT request with timestamp: 10 (Queue size: 7)
+Queued PUT request with timestamp: 2 (Queue size: 4)
+Queued PUT request with timestamp: 8 (Queue size: 7)
+Queued PUT request with timestamp: 12 (Queue size: 8)
+Queued PUT request with timestamp: 38 (Queue size: 8)
+Queued PUT request with timestamp: 16 (Queue size: 9)
+Queued PUT request with timestamp: 18 (Queue size: 10)
+Queued PUT request with timestamp: 14 (Queue size: 11)
+Queued PUT request with timestamp: 26 (Queue size: 13)
+Queued PUT request with timestamp: 24 (Queue size: 12)
+Queued PUT request with timestamp: 20 (Queue size: 15)
+Queued PUT request with timestamp: 22 (Queue size: 14)
+Queued PUT request with timestamp: 28 (Queue size: 16)
+Queued PUT request with timestamp: 34 (Queue size: 17)
+Queued PUT request with timestamp: 30 (Queue size: 18)
+Queued PUT request with timestamp: 36 (Queue size: 19)
+Queued PUT request with timestamp: 32 (Queue size: 20)
+Processing all queued requests in Lamport timestamp order
+Processing PUT request with Lamport time: 0
+Processing PUT request with Lamport time: 2
+Processing PUT request with Lamport time: 4
+Processing PUT request with Lamport time: 6
+Processing PUT request with Lamport time: 8
+Processing PUT request with Lamport time: 10
+Processing PUT request with Lamport time: 12
+Processing PUT request with Lamport time: 14
+Processing PUT request with Lamport time: 16
+Processing PUT request with Lamport time: 18
+Processing PUT request with Lamport time: 20
+Processing PUT request with Lamport time: 22
+Processing PUT request with Lamport time: 24
+Processing PUT request with Lamport time: 26
+Processing PUT request with Lamport time: 28
+Processing PUT request with Lamport time: 30
+Processing PUT request with Lamport time: 32
+Processing PUT request with Lamport time: 34
+Processing PUT request with Lamport time: 36
+Processing PUT request with Lamport time: 38
+Request ordering service processing loop ended
+Request ordering service stopped
+✓ Concurrent request submission test passed
+]]></system-out>
+  </testcase>
+</testsuite>

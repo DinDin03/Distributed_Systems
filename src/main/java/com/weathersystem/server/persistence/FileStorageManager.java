@@ -7,17 +7,20 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+// Handles saving and loading weather data to/from JSON files with backup support
 public class FileStorageManager {
 
     private final String dataFilePath;
     private final String backupFilePath;
 
+    // Sets up the storage manager with data and backup file paths
     public FileStorageManager(String dataFilePath, String backupFilePath) {
         this.dataFilePath = dataFilePath;
         this.backupFilePath = backupFilePath;
 
     }
 
+    // Saves weather data to JSON file using atomic write operation
     public void save(WeatherData[] weatherData) throws IOException {
         String jsonData = JSONUtils.toJSON(weatherData);
         performAtomicFileWrite(jsonData);
@@ -25,6 +28,7 @@ public class FileStorageManager {
                 weatherData.length + " stations)");
     }
 
+    // Loads weather data from file, tries backup if main file is corrupted
     public WeatherData[] load() throws IOException {
         File dataFile = new File(dataFilePath);
         File backupFile = new File(backupFilePath);
@@ -54,6 +58,7 @@ public class FileStorageManager {
         return new WeatherData[0];
     }
 
+    // Loads weather data from a specific file and parses JSON
     private WeatherData[] loadFromFile(File file) throws IOException {
         String jsonContent = new String(Files.readAllBytes(file.toPath()));
 
@@ -69,6 +74,7 @@ public class FileStorageManager {
         }
     }
 
+    // Writes data atomically using temp file and backup to prevent corruption
     private void performAtomicFileWrite(String jsonData) throws IOException {
         String tempFilePath = dataFilePath + ".tmp";
         File tempFile = new File(tempFilePath);

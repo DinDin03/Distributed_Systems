@@ -19,7 +19,7 @@ class DataPersistenceTest {
     Path tempDir;
 
     @Test
-    // Tests server startup and basic functionality including connectivity
+    // Checks that the server starts up and can handle basic stuff
     void testServerStartupAndBasicFunctionality() throws Exception {
         System.out.println("Testing server startup and basic functionality...");
         
@@ -46,7 +46,7 @@ class DataPersistenceTest {
     }
 
     @Test
-    // Tests server restart functionality and port reuse after shutdown
+    // Tests that we can restart the server and use the same port again
     void testServerRestartAndPortReuse() throws Exception {
         System.out.println("Testing server restart and port reuse...");
         
@@ -78,7 +78,7 @@ class DataPersistenceTest {
     }
 
     @Test
-    // Tests file operations and error handling for weather data files
+    // Tests creating and reading weather data files
     void testFileOperationsAndErrorHandling() throws Exception {
         System.out.println("Testing file operations and error handling...");
         

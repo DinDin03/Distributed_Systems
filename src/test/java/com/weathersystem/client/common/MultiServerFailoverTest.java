@@ -23,7 +23,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests multi-server configuration setup and validates server address parsing
+    // Checks that we can set up multiple servers properly
     void testMultiServerConfiguration() {
         System.out.println("Testing multi-server configuration setup...");
         List<String> servers = Arrays.asList("server1:4567", "server2:4568", "server3:4569");
@@ -39,7 +39,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests failover behavior when primary server is unreachable
+    // Tests what happens when the first server is down and we need to try others
     void testFailoverBehavior() {
         System.out.println("Testing failover behavior with unreachable servers...");
         // Test that failover attempts all servers when connection fails
@@ -58,7 +58,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests single server configuration and verifies it does not use failover logic
+    // Makes sure single server config works without failover stuff
     void testSingleServerConfiguration() {
         System.out.println("Testing single server configuration...");
         ClientConfiguration singleConfig = new ClientConfiguration("localhost", 4567, "Test/1.0", 1000, 5000);
@@ -81,7 +81,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests validation of invalid configuration parameters including null and empty server lists
+    // Tests that we get proper errors when someone gives us rubbish config
     void testInvalidConfigurationHandling() {
         System.out.println("Testing invalid configuration handling...");
         
@@ -99,7 +99,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests connection timeout behavior with short timeout values
+    // Tests that connections timeout properly when servers are slow
     void testConnectionTimeoutBehavior() {
         System.out.println("Testing connection timeout behavior...");
         // Create config with very short timeouts to test timeout handling
@@ -117,7 +117,7 @@ class MultiServerFailoverTest {
     }
 
     @Test
-    // Tests failover resilience with multiple failed servers in sequence
+    // Tests that failover keeps trying even when heaps of servers are down
     void testFailoverResilience() {
         System.out.println("Testing failover resilience with multiple failed servers...");
         // Test that failover works even with many failed servers

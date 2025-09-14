@@ -2,26 +2,26 @@ package com.weathersystem.shared.clock;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-// Implementation of Lamport logical clock for distributed system event ordering
+// Lamport clock for ordering events in distributed systems
 public class LamportClock {
     private final AtomicLong clock;
 
-    // Constructor that initializes the clock to zero
+    // Sets up the clock starting at zero
     public LamportClock() {
         this.clock = new AtomicLong(0);
     }
 
-    // Increment clock for local events and return new timestamp
+    // Increments the clock for local events and returns the new time
     public long tick() {
         return clock.incrementAndGet();
     }
 
-    // Update clock when receiving message from another component in distributed system
+    // Updates the clock when receiving a message from another component
     public long update(long receivedTime) {
         return clock.updateAndGet(current -> Math.max(current, receivedTime) + 1);
     }
 
-    // Get current time without incrementing the clock
+    // Gets the current time without changing the clock
     public long getTime() {
         return clock.get();
     }

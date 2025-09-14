@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="2.154" tests="5" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-15T04-02-35_629-jvmRun1 surefire-20250915040235717_1tmp surefire_0-20250915040235717_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testBasicSaveAndLoad" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.315">
+    <system-out><![CDATA[Testing basic save and load functionality...
+No valid data files found, starting with empty database
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (3 stations)
+Async save completed successfully
+✓ Basic save and load test passed
+Weather data repository shutdown complete
+]]></system-out>
+  </testcase>
+  <testcase name="testConcurrentOperationsAndLargeData" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.263">
+    <system-out><![CDATA[Testing concurrent operations and large data...
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Primary data file corrupted: /var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/junit16040409569211738125/weather_data.json
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Data restored from backup file
+Async save failed: /var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/junit16040409569211738125/weather_data.json
+Primary data file corrupted: /var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/junit16040409569211738125/weather_data.json
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Data restored from backup file
+Weather data saved to persistent storage (1000 stations)
+Async save completed successfully
+✓ Concurrent operations and large data test passed
+Weather data repository shutdown complete
+]]></system-out>
+  </testcase>
+  <testcase name="testFileCorruptionAndRecovery" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.32">
+    <system-out><![CDATA[Testing file corruption and recovery...
+Primary data file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
+No valid data files found, starting with empty database
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Primary data file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
+Weather data saved to persistent storage (1 stations)
+Data restored from backup file
+Primary data file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
+Backup file corrupted: Failed to parse JSON content: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING at line 1 column 1 path $
+No valid data files found, starting with empty database
+✓ File corruption and recovery test passed
+Weather data repository shutdown complete
+]]></system-out>
+  </testcase>
+  <testcase name="testRepositoryLifecycleAndDataIntegrity" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.424">
+    <system-out><![CDATA[Testing repository lifecycle and data integrity...
+Weather data repository shutdown complete
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data repository shutdown complete
+✓ Repository lifecycle and data integrity test passed
+]]></system-out>
+  </testcase>
+  <testcase name="testAsyncOperationsAndErrorHandling" classname="com.weathersystem.server.persistence.WeatherDataRepositoryTest" time="0.828">
+    <system-out><![CDATA[Testing async operations and error handling...
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Weather data saved to persistent storage (0 stations)
+Async save completed successfully
+✓ Async operations and error handling test passed
+Weather data repository shutdown complete
+]]></system-out>
+  </testcase>
+</testsuite>

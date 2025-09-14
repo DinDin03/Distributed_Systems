@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestDispatcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Weather Aggregation System</a> &gt; <a href="index.source.html" class="el_package">com.weathersystem.server.network</a> &gt; <span class="el_source">RequestDispatcher.java</span></div><h1>RequestDispatcher.java</h1><pre class="source lang-java linenums">package com.weathersystem.server.network;
+
+import com.weathersystem.server.handlers.RequestHandler;
+import com.weathersystem.server.http.HttpRequest;
+import com.weathersystem.server.http.HttpResponseBuilder;
+import com.weathersystem.server.http.HttpStatusCodes;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+// Routes HTTP requests to the right handler based on the request method
+public class RequestDispatcher {
+
+    private final Map&lt;String, RequestHandler&gt; handlers;
+    private final HttpResponseBuilder responseBuilder;
+
+    // Sets up the dispatcher with empty handler map
+<span class="fc" id="L19">    public RequestDispatcher() {</span>
+<span class="fc" id="L20">        this.handlers = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L21">        this.responseBuilder = new HttpResponseBuilder();</span>
+<span class="fc" id="L22">    }</span>
+
+    // Adds a new handler for a specific HTTP method
+    public void registerHandler(String method, RequestHandler handler) {
+<span class="pc bpc" id="L26" title="2 of 4 branches missed.">        if (method == null || handler == null) {</span>
+<span class="nc" id="L27">            throw new IllegalArgumentException(&quot;Method and handler cannot be null&quot;);</span>
+        }
+
+<span class="fc" id="L30">        handlers.put(method.toUpperCase(), handler);</span>
+<span class="fc" id="L31">        System.out.println(&quot;Registered handler for &quot; + method.toUpperCase() + &quot; requests: &quot; +</span>
+<span class="fc" id="L32">                handler.getClass().getSimpleName());</span>
+<span class="fc" id="L33">    }</span>
+
+    // Processes incoming requests by finding the right handler and running it
+    public void processRequest(TimestampedRequest request) {
+        try {
+<span class="nc" id="L38">            String method = request.getMethod().toUpperCase();</span>
+
+            // Find appropriate handler
+<span class="nc" id="L41">            RequestHandler handler = handlers.get(method);</span>
+
+            // Check if handler exists
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (handler == null) {</span>
+<span class="nc" id="L45">                System.out.println(&quot;No handler found for method: &quot; + method);</span>
+<span class="nc" id="L46">                responseBuilder.sendErrorResponse(request.getOutputWriter(),</span>
+                        HttpStatusCodes.BAD_REQUEST,
+                        HttpStatusCodes.BAD_REQUEST_TEXT,
+<span class="nc" id="L49">                        request.getLamportTime());</span>
+<span class="nc" id="L50">                return;</span>
+            }
+
+<span class="nc" id="L53">            HttpRequest httpRequest = createHttpRequestFromTimestampedRequest(request);</span>
+
+<span class="nc" id="L55">            System.out.println(&quot;Dispatching &quot; + method + &quot; request to &quot; +</span>
+<span class="nc" id="L56">                    handler.getClass().getSimpleName());</span>
+
+            // Dispatch to handler
+<span class="nc" id="L59">            handler.handle(httpRequest, request.getInputReader(),</span>
+<span class="nc" id="L60">                    request.getOutputWriter(), request.getLamportTime());</span>
+
+<span class="nc" id="L62">        } catch (Exception e) {</span>
+<span class="nc" id="L63">            System.out.println(&quot;Error dispatching request: &quot; + e.getMessage());</span>
+
+            try {
+<span class="nc" id="L66">                responseBuilder.sendErrorResponse(request.getOutputWriter(),</span>
+                        HttpStatusCodes.INTERNAL_SERVER_ERROR,
+                        HttpStatusCodes.INTERNAL_SERVER_ERROR_TEXT,
+<span class="nc" id="L69">                        request.getLamportTime());</span>
+<span class="nc" id="L70">            } catch (Exception responseError) {</span>
+<span class="nc" id="L71">                System.out.println(&quot;Failed to send error response: &quot; + responseError.getMessage());</span>
+<span class="nc" id="L72">            }</span>
+
+        } finally {
+            // Close streams and socket after processing
+<span class="nc" id="L76">            closeConnectionResources(request);</span>
+        }
+<span class="nc" id="L78">    }</span>
+
+    // Returns how many handlers are registered
+    public int getHandlerCount() {
+<span class="fc" id="L82">        return handlers.size();</span>
+    }
+
+
+    // Converts timestamped request to HTTP request object
+    private HttpRequest createHttpRequestFromTimestampedRequest(TimestampedRequest request) {
+        // Create minimal headers map
+<span class="nc" id="L89">        Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L90">        headers.put(&quot;content-length&quot;, String.valueOf(request.getContentLength()));</span>
+<span class="nc" id="L91">        headers.put(&quot;lamport-time&quot;, String.valueOf(request.getLamportTime()));</span>
+
+        // Create HttpRequest with available information
+<span class="nc" id="L94">        return new com.weathersystem.server.http.HttpRequest(</span>
+<span class="nc" id="L95">                request.getMethod(),</span>
+                &quot;/weather.json&quot;, // Default path - this would come from proper HTTP parsing
+                &quot;HTTP/1.1&quot;,     // Default version
+                headers,
+<span class="nc" id="L99">                request.getContentLength(),</span>
+<span class="nc" id="L100">                request.getLamportTime()</span>
+        );
+    }
+
+    // Closes all the streams and socket after processing is done
+    private void closeConnectionResources(TimestampedRequest request) {
+        // Close streams first
+        try {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (request.getInputReader() != null) {</span>
+<span class="nc" id="L109">                request.getInputReader().close();</span>
+            }
+<span class="nc" id="L111">        } catch (IOException e) {</span>
+<span class="nc" id="L112">            System.out.println(&quot;Error closing input stream: &quot; + e.getMessage());</span>
+<span class="nc" id="L113">        }</span>
+
+        try {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (request.getOutputWriter() != null) {</span>
+<span class="nc" id="L117">                request.getOutputWriter().close();</span>
+            }
+<span class="nc" id="L119">        } catch (Exception e) {</span>
+<span class="nc" id="L120">            System.out.println(&quot;Error closing output stream: &quot; + e.getMessage());</span>
+<span class="nc" id="L121">        }</span>
+
+        // Close socket last
+        try {
+<span class="nc bnc" id="L125" title="All 4 branches missed.">            if (request.getClientSocket() != null &amp;&amp; !request.getClientSocket().isClosed()) {</span>
+<span class="nc" id="L126">                request.getClientSocket().close();</span>
+<span class="nc" id="L127">                System.out.println(&quot;Client disconnected after processing Lamport time: &quot; +</span>
+<span class="nc" id="L128">                        request.getLamportTime());</span>
+            }
+<span class="nc" id="L130">        } catch (IOException e) {</span>
+<span class="nc" id="L131">            System.out.println(&quot;Error closing client socket: &quot; + e.getMessage());</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

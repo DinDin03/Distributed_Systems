@@ -7,6 +7,7 @@ import lombok.Getter;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+// Manages weather data storage with thread-safe operations
 public class WeatherDataService {
 
     private final ConcurrentHashMap<String, WeatherStationEntry> weatherStationStore;
@@ -14,6 +15,7 @@ public class WeatherDataService {
     @Getter
     private final ReentrantReadWriteLock.WriteLock writeLock;
 
+    // Sets up the service with thread-safe storage and locks
     public WeatherDataService() {
         this.weatherStationStore = new ConcurrentHashMap<>();
         ReentrantReadWriteLock dataStoreLock = new ReentrantReadWriteLock();
@@ -21,6 +23,7 @@ public class WeatherDataService {
         this.writeLock = dataStoreLock.writeLock();
     }
 
+    // Stores weather data and returns true if it's a new station
     public boolean storeWeatherData(WeatherData weatherData) {
         if (weatherData == null || weatherData.getId() == null) {
             throw new IllegalArgumentException("Weather data and station ID cannot be null");
@@ -44,6 +47,7 @@ public class WeatherDataService {
         }
     }
 
+    // Gets all weather data from storage using read lock
     public WeatherData[] getAllWeatherData() {
         readLock.lock();
         try {
@@ -59,6 +63,7 @@ public class WeatherDataService {
         }
     }
 
+    // Removes all weather data from storage
     public void clearAllData() {
         writeLock.lock();
         try {
@@ -70,6 +75,7 @@ public class WeatherDataService {
         }
     }
 
+    // Loads weather data from array into storage with given timestamp
     public void loadWeatherData(WeatherData[] weatherDataArray, long timestamp) {
         if (weatherDataArray == null) {
             return;
@@ -93,10 +99,12 @@ public class WeatherDataService {
         }
     }
 
+    // Returns how many weather stations are currently stored
     public int getStationCount() {
         return weatherStationStore.size();
     }
 
+    // Returns the internal storage map for other services to use
     public ConcurrentHashMap<String, WeatherStationEntry> getInternalStorage() {
         return weatherStationStore;
     }

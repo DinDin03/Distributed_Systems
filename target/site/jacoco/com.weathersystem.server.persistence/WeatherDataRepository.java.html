@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WeatherDataRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Weather Aggregation System</a> &gt; <a href="index.source.html" class="el_package">com.weathersystem.server.persistence</a> &gt; <span class="el_source">WeatherDataRepository.java</span></div><h1>WeatherDataRepository.java</h1><pre class="source lang-java linenums">package com.weathersystem.server.persistence;
+
+import com.weathersystem.shared.domain.WeatherData;
+
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+// Repository that handles async saving and loading of weather data to/from files
+public class WeatherDataRepository {
+
+    private final FileStorageManager fileStorageManager;
+    private final ExecutorService persistenceExecutor;
+
+    // Sets up the repository with file storage manager and async executor
+<span class="fc" id="L17">    public WeatherDataRepository(String dataFilePath, String backupFilePath) {</span>
+<span class="fc" id="L18">        this.fileStorageManager = new FileStorageManager(dataFilePath, backupFilePath);</span>
+<span class="fc" id="L19">        this.persistenceExecutor = Executors.newSingleThreadExecutor(r -&gt; {</span>
+<span class="fc" id="L20">            Thread t = new Thread(r, &quot;WeatherDataPersistence&quot;);</span>
+<span class="fc" id="L21">            t.setDaemon(true); // Don't prevent JVM shutdown</span>
+<span class="fc" id="L22">            return t;</span>
+        });
+<span class="fc" id="L24">    }</span>
+
+    // Saves weather data asynchronously in background thread
+    public void saveAsync(WeatherData[] weatherData) {
+<span class="fc" id="L28">        CompletableFuture.runAsync(() -&gt; {</span>
+            try {
+<span class="fc" id="L30">                fileStorageManager.save(weatherData);</span>
+<span class="fc" id="L31">                System.out.println(&quot;Async save completed successfully&quot;);</span>
+<span class="fc" id="L32">            } catch (IOException e) {</span>
+<span class="fc" id="L33">                System.out.println(&quot;Async save failed: &quot; + e.getMessage());</span>
+<span class="fc" id="L34">                throw new RuntimeException(&quot;Failed to save weather data&quot;, e);</span>
+<span class="fc" id="L35">            }</span>
+<span class="fc" id="L36">        }, persistenceExecutor);</span>
+<span class="fc" id="L37">    }</span>
+
+    // Loads weather data synchronously from file storage
+    public WeatherData[] load() {
+        try {
+<span class="fc" id="L42">            return fileStorageManager.load();</span>
+<span class="nc" id="L43">        } catch (IOException e) {</span>
+<span class="nc" id="L44">            System.out.println(&quot;Failed to load weather data: &quot; + e.getMessage());</span>
+<span class="nc" id="L45">            return new WeatherData[0]; // Return empty array instead of throwing</span>
+        }
+    }
+
+    // Shuts down the async executor and stops background tasks
+    public void shutdown() {
+<span class="pc bpc" id="L51" title="1 of 4 branches missed.">        if (persistenceExecutor != null &amp;&amp; !persistenceExecutor.isShutdown()) {</span>
+<span class="fc" id="L52">            persistenceExecutor.shutdown();</span>
+<span class="fc" id="L53">            System.out.println(&quot;Weather data repository shutdown complete&quot;);</span>
+        }
+<span class="fc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

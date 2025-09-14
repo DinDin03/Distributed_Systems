@@ -64,7 +64,7 @@ class MultiServerIntegrationTest {
     // === CORE MULTI-SERVER INTEGRATION TESTS ===
 
     @Test
-    // Tests multi-server configuration parsing and validation
+    // Tests setting up multiple servers and making sure the config works
     void testMultiServerConfiguration() {
         System.out.println("Testing multi-server configuration...");
         
@@ -80,7 +80,7 @@ class MultiServerIntegrationTest {
     }
 
     @Test
-    // Tests server startup and connectivity for multiple servers
+    // Tests that all the servers start up and can be connected to
     void testServerStartupAndConnectivity() {
         System.out.println("Testing server startup and connectivity...");
         
@@ -102,7 +102,7 @@ class MultiServerIntegrationTest {
     }
 
     @Test
-    // Tests multi-server client configuration and file operations
+    // Tests client config with multiple servers and file operations
     void testMultiServerClientConfiguration() throws IOException {
         System.out.println("Testing multi-server client configuration...");
         
@@ -128,7 +128,7 @@ class MultiServerIntegrationTest {
     }
 
     @Test
-    // Tests multi-server scalability with many server configurations
+    // Tests that we can handle heaps of servers in the config
     void testMultiServerScalability() {
         System.out.println("Testing multi-server scalability...");
         
@@ -148,7 +148,7 @@ class MultiServerIntegrationTest {
     }
 
     @Test
-    // Tests single server backward compatibility with multi-server configuration
+    // Tests that single server config still works with the new multi-server stuff
     void testSingleServerBackwardCompatibility() {
         System.out.println("Testing single server backward compatibility...");
         
@@ -166,7 +166,7 @@ class MultiServerIntegrationTest {
     }
 
     @Test
-    // Tests concurrent multi-server access and client coordination
+    // Tests multiple clients accessing multiple servers at the same time
     void testConcurrentMultiServerAccess() throws InterruptedException {
         System.out.println("Testing concurrent multi-server access...");
         

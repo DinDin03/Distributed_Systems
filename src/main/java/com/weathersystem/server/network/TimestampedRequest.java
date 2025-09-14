@@ -8,6 +8,7 @@ import java.net.Socket;
 
 @Getter
 @AllArgsConstructor
+// Wraps HTTP request with Lamport timestamp for ordered processing
 public class TimestampedRequest implements Comparable<TimestampedRequest> {
     private final Socket clientSocket;
     private final String method;
@@ -17,7 +18,8 @@ public class TimestampedRequest implements Comparable<TimestampedRequest> {
     private final PrintWriter outputWriter;
 
 
-    // Compare based on Lamport timestamp for priority queue ordering
+    // Compares requests by Lamport time so older requests are processed first
+    // Compares requests by Lamport time so older requests get processed first
     @Override
     public int compareTo(TimestampedRequest other) {
         return Long.compare(this.lamportTime, other.lamportTime);

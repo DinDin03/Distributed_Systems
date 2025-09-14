@@ -4,7 +4,7 @@ import lombok.Getter;
 import java.util.List;
 import java.util.ArrayList;
 
-// Configuration class for HTTP clients with support for multiple servers and failover
+// Holds all the settings for connecting to servers
 @Getter
 public class ClientConfiguration {
 
@@ -15,14 +15,14 @@ public class ClientConfiguration {
     private final int connectionTimeoutMs;
     private final int readTimeoutMs;
 
-    // Default configuration values for client connections
+    // Default values we use when nothing else is specified
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 4567;
     private static final String DEFAULT_USER_AGENT = "WeatherClient/1.0";
     private static final int DEFAULT_CONNECTION_TIMEOUT = 5000;
     private static final int DEFAULT_READ_TIMEOUT = 10000;
 
-    // Constructor to create client configuration with custom parameters
+    // Creates a config with specific settings
     public ClientConfiguration(String host, int port, String userAgent,
                                int connectionTimeoutMs, int readTimeoutMs) {
         this.host = host;
@@ -33,7 +33,7 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
-    // Constructor for multiple servers with failover support
+    // Creates a config that can try multiple servers if one stuffs up
     public ClientConfiguration(List<String> serverAddresses, String userAgent,
                                int connectionTimeoutMs, int readTimeoutMs) {
         if (serverAddresses == null || serverAddresses.isEmpty()) {
@@ -52,7 +52,7 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
-    // Factory method to create configuration from single server address string
+    // Creates a config from a single server address like "localhost:4567"
     public static ClientConfiguration fromServerAddress(String serverAddress) {
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
@@ -75,7 +75,7 @@ public class ClientConfiguration {
                 DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
-    // Factory method to create configuration from multiple server addresses with failover
+    // Creates a config from multiple server addresses separated by commas
     public static ClientConfiguration fromMultipleServers(String serverAddresses) {
         if (serverAddresses == null || serverAddresses.trim().isEmpty()) {
             return fromServerAddress(null); // Use defaults
@@ -104,17 +104,17 @@ public class ClientConfiguration {
                 DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
-    // Returns the server URL as a string (in my case it is localhost:4567)
+    // Returns the server address as a string
     public String getServerUrl() {
         return host + ":" + port;
     }
 
-    // Get primary server address (first in the list)
+    // Gets the first server address from the list
     public String getPrimaryServerAddress() {
         return serverAddresses.get(0);
     }
 
-    // Check if multiple servers are configured
+    // Checks if we have more than one server set up
     public boolean hasMultipleServers() {
         return serverAddresses.size() > 1;
     }

@@ -4,9 +4,9 @@ import com.weathersystem.shared.domain.WeatherData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-// Utility class for JSON serialization and deserialization of weather data
+// Converts weather data to and from JSON
 public class JSONUtils {
-    // Gson instance configured with pretty printing for readable JSON output
+    // Gson instance set up for pretty printing
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();

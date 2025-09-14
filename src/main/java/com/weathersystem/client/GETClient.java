@@ -8,15 +8,15 @@ import com.weathersystem.shared.json.JSONUtils;
 import java.io.IOException;
 import java.net.Socket;
 
-// Client for retrieving weather data from the aggregation server via HTTP GET requests
+// Client that gets weather data from the server
 public class GETClient extends HttpClientBase {
 
-    // Constructor that initialises the GET client with configuration
+    // Sets up the GET client with the given config
     public GETClient(ClientConfiguration config) {
         super(config);
     }
 
-    // Main entry point for GET client command-line interface
+    // Main method that gets called when you run this from the command line
     public static void main(String[] args) {
         String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
 
@@ -24,27 +24,27 @@ public class GETClient extends HttpClientBase {
         ClientConfiguration config;
         if (serverAddress.contains(",")) {
             config = ClientConfiguration.fromMultipleServers(serverAddress);
-            System.out.println("Configured with multiple servers " + config.getServerAddresses());
+            System.out.println("Using multiple servers " + config.getServerAddresses());
         } else {
             config = ClientConfiguration.fromServerAddress(serverAddress);
         }
 
         GETClient getClient = new GETClient(config);
 
-        System.out.println("GET Client starting");
+        System.out.println("Starting GET client");
         try {
             WeatherData[] weatherData = getClient.retrieveWeatherData();
             getClient.displayWeatherData(weatherData);
 
         } catch (Exception e) {
-            System.out.println("Failed to retrieve weather data: " + e.getMessage());
+            System.out.println("Failed to get weather data: " + e.getMessage());
             System.exit(1);
         }
 
-        System.out.println("GET Client finished. Final Lamport clock: " + getClient.getLamportTime());
+        System.out.println("GET client done. Final time: " + getClient.getLamportTime());
     }
 
-    // Retrieves weather data with retry logic and exponential backoff
+    // Gets weather data and keeps trying if it stuffs up
     public WeatherData[] retrieveWeatherData() throws Exception {
         int maxAttempts = 4;
         long retryDelayMs = 1000;
@@ -58,7 +58,7 @@ public class GETClient extends HttpClientBase {
                 if (attempt == maxAttempts) {
                     throw new Exception("Weather data retrieval failed after " + maxAttempts + " attempts", e);
                 }
-                System.out.println("Weather data retrieval failed. Retrying in " + retryDelayMs + "ms");
+                System.out.println("Get failed, trying again in " + retryDelayMs + "ms");
                 Thread.sleep(retryDelayMs);
                 retryDelayMs *= (long) backoff;
             }
@@ -66,7 +66,7 @@ public class GETClient extends HttpClientBase {
         return new WeatherData[0]; // Should never reach here
     }
 
-    // Makes HTTP GET request to retrieve weather data from server
+    // Actually asks the server for weather data
     private WeatherData[] requestWeatherData() throws Exception {
         try (Socket socket = createConnection()) {
             sendHttpRequest(socket, "GET", null, null);
@@ -81,12 +81,12 @@ public class GETClient extends HttpClientBase {
         }
     }
 
-    // Parses JSON response from server into WeatherData array
+    // Converts the JSON response into weather data objects
     private WeatherData[] parseWeatherResponse(HttpResponse response) throws Exception {
         String jsonContent = response.getContent();
 
         if (jsonContent == null || jsonContent.trim().isEmpty()) {
-            System.out.println("No weather data available from server");
+            System.out.println("No weather data from server");
             return new WeatherData[0];
         }
 
@@ -97,16 +97,16 @@ public class GETClient extends HttpClientBase {
         }
     }
 
-    // Displays weather data in a formatted, human-readable format
+    // Shows the weather data on screen in a nice format
     private void displayWeatherData(WeatherData[] weatherStations) {
-        System.out.println("\n=== CURRENT WEATHER DATA ===");
+        System.out.println("\nCURRENT WEATHER DATA");
 
         if (weatherStations.length == 0) {
-            System.out.println("No weather stations currently reporting data");
+            System.out.println("No weather stations reporting");
             return;
         }
 
-        System.out.println("Total weather stations: " + weatherStations.length);
+        System.out.println("Total stations: " + weatherStations.length);
         System.out.println();
 
         for (int i = 0; i < weatherStations.length; i++) {
@@ -114,7 +114,7 @@ public class GETClient extends HttpClientBase {
         }
     }
 
-    // Displays individual weather station data with all available fields
+    // Shows all the details for one weather station
     private void displayStationData(WeatherData station, int stationNumber) {
         System.out.println("Station " + stationNumber + ":");
         System.out.println("  ID: " + station.getId());

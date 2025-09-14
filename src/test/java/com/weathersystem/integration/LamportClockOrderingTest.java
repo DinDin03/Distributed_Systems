@@ -78,7 +78,7 @@ class LamportClockOrderingTest {
     // === CORE LAMPORT CLOCK ORDERING TESTS ===
 
     @Test
-    // Tests server startup with Lamport ordering service and basic connectivity
+    // Checks that the server starts up with Lamport ordering working
     void testServerStartupWithLamportOrdering() throws Exception {
         System.out.println("Testing server startup with Lamport ordering...");
         
@@ -96,7 +96,7 @@ class LamportClockOrderingTest {
     }
 
     @Test
-    // Tests Lamport clock initialization for new clients
+    // Tests that new clients start with Lamport time 0
     void testLamportClockInitialization() throws Exception {
         System.out.println("Testing Lamport clock initialization...");
         
@@ -113,7 +113,7 @@ class LamportClockOrderingTest {
     }
 
     @Test
-    // Tests Lamport clock functionality with file operations
+    // Tests Lamport clock with file operations
     void testLamportClockWithFileOperations() throws Exception {
         System.out.println("Testing Lamport clock with file operations...");
         
@@ -138,7 +138,7 @@ class LamportClockOrderingTest {
     }
 
     @Test
-    // Tests Lamport clock stability and concurrent operations
+    // Tests that the Lamport clock works properly with multiple clients
     void testLamportClockStability() throws Exception {
         System.out.println("Testing Lamport clock stability...");
         

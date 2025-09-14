@@ -76,9 +76,9 @@ class BasicClientServerTest {
     // === CORE INTEGRATION TESTS ===
 
     @Test
-    // Tests server startup and shutdown functionality and port binding
+    // Checks that the server starts up and shuts down properly
     void testServerStartupAndShutdown() throws Exception {
-        System.out.println("Testing server startup and shutdown...");
+        System.out.println("Testing server startup and shutdown");
         
         // Test that server started successfully
         assertNotNull(server, "Server should be initialized");
@@ -89,13 +89,13 @@ class BasicClientServerTest {
             assertTrue(testSocket.isConnected(), "Should be able to connect to server");
         }
         
-        System.out.println("✓ Server startup and shutdown test passed");
+        System.out.println("Server startup and shutdown test passed");
     }
 
     @Test
-    // Tests client configuration setup and parameter validation
+    // Makes sure the client config is set up properly
     void testClientConfiguration() throws Exception {
-        System.out.println("Testing client configuration...");
+        System.out.println("Testing client configuration");
         
         // Test that client configuration is properly set up
         assertNotNull(clientConfig, "Client configuration should not be null");
@@ -103,13 +103,13 @@ class BasicClientServerTest {
         assertEquals(serverPort, clientConfig.getPort(), "Server port should match");
         assertEquals("WeatherTestClient/1.0", clientConfig.getUserAgent(), "User agent should match");
         
-        System.out.println("✓ Client configuration test passed");
+        System.out.println("Client configuration test passed");
     }
 
     @Test
-    // Tests server port availability and prevents duplicate port binding
+    // Tests that the server grabs a port and no one else can use it
     void testServerPortAvailability() throws Exception {
-        System.out.println("Testing server port availability...");
+        System.out.println("Testing server port availability");
         
         // Test that the port is actually in use by the server
         assertTrue(serverPort > 0, "Server port should be valid");
@@ -122,7 +122,7 @@ class BasicClientServerTest {
             }
         }, "Should not be able to bind to the same port as the server");
         
-        System.out.println("✓ Server port availability test passed");
+        System.out.println("Server port availability test passed");
     }
 
     private int findAvailablePort() throws IOException {
@@ -161,7 +161,7 @@ class BasicClientServerTest {
                 Files.delete(backupFile);
             }
         } catch (IOException e) {
-            System.out.println("Warning: Could not clear existing data files: " + e.getMessage());
+            System.out.println("Warning: Could not clear data files: " + e.getMessage());
         }
     }
 }

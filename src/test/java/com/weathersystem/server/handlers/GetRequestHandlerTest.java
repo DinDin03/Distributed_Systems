@@ -66,9 +66,9 @@ class GetRequestHandlerTest {
     }
 
     @Test
-    // Tests GET request handling when no weather data is available
+    // Tests what happens when someone asks for weather data but there is none
     void testHandleGetWithNoData() throws Exception {
-        System.out.println("Testing GET request with no weather data...");
+        System.out.println("Testing GET request with no data");
         HttpRequest request = createHttpRequest(5L);
         BufferedReader reader = createBufferedReader();
 
@@ -79,13 +79,13 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("Lamport-Time: 5"), "Should include Lamport time in response");
         assertTrue(response.contains("Content-Type: application/json"), "Should include JSON content type");
         assertTrue(response.contains("[]"), "Should return empty JSON array for no data");
-        System.out.println("✓ No data test passed");
+        System.out.println("No data test passed");
     }
 
     @Test
-    // Tests GET request handling with weather data including single and multiple stations
+    // Tests getting weather data when there is some data available
     void testHandleGetWithWeatherData() throws Exception {
-        System.out.println("Testing GET request with weather data...");
+        System.out.println("Testing GET request with weather data");
         
         // Add single station
         WeatherData station = createSampleWeatherData("SINGLE001", "Single Station");
@@ -123,13 +123,13 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("Second Station"), "Should include second station name");
         assertTrue(response.contains("Third Station"), "Should include third station name");
         
-        System.out.println("✓ Weather data test passed");
+        System.out.println("Weather data test passed");
     }
 
     @Test
-    // Tests GET request handling after data update to verify latest data is returned
+    // Tests that we get the latest data after it has been updated
     void testHandleGetWithDataUpdate() throws Exception {
-        System.out.println("Testing GET request after data update...");
+        System.out.println("Testing GET request after data update");
         
         // Add initial station
         WeatherData initialStation = createSampleWeatherData("UPDATE001", "Initial Name");
@@ -153,15 +153,15 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("25.0"), "Should include updated temperature");
         assertFalse(response.contains("Initial Name"), "Should not include old station name");
         
-        System.out.println("✓ Data update test passed");
+        System.out.println("Data update test passed");
     }
 
     // === DATA SCENARIOS TESTS ===
 
     @Test
-    // Tests GET request handling with various data types including special characters and precision
+    // Tests handling different types of data like special characters and precise numbers
     void testHandleGetWithVariousDataTypes() throws Exception {
-        System.out.println("Testing GET request with various data types...");
+        System.out.println("Testing GET request with various data types");
         
         // Test special characters
         WeatherData specialStation = createSampleWeatherData("SPECIAL001", "Station with special chars: ñáéíóú");
@@ -225,13 +225,13 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("ZERO001"), "Should include zero station ID");
         assertTrue(response.contains("Zero Values Station"), "Should include zero station name");
         
-        System.out.println("✓ Various data types test passed");
+        System.out.println("Various data types test passed");
     }
 
     @Test
-    // Tests GET request handling with Unicode characters and edge cases
+    // Tests handling Unicode characters and weird edge cases
     void testHandleGetWithUnicodeAndEdgeCases() throws Exception {
-        System.out.println("Testing GET request with Unicode and edge cases...");
+        System.out.println("Testing GET request with Unicode and edge cases");
         
         // Test Unicode characters
         WeatherData unicodeStation = createSampleWeatherData("UNICODE001", "Station with Unicode: 中文 日本語 한국어 العربية");
@@ -282,15 +282,15 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("180.0"), "Should preserve large longitude");
         assertTrue(response.contains("9999.999"), "Should preserve large pressure");
         
-        System.out.println("✓ Unicode and edge cases test passed");
+        System.out.println("Unicode and edge cases test passed");
     }
 
     // === RESPONSE FORMAT TESTS ===
 
     @Test
-    // Tests GET request response format including headers and JSON structure
+    // Tests that the response is formatted properly with headers and JSON
     void testHandleGetResponseFormat() throws Exception {
-        System.out.println("Testing GET request response format...");
+        System.out.println("Testing GET request response format");
         
         // Add a station for testing response format
         WeatherData station = createSampleWeatherData("FORMAT001", "Format Test Station");
@@ -316,13 +316,13 @@ class GetRequestHandlerTest {
         assertTrue(response.contains("{"), "Should contain JSON object");
         assertTrue(response.contains("}"), "Should contain closing JSON object");
         
-        System.out.println("✓ Response format test passed");
+        System.out.println("Response format test passed");
     }
 
     @Test
-    // Tests GET request handling with multiple weather stations
+    // Tests getting data when there are multiple weather stations
     void testHandleGetWithMultipleStations() throws Exception {
-        System.out.println("Testing GET request with multiple stations...");
+        System.out.println("Testing GET request with multiple stations");
         
         // Add multiple stations
         for (int i = 0; i < 5; i++) {
@@ -346,6 +346,6 @@ class GetRequestHandlerTest {
             assertTrue(response.contains("Station " + i), "Should include station name " + i);
         }
         
-        System.out.println("✓ Multiple stations test passed");
+        System.out.println("Multiple stations test passed");
     }
 }

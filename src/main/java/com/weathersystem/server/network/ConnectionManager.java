@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-// Manages client connections using thread pool and handles HTTP request parsing with Lamport clock synchronization
+// Manages client connections using a thread pool and handles HTTP requests
 public class ConnectionManager {
 
     private final int threadPoolSize;
@@ -19,7 +19,7 @@ public class ConnectionManager {
     private final Consumer<TimestampedRequest> requestSubmitter;
     private ExecutorService connectionHandlerPool;
 
-    // Constructor that initializes connection manager with thread pool size, Lamport clock, and request submitter
+    // Sets up the connection manager with thread pool size, clock, and request submitter
     public ConnectionManager(int threadPoolSize, LamportClock lamportClock,
                              Consumer<TimestampedRequest> requestSubmitter) {
         this.threadPoolSize = threadPoolSize;
@@ -27,7 +27,7 @@ public class ConnectionManager {
         this.requestSubmitter = requestSubmitter;
     }
 
-    // Starts the connection manager by creating a fixed thread pool for handling client connections
+    // Starts the connection manager by creating a thread pool
     public void start() {
         connectionHandlerPool = Executors.newFixedThreadPool(threadPoolSize, r -> {
             Thread t = new Thread(r, "ConnectionHandler");
@@ -37,7 +37,7 @@ public class ConnectionManager {
         System.out.println("Connection manager started with " + threadPoolSize + " threads");
     }
 
-    // Handles incoming client connection by submitting it to the thread pool for processing
+    // Handles a new client connection by giving it to a thread
     public void handleConnection(Socket clientSocket) {
         if (connectionHandlerPool == null || connectionHandlerPool.isShutdown()) {
             System.out.println("Connection manager not started or already shutdown");
@@ -48,7 +48,7 @@ public class ConnectionManager {
         connectionHandlerPool.submit(new ConnectionHandler(clientSocket));
     }
 
-    // Gracefully shuts down the connection manager and waits for all threads to complete
+    // Shuts down the connection manager and waits for threads to finish
     public void shutdown() {
         if (connectionHandlerPool != null && !connectionHandlerPool.isShutdown()) {
             connectionHandlerPool.shutdown();
@@ -64,16 +64,16 @@ public class ConnectionManager {
         }
     }
 
-    // Inner class that handles individual client connections in separate threads
+    // Handles individual client connections in separate threads
     private class ConnectionHandler implements Runnable {
         private final Socket clientSocket;
 
-        // Constructor that initialises the connection handler with client socket
+        // Sets up the connection handler with a client socket
         public ConnectionHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
         }
 
-        // Main run method that processes client connection and HTTP request
+        // Main method that processes the client connection
         @Override
         public void run() {
             System.out.println("Client connected from: " + clientSocket.getRemoteSocketAddress());
@@ -117,7 +117,7 @@ public class ConnectionManager {
             }
         }
 
-        // Updates server's Lamport clock based on client timestamp for distributed ordering
+        // Updates the server clock based on the client timestamp
         private long updateServerClock(long clientLamportTime) {
             long updatedTime;
 
@@ -134,7 +134,7 @@ public class ConnectionManager {
         }
     }
 
-    // Safely closes client socket connection
+    // Closes the client socket properly
     private void closeSocket(Socket socket) {
         try {
             if (socket != null && !socket.isClosed()) {
@@ -145,7 +145,7 @@ public class ConnectionManager {
         }
     }
 
-    // Safely closes input and output streams for client connection
+    // Closes the input and output streams properly
     private void closeStreams(BufferedReader in, PrintWriter out) {
         try {
             if (in != null) {

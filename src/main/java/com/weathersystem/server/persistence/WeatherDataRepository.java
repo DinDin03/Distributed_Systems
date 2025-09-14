@@ -7,11 +7,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// Repository that handles async saving and loading of weather data to/from files
 public class WeatherDataRepository {
 
     private final FileStorageManager fileStorageManager;
     private final ExecutorService persistenceExecutor;
 
+    // Sets up the repository with file storage manager and async executor
     public WeatherDataRepository(String dataFilePath, String backupFilePath) {
         this.fileStorageManager = new FileStorageManager(dataFilePath, backupFilePath);
         this.persistenceExecutor = Executors.newSingleThreadExecutor(r -> {
@@ -21,6 +23,7 @@ public class WeatherDataRepository {
         });
     }
 
+    // Saves weather data asynchronously in background thread
     public void saveAsync(WeatherData[] weatherData) {
         CompletableFuture.runAsync(() -> {
             try {
@@ -33,6 +36,7 @@ public class WeatherDataRepository {
         }, persistenceExecutor);
     }
 
+    // Loads weather data synchronously from file storage
     public WeatherData[] load() {
         try {
             return fileStorageManager.load();
@@ -42,6 +46,7 @@ public class WeatherDataRepository {
         }
     }
 
+    // Shuts down the async executor and stops background tasks
     public void shutdown() {
         if (persistenceExecutor != null && !persistenceExecutor.isShutdown()) {
             persistenceExecutor.shutdown();

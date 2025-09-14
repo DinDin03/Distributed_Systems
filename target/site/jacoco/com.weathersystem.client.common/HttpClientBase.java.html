@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClientBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Weather Aggregation System</a> &gt; <a href="index.source.html" class="el_package">com.weathersystem.client.common</a> &gt; <span class="el_source">HttpClientBase.java</span></div><h1>HttpClientBase.java</h1><pre class="source lang-java linenums">package com.weathersystem.client.common;
+
+import com.weathersystem.shared.clock.LamportClock;
+import lombok.Getter;
+
+import java.io.*;
+import java.net.Socket;
+
+public abstract class HttpClientBase {
+
+    protected final ClientConfiguration config; // Client configuration settings
+    protected final LamportClock lamportClock; // Lamport clock for distributed ordering
+    protected final ResponseParser responseParser; // Parser for HTTP responses
+
+    // Sets up the client with config, clock, and response parser
+<span class="fc" id="L16">    public HttpClientBase(ClientConfiguration config) {</span>
+<span class="fc" id="L17">        this.config = config;</span>
+<span class="fc" id="L18">        this.lamportClock = new LamportClock();</span>
+<span class="fc" id="L19">        this.responseParser = new ResponseParser(lamportClock);</span>
+<span class="fc" id="L20">    }</span>
+
+    // Connects to the server using the settings in config
+    protected Socket createConnection() throws IOException {
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if (config.hasMultipleServers()) {</span>
+<span class="nc" id="L25">            return createConnectionWithFailover();</span>
+        } else {
+<span class="nc" id="L27">            return createSingleConnection(config.getHost(), config.getPort());</span>
+        }
+    }
+
+    // Tries to connect to each server until one works
+    protected Socket createConnectionWithFailover() throws IOException {
+<span class="fc" id="L33">        IOException lastException = null;</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (String serverAddress : config.getServerAddresses()) {</span>
+<span class="fc" id="L36">            String[] parts = serverAddress.split(&quot;:&quot;);</span>
+<span class="fc" id="L37">            String host = parts[0];</span>
+<span class="fc" id="L38">            int port = Integer.parseInt(parts[1]);</span>
+
+            try {
+<span class="nc" id="L41">                Socket socket = createSingleConnection(host, port);</span>
+<span class="nc" id="L42">                System.out.println(&quot;Connected to server at &quot; + serverAddress);</span>
+<span class="nc" id="L43">                return socket;</span>
+<span class="fc" id="L44">            } catch (IOException e) {</span>
+<span class="fc" id="L45">                System.out.println(&quot;Failed to connect to &quot; + serverAddress + &quot;: &quot; + e.getMessage());</span>
+<span class="fc" id="L46">                lastException = e;</span>
+            }
+<span class="fc" id="L48">        }</span>
+
+        // All servers failed
+<span class="fc" id="L51">        throw new IOException(&quot;All servers failed to connect. Last error: &quot;);</span>
+    }
+
+    // Connects to one specific server
+    private Socket createSingleConnection(String host, int port) throws IOException {
+<span class="fc" id="L56">        Socket socket = new Socket();</span>
+<span class="pc" id="L57">        socket.connect(new java.net.InetSocketAddress(host, port),</span>
+<span class="fc" id="L58">                config.getConnectionTimeoutMs());</span>
+<span class="nc" id="L59">        socket.setSoTimeout(config.getReadTimeoutMs());</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (!config.hasMultipleServers()) {</span>
+<span class="nc" id="L62">            System.out.println(&quot;Connected to server at &quot; + host + &quot;:&quot; + port);</span>
+        }
+<span class="nc" id="L64">        return socket;</span>
+    }
+
+    // Sends a request to the server with headers and maybe some data
+    protected void sendHttpRequest(Socket socket, String method,
+                                   String contentType, byte[] content) throws IOException {
+<span class="nc" id="L70">        long sendTime = lamportClock.tick();</span>
+<span class="nc" id="L71">        System.out.println(&quot;Sending &quot; + method + &quot; request (Lamport time: &quot; + sendTime + &quot;)&quot;);</span>
+
+<span class="nc" id="L73">        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);</span>
+
+        // Send request line and headers
+<span class="nc" id="L76">        out.print(method + &quot; &quot; + &quot;/weather.json&quot; + &quot; HTTP/1.1\r\n&quot;);</span>
+<span class="nc" id="L77">        out.print(&quot;Host: &quot; + config.getServerUrl() + &quot;\r\n&quot;);</span>
+<span class="nc" id="L78">        out.print(&quot;User-Agent: &quot; + config.getUserAgent() + &quot;\r\n&quot;);</span>
+<span class="nc" id="L79">        out.print(&quot;Lamport-Time: &quot; + sendTime + &quot;\r\n&quot;);</span>
+
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="nc" id="L82">            out.print(&quot;Content-Type: &quot; + contentType + &quot;\r\n&quot;);</span>
+<span class="nc" id="L83">            out.print(&quot;Content-Length: &quot; + content.length + &quot;\r\n&quot;);</span>
+        }
+
+<span class="nc" id="L86">        out.print(&quot;\r\n&quot;);</span>
+<span class="nc" id="L87">        out.flush();</span>
+
+        // Send body if present
+<span class="nc bnc" id="L90" title="All 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="nc" id="L91">            OutputStream outputStream = socket.getOutputStream();</span>
+<span class="nc" id="L92">            outputStream.write(content);</span>
+<span class="nc" id="L93">            outputStream.flush();</span>
+        }
+<span class="nc" id="L95">    }</span>
+
+    // Gets the response back from the server and parses it
+    protected HttpResponse receiveHttpResponse(Socket socket) throws IOException {
+<span class="nc" id="L99">        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span>
+<span class="nc" id="L100">        return responseParser.parseResponse(in);</span>
+    }
+
+    // Closes the connection properly
+    protected void closeConnection(Socket socket) {
+        try {
+<span class="pc bpc" id="L106" title="3 of 4 branches missed.">            if (socket != null &amp;&amp; !socket.isClosed()) {</span>
+<span class="nc" id="L107">                socket.close();</span>
+            }
+<span class="nc" id="L109">        } catch (IOException e) {</span>
+<span class="nc" id="L110">            System.out.println(&quot;Error closing connection: &quot; + e.getMessage());</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">    }</span>
+
+    // Gets the current time from the Lamport clock
+    public long getLamportTime() {
+<span class="fc" id="L116">        return lamportClock.getTime();</span>
+    }
+
+    @Getter
+    public static class HttpResponse {
+        private final int statusCode; // HTTP status code
+        private final String statusText; // HTTP status text
+        private final String content; // Response body content
+        private final long serverLamportTime; // Server's Lamport clock time
+
+        // Creates a response object with all the bits
+<span class="fc" id="L127">        public HttpResponse(int statusCode, String statusText, String content, long serverLamportTime) {</span>
+<span class="fc" id="L128">            this.statusCode = statusCode;</span>
+<span class="fc" id="L129">            this.statusText = statusText;</span>
+<span class="fc" id="L130">            this.content = content;</span>
+<span class="fc" id="L131">            this.serverLamportTime = serverLamportTime;</span>
+<span class="fc" id="L132">        }</span>
+
+        // Checks if the response was successful 
+        public boolean isSuccess() {
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">            return statusCode &gt;= 200 &amp;&amp; statusCode &lt; 300;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

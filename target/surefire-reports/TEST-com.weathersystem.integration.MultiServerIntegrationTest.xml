@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.integration.MultiServerIntegrationTest" time="6.198" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="AU"/>
+    <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-15T04-02-35_629-jvmRun1 surefire-20250915040235717_1tmp surefire_0-20250915040235717_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/dindin"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250915040235717_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.9+9"/>
+    <property name="user.name" value="dindin"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-17.0.9+9"/>
+    <property name="localRepository" value="/Users/dindin/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
+    <property name="java.version" value="17.0.9"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/dindin/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.9+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testConcurrentMultiServerAccess" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.031">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+
+=== Aggregation Server Starting ===
+Registered handler for GET requests: GetRequestHandler
+Starting on port: 14567
+Request handlers configured for 2 HTTP methods
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+
+=== Aggregation Server Starting ===
+Request handlers configured for 2 HTTP methods
+Request ordering service started - processing in Lamport timestamp order
+Starting on port: 14568
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Initial Lamport clock: 0
+Started background cleanup service (checking every 5 seconds)
+Connection manager started with 10 threads
+All services initialized successfully
+Loading weather data from persistent storage...
+Request ordering service started - processing in Lamport timestamp order
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Server listening on port 14567
+Started background cleanup service (checking every 5 seconds)
+Press Ctrl+C to stop the server
+
+Loaded 0 weather stations from data/weather.json
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14568
+Press Ctrl+C to stop the server
+
+Server listening on port 14569
+Press Ctrl+C to stop the server
+
+Testing concurrent multi-server access...
+Client connected from: /127.0.0.1:64362
+Client connected from: /127.0.0.1:64363
+Client connected from: /127.0.0.1:64364
+Client connected from: /127.0.0.1:64361
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+✓ Concurrent multi-server access test passed
+Client connected from: /127.0.0.1:64365
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+Client connected from: /127.0.0.1:64366
+Failed to parse HTTP request: Empty request line
+
+Shutting down aggregation server...
+Client connected from: /127.0.0.1:64367
+Client connected from: /127.0.0.1:64368
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+Client connected from: /127.0.0.1:64369
+Data expiry service stopped
+Failed to parse HTTP request: Empty request line
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@78c7f9b3 rejected from java.util.concurrent.ThreadPoolExecutor@6f8d7714[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@1e6b9a95 rejected from java.util.concurrent.ThreadPoolExecutor@4d6f623d[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@aa21042 rejected from java.util.concurrent.ThreadPoolExecutor@e93f3d5[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testServerStartupAndConnectivity" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.033">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+
+=== Aggregation Server Starting ===
+Request handlers configured for 2 HTTP methods
+Starting on port: 14567
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Request ordering service started - processing in Lamport timestamp order
+Starting on port: 14568
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Initial Lamport clock: 0
+Started background cleanup service (checking every 5 seconds)
+Connection manager started with 10 threads
+All services initialized successfully
+Loading weather data from persistent storage...
+Request ordering service started - processing in Lamport timestamp order
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loaded 0 weather stations from data/weather.json
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14567
+Server listening on port 14569
+Server listening on port 14568
+Press Ctrl+C to stop the server
+
+Press Ctrl+C to stop the server
+
+Press Ctrl+C to stop the server
+
+Testing server startup and connectivity...
+Client connected from: /127.0.0.1:64370
+Failed to parse HTTP request: Empty request line
+Client connected from: /127.0.0.1:64371
+Client connected from: /127.0.0.1:64372
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+Client connected from: /127.0.0.1:64373
+Client connected from: /127.0.0.1:64374
+Failed to parse HTTP request: Empty request line
+Failed to parse HTTP request: Empty request line
+✓ Server startup and connectivity test passed
+Client connected from: /127.0.0.1:64375
+Failed to parse HTTP request: Empty request line
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@601cbd8c rejected from java.util.concurrent.ThreadPoolExecutor@7180e701[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@4e2c95ee rejected from java.util.concurrent.ThreadPoolExecutor@d0ec63[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@5a5c128 rejected from java.util.concurrent.ThreadPoolExecutor@73eb8672[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testMultiServerScalability" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.03">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 14567
+Registered handler for PUT requests: PutRequestHandler
+Initial Lamport clock: 0
+Registered handler for GET requests: GetRequestHandler
+
+=== Aggregation Server Starting ===
+Request handlers configured for 2 HTTP methods
+Starting on port: 14568
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Connection manager started with 10 threads
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Request ordering service started - processing in Lamport timestamp order
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Request ordering service started - processing in Lamport timestamp order
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14569
+Server listening on port 14567
+Press Ctrl+C to stop the server
+
+Press Ctrl+C to stop the server
+
+Server listening on port 14568
+Press Ctrl+C to stop the server
+
+Testing multi-server scalability...
+✓ Multi-server scalability test passed
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@19f040ba rejected from java.util.concurrent.ThreadPoolExecutor@72ab05ed[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@27e32fe4 rejected from java.util.concurrent.ThreadPoolExecutor@c3c4c1c[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@17d238b1 rejected from java.util.concurrent.ThreadPoolExecutor@3d7cc3cb[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testSingleServerBackwardCompatibility" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.037">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 14567
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Initial Lamport clock: 0
+
+=== Aggregation Server Starting ===
+Connection manager started with 10 threads
+Starting on port: 14568
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Request ordering service started - processing in Lamport timestamp order
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+No valid data files found, starting with empty database
+Loading weather data from persistent storage...
+Loaded 0 weather stations from data/weather.json
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14568
+Server listening on port 14567
+Press Ctrl+C to stop the server
+
+Server listening on port 14569
+Press Ctrl+C to stop the server
+
+Press Ctrl+C to stop the server
+
+Testing single server backward compatibility...
+✓ Single server backward compatibility test passed
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@3044e9c7 rejected from java.util.concurrent.ThreadPoolExecutor@41d7b27f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@49096b06 rejected from java.util.concurrent.ThreadPoolExecutor@4a183d02[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@5d05ef57 rejected from java.util.concurrent.ThreadPoolExecutor@213deac2[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testMultiServerClientConfiguration" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.023">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 14567
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 14568
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14567
+Press Ctrl+C to stop the server
+
+Request ordering service started - processing in Lamport timestamp order
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Initial Lamport clock: 0
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Connection manager started with 10 threads
+Server listening on port 14568
+Press Ctrl+C to stop the server
+
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14569
+Press Ctrl+C to stop the server
+
+Testing multi-server client configuration...
+✓ Multi-server client configuration test passed
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@23eee4b8 rejected from java.util.concurrent.ThreadPoolExecutor@28952dea[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@5a9800f8 rejected from java.util.concurrent.ThreadPoolExecutor@143d9a93[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@40226788 rejected from java.util.concurrent.ThreadPoolExecutor@4159e81b[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+  <testcase name="testMultiServerConfiguration" classname="com.weathersystem.integration.MultiServerIntegrationTest" time="1.035">
+    <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Registered handler for PUT requests: PutRequestHandler
+
+=== Aggregation Server Starting ===
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+Starting on port: 14567
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Registered handler for PUT requests: PutRequestHandler
+Registered handler for GET requests: GetRequestHandler
+Request handlers configured for 2 HTTP methods
+
+=== Aggregation Server Starting ===
+Starting on port: 14568
+Request ordering service started - processing in Lamport timestamp order
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+
+=== Aggregation Server Starting ===
+Starting on port: 14569
+Initial Lamport clock: 0
+Connection manager started with 10 threads
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+Request ordering service started - processing in Lamport timestamp order
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Request ordering service started - processing in Lamport timestamp order
+Started background cleanup service (checking every 5 seconds)
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Started background cleanup service (checking every 5 seconds)
+Server listening on port 14567
+Server listening on port 14568
+Press Ctrl+C to stop the server
+
+Press Ctrl+C to stop the server
+
+All services initialized successfully
+Loading weather data from persistent storage...
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 14569
+Press Ctrl+C to stop the server
+
+Testing multi-server configuration...
+✓ Multi-server configuration test passed
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@5b5caf08 rejected from java.util.concurrent.ThreadPoolExecutor@23cd4ff2[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@70807224 rejected from java.util.concurrent.ThreadPoolExecutor@7e97551f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+
+Shutting down aggregation server...
+Data expiry service stopped
+Processing all queued requests in Lamport timestamp order
+Request ordering service processing loop ended
+Request ordering service stopped
+Connection manager shutdown complete
+Weather data repository shutdown complete
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@400d912a rejected from java.util.concurrent.ThreadPoolExecutor@9f6e406[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Server shutdown complete
+
+]]></system-out>
+  </testcase>
+</testsuite>
