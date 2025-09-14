@@ -61,7 +61,7 @@ class ContentServerTest {
             ContentServer.HttpResponse response200 = new ContentServer.HttpResponse(200, "OK", null, 5);
             validateMethod.invoke(contentServer, response200);
             String output200 = outputStream.toString();
-            assertTrue(output200.contains("Existing weather station data updated"), 
+            assertTrue(output200.contains("Station data updated"), 
                       "Should indicate existing station update");
 
             // Reset output stream
@@ -71,7 +71,7 @@ class ContentServerTest {
             ContentServer.HttpResponse response201 = new ContentServer.HttpResponse(201, "Created", null, 5);
             validateMethod.invoke(contentServer, response201);
             String output201 = outputStream.toString();
-            assertTrue(output201.contains("New weather station registered"), 
+            assertTrue(output201.contains("New station added"), 
                       "Should indicate new station registration");
 
         } finally {

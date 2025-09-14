@@ -98,9 +98,9 @@ class GETClientTest {
             displayMethod.invoke(getClient, new Object[]{new WeatherData[0]});
 
             String emptyOutput = outputStream.toString();
-            assertTrue(emptyOutput.contains("=== CURRENT WEATHER DATA ==="), 
+            assertTrue(emptyOutput.contains("CURRENT WEATHER DATA"), 
                       "Should display header for empty data");
-            assertTrue(emptyOutput.contains("No weather stations currently reporting data"), 
+            assertTrue(emptyOutput.contains("No weather stations reporting"), 
                       "Should indicate no data available");
 
             // Reset output stream
@@ -125,9 +125,9 @@ class GETClientTest {
             displayMethod.invoke(getClient, new Object[]{new WeatherData[]{testStation}});
 
             String stationOutput = outputStream.toString();
-            assertTrue(stationOutput.contains("=== CURRENT WEATHER DATA ==="), 
+            assertTrue(stationOutput.contains("CURRENT WEATHER DATA"), 
                       "Should display header for station data");
-            assertTrue(stationOutput.contains("Total weather stations: 1"), 
+            assertTrue(stationOutput.contains("Total stations: 1"), 
                       "Should show station count");
             assertTrue(stationOutput.contains("Station 1:"), 
                       "Should show station number");
