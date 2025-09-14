@@ -41,6 +41,9 @@ class LamportClockOrderingTest {
         // Find available port
         serverPort = findAvailablePort();
 
+        // Clear any existing data files to ensure clean test state
+        clearExistingDataFiles();
+
         // Initialize server
         server = new AggregationServer();
 
@@ -109,22 +112,34 @@ class LamportClockOrderingTest {
 
         // Perform multiple sequential operations and track Lamport times
         for (int i = 0; i < 5; i++) {
-            long beforeTime = getClient.getLamportTime();
-
             if (i % 2 == 0) {
-                // PUT operation
+                // PUT operation - track ContentServer's clock
+                long beforeTime = contentServer.getLamportTime();
+                System.out.println("Before PUT operation " + i + ": " + beforeTime);
+                
                 String weatherFile = createTestWeatherDataFile("ORDER" + i, "Order Test " + i);
                 contentServer.publishWeatherData(weatherFile);
+                
+                long afterTime = contentServer.getLamportTime();
+                System.out.println("After PUT operation " + i + ": " + afterTime);
+                lamportTimes.add(afterTime);
+                
+                System.out.println("PUT Operation " + i + ": " + beforeTime + " -> " + afterTime);
+                assertTrue(afterTime > beforeTime, "Lamport time should increase with each PUT operation. Before: " + beforeTime + ", After: " + afterTime);
             } else {
-                // GET operation
+                // GET operation - track GETClient's clock
+                long beforeTime = getClient.getLamportTime();
+                System.out.println("Before GET operation " + i + ": " + beforeTime);
+                
                 getClient.retrieveWeatherData();
+                
+                long afterTime = getClient.getLamportTime();
+                System.out.println("After GET operation " + i + ": " + afterTime);
+                lamportTimes.add(afterTime);
+                
+                System.out.println("GET Operation " + i + ": " + beforeTime + " -> " + afterTime);
+                assertTrue(afterTime > beforeTime, "Lamport time should increase with each GET operation. Before: " + beforeTime + ", After: " + afterTime);
             }
-
-            long afterTime = getClient.getLamportTime();
-            lamportTimes.add(afterTime);
-
-            assertTrue(afterTime > beforeTime, "Lamport time should increase with each operation");
-            System.out.println("Operation " + i + ": " + beforeTime + " -> " + afterTime);
         }
 
         // Verify Lamport times are monotonically increasing
@@ -155,21 +170,22 @@ class LamportClockOrderingTest {
                     startLatch.await();
 
                     for (int opId = 0; opId < operationsPerClient; opId++) {
-                        long beforeTime = getClient.getLamportTime();
-
                         if (opId % 2 == 0) {
-                            // PUT operation
+                            // PUT operation - use ContentServer's clock
+                            long beforeTime = contentServer.getLamportTime();
                             int operationId = operationCounter.getAndIncrement();
                             String weatherFile = createTestWeatherDataFile("CONCURRENT" + operationId,
                                                                          "Concurrent Client " + cId + " Op " + opId);
                             contentServer.publishWeatherData(weatherFile);
+                            long afterTime = contentServer.getLamportTime();
+                            allLamportTimes.add(afterTime);
                         } else {
-                            // GET operation
+                            // GET operation - use GETClient's clock
+                            long beforeTime = getClient.getLamportTime();
                             getClient.retrieveWeatherData();
+                            long afterTime = getClient.getLamportTime();
+                            allLamportTimes.add(afterTime);
                         }
-
-                        long afterTime = getClient.getLamportTime();
-                        allLamportTimes.add(afterTime);
 
                         // Small delay to allow interleaving
                         Thread.sleep(100);
@@ -196,7 +212,8 @@ class LamportClockOrderingTest {
 
         // All times should be positive and show reasonable progression
         for (Long time : allLamportTimes) {
-            assertTrue(time > 0, "All Lamport times should be positive");
+            System.out.println("Lamport time: " + time);
+            assertTrue(time > 0, "All Lamport times should be positive, but got: " + time);
         }
 
         // The maximum time should be reasonable (not excessively high)
@@ -357,6 +374,24 @@ class LamportClockOrderingTest {
     private int findAvailablePort() throws IOException {
         try (ServerSocket socket = new ServerSocket(0)) {
             return socket.getLocalPort();
+        }
+    }
+
+    private void clearExistingDataFiles() {
+        try {
+            // Clear the main data file
+            Path dataFile = Path.of("data/weather.json");
+            if (Files.exists(dataFile)) {
+                Files.delete(dataFile);
+            }
+            
+            // Clear the backup file
+            Path backupFile = Path.of("data/weather.json.backup");
+            if (Files.exists(backupFile)) {
+                Files.delete(backupFile);
+            }
+        } catch (IOException e) {
+            System.out.println("Warning: Could not clear existing data files: " + e.getMessage());
         }
     }
 

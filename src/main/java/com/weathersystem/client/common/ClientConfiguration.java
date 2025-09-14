@@ -14,9 +14,10 @@ public class ClientConfiguration {
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 4567;
     private static final String DEFAULT_USER_AGENT = "WeatherClient/1.0";
-    private static final int DEFAULT_CONNECTION_TIMEOUT = 5000; // 5 seconds
-    private static final int DEFAULT_READ_TIMEOUT = 10000; // 10 seconds
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 5000;
+    private static final int DEFAULT_READ_TIMEOUT = 10000;
 
+    // Constructor to create client configuration with custom parameters
     public ClientConfiguration(String host, int port, String userAgent,
                                int connectionTimeoutMs, int readTimeoutMs) {
         this.host = host;
@@ -26,6 +27,7 @@ public class ClientConfiguration {
         this.readTimeoutMs = readTimeoutMs;
     }
 
+    // Factory method to create configuration from server address string
     public static ClientConfiguration fromServerAddress(String serverAddress) {
         String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
@@ -44,6 +46,7 @@ public class ClientConfiguration {
                 DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT);
     }
 
+    // Returns the server URL as a string (in my case it is localhost:4567)
     public String getServerUrl() {
         return host + ":" + port;
     }

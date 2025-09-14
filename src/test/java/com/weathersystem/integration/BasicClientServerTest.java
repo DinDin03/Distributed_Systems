@@ -40,6 +40,9 @@ class BasicClientServerTest {
         Path dataDir = tempDir.resolve("data");
         Files.createDirectories(dataDir);
 
+        // Clear any existing data files to ensure clean test state
+        clearExistingDataFiles();
+
         // Initialize server
         server = new AggregationServer();
 
@@ -200,17 +203,24 @@ class BasicClientServerTest {
         WeatherData[] data1 = getClient.retrieveWeatherData();
         assertEquals(1, data1.length, "Should have 1 station after first PUT");
 
-        // Second PUT with different data
+        // Second PUT with different data (different station ID)
         String weatherData2 = createTestWeatherDataFile2();
         contentServer.publishWeatherData(weatherData2);
         WeatherData[] data2 = getClient.retrieveWeatherData();
-        assertEquals(1, data2.length, "Should have 1 station after second PUT");
-        assertEquals("IDS60902", data2[0].getId(), "Should have new station data");
+        assertEquals(2, data2.length, "Should have 2 stations after second PUT (different station IDs)");
+        
+        // Verify both stations are present
+        boolean foundStation1 = false, foundStation2 = false;
+        for (WeatherData station : data2) {
+            if ("IDS60901".equals(station.getId())) foundStation1 = true;
+            if ("IDS60902".equals(station.getId())) foundStation2 = true;
+        }
+        assertTrue(foundStation1, "Should have first station (IDS60901)");
+        assertTrue(foundStation2, "Should have second station (IDS60902)");
 
-        // Third GET should still return latest data
+        // Third GET should still return both stations
         WeatherData[] data3 = getClient.retrieveWeatherData();
-        assertEquals(1, data3.length, "Should still have 1 station");
-        assertEquals("IDS60902", data3[0].getId(), "Should still have latest station data");
+        assertEquals(2, data3.length, "Should still have 2 stations");
     }
 
     @Test
@@ -252,6 +262,24 @@ class BasicClientServerTest {
     private int findAvailablePort() throws IOException {
         try (ServerSocket socket = new ServerSocket(0)) {
             return socket.getLocalPort();
+        }
+    }
+
+    private void clearExistingDataFiles() {
+        try {
+            // Clear the main data file
+            Path dataFile = Path.of("data/weather.json");
+            if (Files.exists(dataFile)) {
+                Files.delete(dataFile);
+            }
+            
+            // Clear the backup file
+            Path backupFile = Path.of("data/weather.json.backup");
+            if (Files.exists(backupFile)) {
+                Files.delete(backupFile);
+            }
+        } catch (IOException e) {
+            System.out.println("Warning: Could not clear existing data files: " + e.getMessage());
         }
     }
 

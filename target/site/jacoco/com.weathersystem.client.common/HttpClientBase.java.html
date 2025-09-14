@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpClientBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Weather Aggregation System</a> &gt; <a href="index.source.html" class="el_package">com.weathersystem.client.common</a> &gt; <span class="el_source">HttpClientBase.java</span></div><h1>HttpClientBase.java</h1><pre class="source lang-java linenums">package com.weathersystem.client.common;
+
+import com.weathersystem.shared.clock.LamportClock;
+import lombok.Getter;
+
+import java.io.*;
+import java.net.Socket;
+
+public abstract class HttpClientBase {
+
+    protected final ClientConfiguration config; // Client configuration settings
+    protected final LamportClock lamportClock; // Lamport clock for distributed ordering
+    protected final ResponseParser responseParser; // Parser for HTTP responses
+
+    // Constructor initializes client configuration, Lamport clock, and response parser
+<span class="fc" id="L16">    public HttpClientBase(ClientConfiguration config) {</span>
+<span class="fc" id="L17">        this.config = config;</span>
+<span class="fc" id="L18">        this.lamportClock = new LamportClock();</span>
+<span class="fc" id="L19">        this.responseParser = new ResponseParser(lamportClock);</span>
+<span class="fc" id="L20">    }</span>
+
+    // Creates a socket connection to the server with configured timeouts
+    protected Socket createConnection() throws IOException {
+<span class="fc" id="L24">        Socket socket = new Socket();</span>
+<span class="fc" id="L25">        socket.connect(new java.net.InetSocketAddress(config.getHost(), config.getPort()),</span>
+<span class="fc" id="L26">                config.getConnectionTimeoutMs());</span>
+<span class="fc" id="L27">        socket.setSoTimeout(config.getReadTimeoutMs());</span>
+
+<span class="fc" id="L29">        System.out.println(&quot;Connected to server at &quot; + config.getServerUrl());</span>
+<span class="fc" id="L30">        return socket;</span>
+    }
+
+    // Sends HTTP request with headers and optional body content
+    protected void sendHttpRequest(Socket socket, String method,
+                                   String contentType, byte[] content) throws IOException {
+<span class="fc" id="L36">        long sendTime = lamportClock.tick();</span>
+<span class="fc" id="L37">        System.out.println(&quot;Sending &quot; + method + &quot; request (Lamport time: &quot; + sendTime + &quot;)&quot;);</span>
+
+<span class="fc" id="L39">        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);</span>
+
+        // Send request line and headers
+<span class="fc" id="L42">        out.print(method + &quot; &quot; + &quot;/weather.json&quot; + &quot; HTTP/1.1\r\n&quot;);</span>
+<span class="fc" id="L43">        out.print(&quot;Host: &quot; + config.getServerUrl() + &quot;\r\n&quot;);</span>
+<span class="fc" id="L44">        out.print(&quot;User-Agent: &quot; + config.getUserAgent() + &quot;\r\n&quot;);</span>
+<span class="fc" id="L45">        out.print(&quot;Lamport-Time: &quot; + sendTime + &quot;\r\n&quot;);</span>
+
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="fc" id="L48">            out.print(&quot;Content-Type: &quot; + contentType + &quot;\r\n&quot;);</span>
+<span class="fc" id="L49">            out.print(&quot;Content-Length: &quot; + content.length + &quot;\r\n&quot;);</span>
+        }
+
+<span class="fc" id="L52">        out.print(&quot;\r\n&quot;);</span>
+<span class="fc" id="L53">        out.flush();</span>
+
+        // Send body if present
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">        if (content != null &amp;&amp; content.length &gt; 0) {</span>
+<span class="fc" id="L57">            OutputStream outputStream = socket.getOutputStream();</span>
+<span class="fc" id="L58">            outputStream.write(content);</span>
+<span class="fc" id="L59">            outputStream.flush();</span>
+        }
+<span class="fc" id="L61">    }</span>
+
+    // Receives and parses HTTP response from the server
+    protected HttpResponse receiveHttpResponse(Socket socket) throws IOException {
+<span class="fc" id="L65">        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span>
+<span class="fc" id="L66">        return responseParser.parseResponse(in);</span>
+    }
+
+    // Safely closes the socket connection
+    protected void closeConnection(Socket socket) {
+        try {
+<span class="pc bpc" id="L72" title="2 of 4 branches missed.">            if (socket != null &amp;&amp; !socket.isClosed()) {</span>
+<span class="fc" id="L73">                socket.close();</span>
+            }
+<span class="nc" id="L75">        } catch (IOException e) {</span>
+<span class="nc" id="L76">            System.out.println(&quot;Error closing connection: &quot; + e.getMessage());</span>
+<span class="fc" id="L77">        }</span>
+<span class="fc" id="L78">    }</span>
+
+    // Returns the current Lamport clock time
+    public long getLamportTime() {
+<span class="fc" id="L82">        return lamportClock.getTime();</span>
+    }
+
+    @Getter
+    public static class HttpResponse {
+        private final int statusCode; // HTTP status code
+        private final String statusText; // HTTP status text
+        private final String content; // Response body content
+        private final long serverLamportTime; // Server's Lamport clock time
+
+        // Constructor creates HTTP response object with all fields
+<span class="fc" id="L93">        public HttpResponse(int statusCode, String statusText, String content, long serverLamportTime) {</span>
+<span class="fc" id="L94">            this.statusCode = statusCode;</span>
+<span class="fc" id="L95">            this.statusText = statusText;</span>
+<span class="fc" id="L96">            this.content = content;</span>
+<span class="fc" id="L97">            this.serverLamportTime = serverLamportTime;</span>
+<span class="fc" id="L98">        }</span>
+
+        // Checks if the response indicates success (2xx status codes)
+        public boolean isSuccess() {
+<span class="pc bpc" id="L102" title="1 of 4 branches missed.">            return statusCode &gt;= 200 &amp;&amp; statusCode &lt; 300;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

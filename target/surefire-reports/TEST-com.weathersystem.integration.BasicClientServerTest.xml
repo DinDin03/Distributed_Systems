@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.integration.BasicClientServerTest" time="15.055" tests="9" errors="0" skipped="0" failures="3">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.weathersystem.integration.BasicClientServerTest" time="15.039" tests="9" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Projects/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="java.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
     <property name="java.vm.vendor" value="Eclipse Adoptium"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://adoptium.net/"/>
@@ -12,10 +12,10 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem/lib"/>
-    <property name="sun.java.command" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire/surefirebooter-20250914201500409_3.jar /Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire 2025-09-14T20-15-00_324-jvmRun1 surefire-20250914201500409_1tmp surefire_0-20250914201500409_2tmp"/>
+    <property name="sun.java.command" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar /Users/dindin/Desktop/Distributed_Systems/target/surefire 2025-09-14T20-46-21_578-jvmRun1 surefire-20250914204621686_1tmp surefire_0-20250914204621686_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Projects/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/test-classes:/Users/dindin/Desktop/Distributed_Systems/target/classes:/Users/dindin/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/dindin/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/Users/dindin/.m2/repository/org/slf4j/slf4j-simple/2.0.6/slf4j-simple-2.0.6.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/dindin/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/dindin/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.2/junit-jupiter-params-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.2/junit-jupiter-engine-5.9.2.jar:/Users/dindin/.m2/repository/org/junit/platform/junit-platform-engine/1.9.2/junit-platform-engine-1.9.2.jar:/Users/dindin/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/dindin/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/dindin"/>
     <property name="user.language" value="en"/>
@@ -23,12 +23,12 @@
     <property name="java.version.date" value="2023-10-17"/>
     <property name="java.home" value="/Users/dindin/.sdkman/candidates/java/17.0.9-tem"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/Users/dindin/Desktop/Projects/Distributed_Systems"/>
+    <property name="basedir" value="/Users/dindin/Desktop/Distributed_Systems"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Projects/Distributed_Systems/target/surefire/surefirebooter-20250914201500409_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/dindin/Desktop/Distributed_Systems/target/surefire/surefirebooter-20250914204621686_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="17.0.9+9"/>
@@ -43,7 +43,7 @@
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="/var/folders/4x/gmkrc1sd0cb7n5lg7ym02r5r0000gn/T/"/>
     <property name="java.version" value="17.0.9"/>
-    <property name="user.dir" value="/Users/dindin/Desktop/Projects/Distributed_Systems"/>
+    <property name="user.dir" value="/Users/dindin/Desktop/Distributed_Systems"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>
@@ -55,90 +55,89 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testConnectionHandling" classname="com.weathersystem.integration.BasicClientServerTest" time="0.112">
+  <testcase name="testConnectionHandling" classname="com.weathersystem.integration.BasicClientServerTest" time="0.11">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51065
+Starting on port: 54460
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51065
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54460
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51066 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54461 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
-Connected to server at localhost:51065
+Connected to server at localhost:54460
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51067 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54462 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 2
 Queued GET request with timestamp: 2 (Queue size: 1)
 Processing GET request with Lamport time: 2
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 2 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 2 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 2 -> 3
-Connected to server at localhost:51065
+Connected to server at localhost:54460
 Sending GET request (Lamport time: 4)
-Client connected from: /127.0.0.1:51068 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54463 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 4 -> 5
 Queued GET request with timestamp: 5 (Queue size: 1)
 Processing GET request with Lamport time: 5
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 5 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 5 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 5 -> 6
-Connected to server at localhost:51065
+Connected to server at localhost:54460
 Sending GET request (Lamport time: 7)
-Client connected from: /127.0.0.1:51069 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54464 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 7 -> 8
 Queued GET request with timestamp: 8 (Queue size: 1)
 Processing GET request with Lamport time: 8
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 8 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 8 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 8 -> 9
-Connected to server at localhost:51065
+Connected to server at localhost:54460
 Sending GET request (Lamport time: 10)
-Client connected from: /127.0.0.1:51070 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54465 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 10 -> 11
 Queued GET request with timestamp: 11 (Queue size: 1)
 Processing GET request with Lamport time: 11
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 11 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 11 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 11 -> 12
-Connected to server at localhost:51065
+Connected to server at localhost:54460
 Sending GET request (Lamport time: 13)
-Client connected from: /127.0.0.1:51071 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54466 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 13 -> 14
 Queued GET request with timestamp: 14 (Queue size: 1)
 Processing GET request with Lamport time: 14
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 14 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 14 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 14 -> 15
 
@@ -147,111 +146,31 @@ Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@5339bbad rejected from java.util.concurrent.ThreadPoolExecutor@3935e9a8[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@238ad8c rejected from java.util.concurrent.ThreadPoolExecutor@430fa4ef[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testServerRecoveryAfterError" classname="com.weathersystem.integration.BasicClientServerTest" time="7.133">
-    <failure message="Should receive valid data after error recovery ==&gt; expected: &lt;1&gt; but was: &lt;49&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Should receive valid data after error recovery ==> expected: <1> but was: <49>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:560)
-	at com.weathersystem.integration.BasicClientServerTest.testServerRecoveryAfterError(BasicClientServerTest.java:249)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:55)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:223)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:175)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:139)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:456)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:169)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:595)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:581)
-]]></failure>
+  <testcase name="testServerRecoveryAfterError" classname="com.weathersystem.integration.BasicClientServerTest" time="7.131">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51072
+Starting on port: 54467
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51072
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54467
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51073 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54468 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
@@ -267,239 +186,235 @@ Processing weather file (Lamport time: 4)
 
 Processing weather file (Lamport time: 5)
 Uploading weather data for station: IDS60901
-Connected to server at localhost:51072
+Connected to server at localhost:54467
 Sending PUT request (Lamport time: 6)
-Client connected from: /127.0.0.1:51076 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54469 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 6 -> 7
 Queued PUT request with timestamp: 7 (Queue size: 1)
 Processing PUT request with Lamport time: 7
 Dispatching PUT request to PutRequestHandler
-Stored weather data for station: IDS60901 (updated existing)
-Processing PUT with Lamport time 7 for station: IDS60901 (update)
-Retrieved weather data for 49 active stations
-Server response: HTTP/1.1 200 OK
+Stored weather data for station: IDS60901 (new station)
+Processing PUT with Lamport time 7 for station: IDS60901 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
 Updated Lamport clock from server response: 7 -> 8
-Existing weather station data updated
-Server accepted weather data with status: 200 OK
+New weather station registered
+Server accepted weather data with status: 201 Created
 
 Weather data published successfully
 
-Connected to server at localhost:51072
+Connected to server at localhost:54467
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51077 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54470 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 8
 Queued GET request with timestamp: 8 (Queue size: 1)
 Processing GET request with Lamport time: 8
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 8 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Processing GET with Lamport time 8 - returning 1 stations
+Weather data served - Total stations: 1, States: {SA=1}
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 8 -> 9
-Weather data saved to persistent storage (49 stations)
 
 Shutting down aggregation server...
-Async save completed successfully
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@7dcc91fd rejected from java.util.concurrent.ThreadPoolExecutor@66eb985d[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@208e9ef6 rejected from java.util.concurrent.ThreadPoolExecutor@78b236a0[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testLamportTimestampExchange" classname="com.weathersystem.integration.BasicClientServerTest" time="0.112">
+  <testcase name="testLamportTimestampExchange" classname="com.weathersystem.integration.BasicClientServerTest" time="0.104">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51078
+Starting on port: 54471
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51078
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54471
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51079 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54472 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
-Connected to server at localhost:51078
+Connected to server at localhost:54471
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51080 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54473 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 2
 Queued GET request with timestamp: 2 (Queue size: 1)
 Processing GET request with Lamport time: 2
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 2 - returning 49 stations
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 2 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 2 -> 3
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@6c8a68c1 rejected from java.util.concurrent.ThreadPoolExecutor@56193c7d[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@34448e6c rejected from java.util.concurrent.ThreadPoolExecutor@60e9df3c[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testSuccessfulPutOperation" classname="com.weathersystem.integration.BasicClientServerTest" time="0.111">
+  <testcase name="testSuccessfulPutOperation" classname="com.weathersystem.integration.BasicClientServerTest" time="0.11">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51081
+Starting on port: 54474
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51081
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54474
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51082 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54475 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
 Uploading weather data for station: IDS60901
-Connected to server at localhost:51081
+Connected to server at localhost:54474
 Sending PUT request (Lamport time: 2)
-Client connected from: /127.0.0.1:51083 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54476 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 2 -> 3
 Queued PUT request with timestamp: 3 (Queue size: 1)
 Processing PUT request with Lamport time: 3
 Dispatching PUT request to PutRequestHandler
-Stored weather data for station: IDS60901 (updated existing)
-Processing PUT with Lamport time 3 for station: IDS60901 (update)
-Retrieved weather data for 49 active stations
-Server response: HTTP/1.1 200 OK
+Stored weather data for station: IDS60901 (new station)
+Processing PUT with Lamport time 3 for station: IDS60901 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
 Updated Lamport clock from server response: 3 -> 4
-Existing weather station data updated
-Server accepted weather data with status: 200 OK
+New weather station registered
+Server accepted weather data with status: 201 Created
 
 Weather data published successfully
 
-Connected to server at localhost:51081
+Connected to server at localhost:54474
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51084 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54477 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 4
 Queued GET request with timestamp: 4 (Queue size: 1)
 Processing GET request with Lamport time: 4
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 4 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Processing GET with Lamport time 4 - returning 1 stations
+Weather data served - Total stations: 1, States: {SA=1}
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 4 -> 5
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
-Weather data saved to persistent storage (49 stations)
-Async save completed successfully
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@607b2792 rejected from java.util.concurrent.ThreadPoolExecutor@7f9e1534[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@537b32ef rejected from java.util.concurrent.ThreadPoolExecutor@7dc51783[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testGetFromServerWithExistingData" classname="com.weathersystem.integration.BasicClientServerTest" time="0.112">
+  <testcase name="testGetFromServerWithExistingData" classname="com.weathersystem.integration.BasicClientServerTest" time="0.106">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51085
+Starting on port: 54478
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51085
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54478
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51086 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54479 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
-Connected to server at localhost:51085
+Connected to server at localhost:54478
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51087 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54480 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 2
 Queued GET request with timestamp: 2 (Queue size: 1)
 Processing GET request with Lamport time: 2
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 2 - returning 49 stations
+Retrieved weather data for 0 active stations
+Processing GET with Lamport time 2 - returning 0 stations
+No weather data available for clients
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 2 -> 3
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@81ff872 rejected from java.util.concurrent.ThreadPoolExecutor@31611954[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@6f815e7f rejected from java.util.concurrent.ThreadPoolExecutor@65e7f52a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testInvalidWeatherDataFile" classname="com.weathersystem.integration.BasicClientServerTest" time="7.136">
+  <testcase name="testInvalidWeatherDataFile" classname="com.weathersystem.integration.BasicClientServerTest" time="7.131">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51088
+Starting on port: 54481
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51088
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54481
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51089 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54482 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
 Uploading weather data for station: null
-Connected to server at localhost:51088
+Connected to server at localhost:54481
 Sending PUT request (Lamport time: 2)
-Client connected from: /127.0.0.1:51090 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54483 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 2 -> 3
 Queued PUT request with timestamp: 3 (Queue size: 1)
@@ -512,9 +427,9 @@ Weather data upload failed (attempt 1/4): Server rejected weather data: 500 Inte
 
 Processing weather file (Lamport time: 5)
 Uploading weather data for station: null
-Connected to server at localhost:51088
+Connected to server at localhost:54481
 Sending PUT request (Lamport time: 6)
-Client connected from: /127.0.0.1:51091 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54484 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 6 -> 7
 Queued PUT request with timestamp: 7 (Queue size: 1)
@@ -527,9 +442,9 @@ Weather data upload failed (attempt 2/4): Server rejected weather data: 500 Inte
 
 Processing weather file (Lamport time: 9)
 Uploading weather data for station: null
-Connected to server at localhost:51088
+Connected to server at localhost:54481
 Sending PUT request (Lamport time: 10)
-Client connected from: /127.0.0.1:51092 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54485 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 10 -> 11
 Queued PUT request with timestamp: 11 (Queue size: 1)
@@ -542,9 +457,9 @@ Weather data upload failed (attempt 3/4): Server rejected weather data: 500 Inte
 
 Processing weather file (Lamport time: 13)
 Uploading weather data for station: null
-Connected to server at localhost:51088
+Connected to server at localhost:54481
 Sending PUT request (Lamport time: 14)
-Client connected from: /127.0.0.1:51093 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54486 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 14 -> 15
 Queued PUT request with timestamp: 15 (Queue size: 1)
@@ -559,374 +474,261 @@ Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@32fdec40 rejected from java.util.concurrent.ThreadPoolExecutor@6813a331[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+Retrieved weather data for 0 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@1f14f20c rejected from java.util.concurrent.ThreadPoolExecutor@7daa61f3[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testHttpStatusCodes" classname="com.weathersystem.integration.BasicClientServerTest" time="0.111">
+  <testcase name="testHttpStatusCodes" classname="com.weathersystem.integration.BasicClientServerTest" time="0.112">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51094
+Starting on port: 54487
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51094
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54487
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51095 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54488 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
 Uploading weather data for station: IDS60901
-Connected to server at localhost:51094
+Connected to server at localhost:54487
 Sending PUT request (Lamport time: 2)
-Client connected from: /127.0.0.1:51096 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54489 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 2 -> 3
 Queued PUT request with timestamp: 3 (Queue size: 1)
 Processing PUT request with Lamport time: 3
 Dispatching PUT request to PutRequestHandler
-Stored weather data for station: IDS60901 (updated existing)
-Processing PUT with Lamport time 3 for station: IDS60901 (update)
-Retrieved weather data for 49 active stations
-Server response: HTTP/1.1 200 OK
+Stored weather data for station: IDS60901 (new station)
+Processing PUT with Lamport time 3 for station: IDS60901 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
 Updated Lamport clock from server response: 3 -> 4
-Existing weather station data updated
-Server accepted weather data with status: 200 OK
+New weather station registered
+Server accepted weather data with status: 201 Created
 
 Weather data published successfully
 
-Connected to server at localhost:51094
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Connected to server at localhost:54487
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51097 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54490 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 4
 Queued GET request with timestamp: 4 (Queue size: 1)
 Processing GET request with Lamport time: 4
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 4 - returning 49 stations
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 4 - returning 1 stations
+Weather data served - Total stations: 1, States: {SA=1}
 Server response: HTTP/1.1 200 OK
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
 Updated Lamport clock from server response: 4 -> 5
-Weather data saved to persistent storage (49 stations)
-Async save completed successfully
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@111610e6 rejected from java.util.concurrent.ThreadPoolExecutor@4ad4936c[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@78f9ed3e rejected from java.util.concurrent.ThreadPoolExecutor@1059754c[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testSequentialOperations" classname="com.weathersystem.integration.BasicClientServerTest" time="0.111">
-    <failure message="Should have 1 station after first PUT ==&gt; expected: &lt;1&gt; but was: &lt;49&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Should have 1 station after first PUT ==> expected: <1> but was: <49>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:560)
-	at com.weathersystem.integration.BasicClientServerTest.testSequentialOperations(BasicClientServerTest.java:201)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:55)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:223)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:175)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:139)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:456)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:169)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:595)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:581)
-]]></failure>
+  <testcase name="testSequentialOperations" classname="com.weathersystem.integration.BasicClientServerTest" time="0.115">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51098
+Starting on port: 54491
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51098
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54491
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51099 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54492 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
 Uploading weather data for station: IDS60901
-Connected to server at localhost:51098
+Connected to server at localhost:54491
 Sending PUT request (Lamport time: 2)
-Client connected from: /127.0.0.1:51100 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54493 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 2 -> 3
 Queued PUT request with timestamp: 3 (Queue size: 1)
 Processing PUT request with Lamport time: 3
 Dispatching PUT request to PutRequestHandler
-Stored weather data for station: IDS60901 (updated existing)
-Processing PUT with Lamport time 3 for station: IDS60901 (update)
-Retrieved weather data for 49 active stations
-Server response: HTTP/1.1 200 OK
+Stored weather data for station: IDS60901 (new station)
+Processing PUT with Lamport time 3 for station: IDS60901 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
 Updated Lamport clock from server response: 3 -> 4
-Existing weather station data updated
-Server accepted weather data with status: 200 OK
+New weather station registered
+Server accepted weather data with status: 201 Created
 
 Weather data published successfully
 
-Connected to server at localhost:51098
+Connected to server at localhost:54491
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51101 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54494 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 4
 Queued GET request with timestamp: 4 (Queue size: 1)
 Processing GET request with Lamport time: 4
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 4 - returning 49 stations
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
+Retrieved weather data for 1 active stations
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Processing GET with Lamport time 4 - returning 1 stations
+Weather data served - Total stations: 1, States: {SA=1}
 Server response: HTTP/1.1 200 OK
 Updated Lamport clock from server response: 4 -> 5
-Weather data saved to persistent storage (49 stations)
+
+Processing weather file (Lamport time: 5)
+Uploading weather data for station: IDS60902
+Connected to server at localhost:54491
+Sending PUT request (Lamport time: 6)
+Client connected from: /127.0.0.1:54495 (Thread: ConnectionHandler)
+Parsed request: PUT /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 7
+Queued PUT request with timestamp: 7 (Queue size: 1)
+Processing PUT request with Lamport time: 7
+Dispatching PUT request to PutRequestHandler
+Stored weather data for station: IDS60902 (new station)
+Processing PUT with Lamport time 7 for station: IDS60902 (new)
+Retrieved weather data for 2 active stations
+Server response: HTTP/1.1 201 Created
+Updated Lamport clock from server response: 7 -> 8
+New weather station registered
+Server accepted weather data with status: 201 Created
+
+Weather data published successfully
+
+Connected to server at localhost:54491
+Sending GET request (Lamport time: 6)
+Client connected from: /127.0.0.1:54496 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 6 -> 8
+Queued GET request with timestamp: 8 (Queue size: 1)
+Processing GET request with Lamport time: 8
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 8 - returning 2 stations
+Weather data served - Total stations: 2, States: {VIC=1, SA=1}
+Weather data saved to persistent storage (2 stations)
 Async save completed successfully
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 8 -> 9
+Connected to server at localhost:54491
+Sending GET request (Lamport time: 10)
+Client connected from: /127.0.0.1:54497 (Thread: ConnectionHandler)
+Parsed request: GET /weather.json (Thread: ConnectionHandler)
+Updated server Lamport clock: 10 -> 11
+Queued GET request with timestamp: 11 (Queue size: 1)
+Processing GET request with Lamport time: 11
+Dispatching GET request to GetRequestHandler
+Retrieved weather data for 2 active stations
+Processing GET with Lamport time 11 - returning 2 stations
+Weather data served - Total stations: 2, States: {VIC=1, SA=1}
+Server response: HTTP/1.1 200 OK
+Updated Lamport clock from server response: 11 -> 12
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@4fcc529 rejected from java.util.concurrent.ThreadPoolExecutor@25cc7470[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Retrieved weather data for 2 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@48e7b3d2 rejected from java.util.concurrent.ThreadPoolExecutor@7f4037ed[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Server shutdown complete
 
 ]]></system-out>
   </testcase>
-  <testcase name="testSuccessfulGetOperation" classname="com.weathersystem.integration.BasicClientServerTest" time="0.109">
-    <failure message="expected: &lt;IDS60901&gt; but was: &lt;TEST016&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <IDS60901> but was: <TEST016>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
-	at com.weathersystem.integration.BasicClientServerTest.testSuccessfulGetOperation(BasicClientServerTest.java:130)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:55)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:223)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:175)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:139)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:456)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:169)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:595)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:581)
-]]></failure>
+  <testcase name="testSuccessfulGetOperation" classname="com.weathersystem.integration.BasicClientServerTest" time="0.112">
     <system-out><![CDATA[Registered handler for PUT requests: PutRequestHandler
 Registered handler for GET requests: GetRequestHandler
 Request handlers configured for 2 HTTP methods
 
 === Aggregation Server Starting ===
-Starting on port: 51102
+Starting on port: 54498
 Initial Lamport clock: 0
 Connection manager started with 10 threads
 Request ordering service started - processing in Lamport timestamp order
 Started background cleanup service (checking every 5 seconds)
 All services initialized successfully
 Loading weather data from persistent storage...
-Cleared all weather data (0 stations)
-Loaded 49 weather stations from storage
-Loaded 49 weather stations from data/weather.json
-Server listening on port 51102
+No valid data files found, starting with empty database
+Loaded 0 weather stations from data/weather.json
+Server listening on port 54498
 Press Ctrl+C to stop the server
 
-Client connected from: /127.0.0.1:51103 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54499 (Thread: ConnectionHandler)
 Failed to parse HTTP request: Empty request line
 
 Processing weather file (Lamport time: 1)
 Uploading weather data for station: IDS60901
-Connected to server at localhost:51102
+Connected to server at localhost:54498
 Sending PUT request (Lamport time: 2)
-Client connected from: /127.0.0.1:51104 (Thread: ConnectionHandler)
+Client connected from: /127.0.0.1:54500 (Thread: ConnectionHandler)
 Parsed request: PUT /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 2 -> 3
 Queued PUT request with timestamp: 3 (Queue size: 1)
 Processing PUT request with Lamport time: 3
 Dispatching PUT request to PutRequestHandler
-Stored weather data for station: IDS60901 (updated existing)
-Processing PUT with Lamport time 3 for station: IDS60901 (update)
-Retrieved weather data for 49 active stations
-Server response: HTTP/1.1 200 OK
+Stored weather data for station: IDS60901 (new station)
+Processing PUT with Lamport time 3 for station: IDS60901 (new)
+Retrieved weather data for 1 active stations
+Server response: HTTP/1.1 201 Created
 Updated Lamport clock from server response: 3 -> 4
-Existing weather station data updated
-Server accepted weather data with status: 200 OK
+New weather station registered
+Server accepted weather data with status: 201 Created
 
 Weather data published successfully
 
-Connected to server at localhost:51102
+Connected to server at localhost:54498
 Sending GET request (Lamport time: 1)
-Client connected from: /127.0.0.1:51105 (Thread: ConnectionHandler)
+Weather data saved to persistent storage (1 stations)
+Async save completed successfully
+Client connected from: /127.0.0.1:54501 (Thread: ConnectionHandler)
 Parsed request: GET /weather.json (Thread: ConnectionHandler)
 Updated server Lamport clock: 1 -> 4
 Queued GET request with timestamp: 4 (Queue size: 1)
 Processing GET request with Lamport time: 4
 Dispatching GET request to GetRequestHandler
-Retrieved weather data for 49 active stations
-Processing GET with Lamport time 4 - returning 49 stations
+Retrieved weather data for 1 active stations
+Processing GET with Lamport time 4 - returning 1 stations
+Weather data served - Total stations: 1, States: {SA=1}
 Server response: HTTP/1.1 200 OK
-Weather data served - Total stations: 49, States: {TEST=48, SA=1}
 Updated Lamport clock from server response: 4 -> 5
-Weather data saved to persistent storage (49 stations)
-Async save completed successfully
 
 Shutting down aggregation server...
 Data expiry service stopped
 Request ordering service stopped
 Connection manager shutdown complete
 Weather data repository shutdown complete
-Retrieved weather data for 49 active stations
-Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@7882c44a rejected from java.util.concurrent.ThreadPoolExecutor@32639b12[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+Retrieved weather data for 1 active stations
+Error saving weather data: Task java.util.concurrent.CompletableFuture$AsyncRun@64040287 rejected from java.util.concurrent.ThreadPoolExecutor@110844f6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
 Server shutdown complete
 
 ]]></system-out>
