@@ -71,6 +71,7 @@ class JSONUtilsTest {
     }
 
     @Test
+    // Tests basic JSON serialization and deserialization of WeatherData objects and arrays
     void testBasicSerializationAndDeserialization() {
         System.out.println("Testing basic serialization and deserialization...");
         
@@ -148,6 +149,7 @@ class JSONUtilsTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests error handling and edge cases for JSON operations including null and invalid data
     void testErrorHandlingAndEdgeCases() {
         System.out.println("Testing error handling and edge cases...");
         
@@ -199,6 +201,7 @@ class JSONUtilsTest {
     // === DATA INTEGRITY AND FORMATTING TESTS ===
 
     @Test
+    // Tests data integrity and formatting including special characters, precision, and large datasets
     void testDataIntegrityAndFormatting() {
         System.out.println("Testing data integrity and formatting...");
         

@@ -29,6 +29,7 @@ class LamportClockTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests basic Lamport clock operations including tick, update, and getTime
     void testBasicClockOperations() {
         System.out.println("Testing basic clock operations...");
         
@@ -80,6 +81,7 @@ class LamportClockTest {
     // === CONCURRENCY TESTS ===
 
     @Test
+    // Tests concurrent Lamport clock operations and thread safety
     void testConcurrentOperations() throws InterruptedException {
         System.out.println("Testing concurrent operations...");
         
@@ -181,6 +183,7 @@ class LamportClockTest {
     // === DISTRIBUTED SYSTEM AND EDGE CASES TESTS ===
 
     @Test
+    // Tests distributed system scenario with multiple Lamport clocks
     void testDistributedSystemScenario() {
         System.out.println("Testing distributed system scenario...");
         
@@ -209,6 +212,7 @@ class LamportClockTest {
     }
 
     @Test
+    // Tests edge cases and consistency of Lamport clock operations
     void testEdgeCasesAndConsistency() {
         System.out.println("Testing edge cases and consistency...");
         
@@ -249,6 +253,7 @@ class LamportClockTest {
     }
 
     @RepeatedTest(3) // Reduced from 5 for faster execution
+    // Tests thread safety under stress with mixed operations
     void testThreadSafetyUnderStress() throws InterruptedException {
         System.out.println("Testing thread safety under stress...");
         

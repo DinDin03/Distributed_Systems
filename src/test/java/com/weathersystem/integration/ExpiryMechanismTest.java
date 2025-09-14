@@ -82,6 +82,7 @@ class ExpiryMechanismTest {
     // === CORE EXPIRY MECHANISM TESTS ===
 
     @Test
+    // Tests server startup with expiry service and basic connectivity
     void testServerStartupWithExpiryService() throws Exception {
         System.out.println("Testing server startup with expiry service...");
         
@@ -99,6 +100,7 @@ class ExpiryMechanismTest {
     }
 
     @Test
+    // Tests expiry service background operation and server stability
     void testExpiryServiceBackgroundOperation() throws Exception {
         System.out.println("Testing expiry service background operation...");
         
@@ -121,6 +123,7 @@ class ExpiryMechanismTest {
     }
 
     @Test
+    // Tests file operations for data that would be subject to expiry
     void testFileOperationsForExpiry() throws Exception {
         System.out.println("Testing file operations for expiry...");
         
@@ -145,6 +148,7 @@ class ExpiryMechanismTest {
     }
 
     @Test
+    // Tests server stability with expiry service running and concurrent operations
     void testServerStabilityWithExpiryService() throws Exception {
         System.out.println("Testing server stability with expiry service...");
         

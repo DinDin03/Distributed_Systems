@@ -57,6 +57,7 @@ class FileStorageManagerTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests basic save and load functionality with empty, single, and multiple weather stations
     void testBasicSaveAndLoad() throws IOException {
         System.out.println("Testing basic save and load functionality...");
         
@@ -112,6 +113,7 @@ class FileStorageManagerTest {
     }
 
     @Test
+    // Tests data overwrite and atomic file operations with temporary file cleanup
     void testDataOverwriteAndAtomicOperations() throws IOException {
         System.out.println("Testing data overwrite and atomic operations...");
         
@@ -148,6 +150,7 @@ class FileStorageManagerTest {
     }
 
     @Test
+    // Tests backup file management including creation, overwrite, and recovery
     void testBackupFileManagement() throws IOException {
         System.out.println("Testing backup file management...");
         
@@ -187,6 +190,7 @@ class FileStorageManagerTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests error handling and recovery from corrupted files and missing data
     void testErrorHandlingAndRecovery() throws IOException {
         System.out.println("Testing error handling and recovery...");
         
@@ -260,6 +264,7 @@ class FileStorageManagerTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests large dataset persistence and special data including Unicode and precision
     void testLargeDataSetAndSpecialData() throws IOException {
         System.out.println("Testing large dataset and special data...");
         
@@ -328,6 +333,7 @@ class FileStorageManagerTest {
     }
 
     @Test
+    // Tests multiple operations and data integrity across save/load cycles
     void testMultipleOperationsAndDataIntegrity() throws IOException {
         System.out.println("Testing multiple operations and data integrity...");
         

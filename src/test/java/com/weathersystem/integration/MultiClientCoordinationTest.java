@@ -88,6 +88,7 @@ class MultiClientCoordinationTest {
     // === CORE MULTI-CLIENT COORDINATION TESTS ===
 
     @Test
+    // Tests server startup with multi-client support and basic connectivity
     void testServerStartupWithMultiClientSupport() throws Exception {
         System.out.println("Testing server startup with multi-client support...");
         
@@ -105,6 +106,7 @@ class MultiClientCoordinationTest {
     }
 
     @Test
+    // Tests multiple client connections and concurrent access
     void testMultipleClientConnections() throws Exception {
         System.out.println("Testing multiple client connections...");
         
@@ -158,6 +160,7 @@ class MultiClientCoordinationTest {
     }
 
     @Test
+    // Tests concurrent client operations and server stability
     void testConcurrentClientOperations() throws Exception {
         System.out.println("Testing concurrent client operations...");
         
@@ -211,6 +214,7 @@ class MultiClientCoordinationTest {
     }
 
     @Test
+    // Tests file operations for multi-client coordination scenarios
     void testFileOperationsForMultiClient() throws Exception {
         System.out.println("Testing file operations for multi-client...");
         
@@ -235,6 +239,7 @@ class MultiClientCoordinationTest {
     }
 
     @Test
+    // Tests server stability with multiple clients and concurrent operations
     void testServerStabilityWithMultipleClients() throws Exception {
         System.out.println("Testing server stability with multiple clients...");
         

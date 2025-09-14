@@ -28,7 +28,7 @@ public abstract class HttpClientBase {
         }
     }
 
-    // Creates connection with failover support - tries all configured servers
+    // Creates connection with failover support, tries all configured servers
     protected Socket createConnectionWithFailover() throws IOException {
         IOException lastException = null;
 

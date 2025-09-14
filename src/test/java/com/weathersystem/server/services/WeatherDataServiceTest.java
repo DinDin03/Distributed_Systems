@@ -50,6 +50,7 @@ class WeatherDataServiceTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests basic weather data storage and retrieval including new and existing stations
     void testBasicStorageAndRetrieval() {
         System.out.println("Testing basic storage and retrieval functionality...");
         
@@ -125,6 +126,7 @@ class WeatherDataServiceTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests error handling and data loading including null data and validation
     void testErrorHandlingAndDataLoading() {
         System.out.println("Testing error handling and data loading...");
         
@@ -220,6 +222,7 @@ class WeatherDataServiceTest {
     // === CONCURRENCY TESTS ===
 
     @Test
+    // Tests concurrent operations including concurrent writes and read-write operations
     void testConcurrentOperations() throws InterruptedException {
         System.out.println("Testing concurrent operations...");
         
@@ -332,6 +335,7 @@ class WeatherDataServiceTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests data integrity and edge cases including special characters, precision, and extreme values
     void testDataIntegrityAndEdgeCases() {
         System.out.println("Testing data integrity and edge cases...");
         

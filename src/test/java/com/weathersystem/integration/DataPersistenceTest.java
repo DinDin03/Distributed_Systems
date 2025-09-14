@@ -30,6 +30,7 @@ class DataPersistenceTest {
     // === CORE PERSISTENCE TESTS ===
 
     @Test
+    // Tests server startup and basic functionality including connectivity
     void testServerStartupAndBasicFunctionality() throws Exception {
         System.out.println("Testing server startup and basic functionality...");
         
@@ -56,6 +57,7 @@ class DataPersistenceTest {
     }
 
     @Test
+    // Tests server restart functionality and port reuse after shutdown
     void testServerRestartAndPortReuse() throws Exception {
         System.out.println("Testing server restart and port reuse...");
         
@@ -87,6 +89,7 @@ class DataPersistenceTest {
     }
 
     @Test
+    // Tests file operations and error handling for weather data files
     void testFileOperationsAndErrorHandling() throws Exception {
         System.out.println("Testing file operations and error handling...");
         

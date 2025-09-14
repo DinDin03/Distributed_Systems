@@ -25,6 +25,7 @@ class HttpRequestParserTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests parsing of valid HTTP requests including GET and PUT methods
     void testParseValidRequests() throws IOException {
         System.out.println("Testing parsing of valid HTTP requests...");
         
@@ -69,6 +70,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests HTTP request header parsing including mixed case and whitespace handling
     void testParseRequestHeaders() throws IOException {
         System.out.println("Testing request header parsing...");
         
@@ -125,6 +127,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests parsing requests without optional headers and verifies default values
     void testParseRequestWithoutOptionalHeaders() throws IOException {
         System.out.println("Testing requests without optional headers...");
         
@@ -144,6 +147,7 @@ class HttpRequestParserTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests parsing of invalid request lines and error handling
     void testParseInvalidRequestLines() {
         System.out.println("Testing parsing of invalid request lines...");
         
@@ -186,6 +190,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests parsing of invalid header values and graceful error handling
     void testParseInvalidHeaderValues() throws IOException {
         System.out.println("Testing parsing of invalid header values...");
         
@@ -226,6 +231,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests IO exception handling during request parsing
     void testParseIOException() {
         System.out.println("Testing IO exception handling...");
         
@@ -246,6 +252,7 @@ class HttpRequestParserTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests parsing of special values including negative, zero, and large numbers
     void testParseSpecialValues() throws IOException {
         System.out.println("Testing parsing of special values...");
         
@@ -284,6 +291,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests special header scenarios including empty values and colons in values
     void testParseSpecialHeaderScenarios() throws IOException {
         System.out.println("Testing special header scenarios...");
         
@@ -312,6 +320,7 @@ class HttpRequestParserTest {
     }
 
     @Test
+    // Tests parsing different HTTP methods and versions with complex paths
     void testParseDifferentMethodsAndVersions() throws IOException {
         System.out.println("Testing different HTTP methods and versions...");
         

@@ -76,6 +76,7 @@ class BasicClientServerTest {
     // === CORE INTEGRATION TESTS ===
 
     @Test
+    // Tests server startup and shutdown functionality and port binding
     void testServerStartupAndShutdown() throws Exception {
         System.out.println("Testing server startup and shutdown...");
         
@@ -92,6 +93,7 @@ class BasicClientServerTest {
     }
 
     @Test
+    // Tests client configuration setup and parameter validation
     void testClientConfiguration() throws Exception {
         System.out.println("Testing client configuration...");
         
@@ -105,6 +107,7 @@ class BasicClientServerTest {
     }
 
     @Test
+    // Tests server port availability and prevents duplicate port binding
     void testServerPortAvailability() throws Exception {
         System.out.println("Testing server port availability...");
         

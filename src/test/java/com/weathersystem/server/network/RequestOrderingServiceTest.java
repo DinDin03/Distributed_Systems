@@ -55,6 +55,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests basic request ordering by Lamport timestamp
     void testBasicRequestOrdering() throws InterruptedException {
         System.out.println("Testing basic request ordering...");
         
@@ -90,6 +91,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests concurrent request submission and ordering
     void testConcurrentRequestSubmission() throws InterruptedException {
         System.out.println("Testing concurrent request submission...");
         
@@ -144,6 +146,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests special Lamport time values including negative, zero, and large values
     void testSpecialLamportTimes() throws InterruptedException {
         System.out.println("Testing special Lamport time values...");
         
@@ -240,6 +243,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests handling of duplicate Lamport timestamps
     void testDuplicateLamportTimes() throws InterruptedException {
         System.out.println("Testing duplicate Lamport times...");
         
@@ -272,6 +276,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests mixed HTTP methods and ordering by Lamport timestamp
     void testMixedMethodsAndOrdering() throws InterruptedException {
         System.out.println("Testing mixed methods and ordering...");
         
@@ -314,6 +319,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests rapid request submission and ordering
     void testRapidSubmissionAndOrdering() throws InterruptedException {
         System.out.println("Testing rapid submission and ordering...");
         
@@ -344,6 +350,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests edge case scenarios including empty queue and single request
     void testEdgeCaseScenarios() throws InterruptedException {
         System.out.println("Testing edge case scenarios...");
         
@@ -385,6 +392,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests service lifecycle management including start, stop, and restart
     void testServiceLifecycleManagement() throws InterruptedException {
         System.out.println("Testing service lifecycle management...");
         
@@ -420,6 +428,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests queue management and size tracking
     void testQueueManagement() {
         System.out.println("Testing queue management...");
         
@@ -446,6 +455,7 @@ class RequestOrderingServiceTest {
 
     @Test
     @Timeout(5)
+    // Tests error handling during request processing
     void testErrorHandling() throws InterruptedException {
         System.out.println("Testing error handling...");
         

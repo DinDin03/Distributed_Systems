@@ -7,6 +7,7 @@ class ClientConfigurationTest {
 
 
     @Test
+    // Tests constructor with valid parameters and verifies all fields are set correctly
     void testConstructorWithValidParameters() {
         System.out.println("Testing constructor with valid parameters...");
         ClientConfiguration config = new ClientConfiguration(
@@ -21,6 +22,7 @@ class ClientConfigurationTest {
     }
 
     @Test
+    // Tests parsing valid server address string and validates host, port, and default values
     void testFromServerAddressValidInput() {
         System.out.println("Testing fromServerAddress with valid input...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress("example.com:9090");
@@ -33,6 +35,7 @@ class ClientConfigurationTest {
     }
 
     @Test
+    // Tests server address parsing with null input to verify default values are used
     void testFromServerAddressWithDefaults() {
         System.out.println("Testing fromServerAddress with null input (defaults)...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress(null);
@@ -48,6 +51,7 @@ class ClientConfigurationTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests handling of invalid port in server address string and fallback to default port
     void testFromServerAddressInvalidPort() {
         System.out.println("Testing fromServerAddress with invalid port...");
         ClientConfiguration config = ClientConfiguration.fromServerAddress("example.com:invalid");
@@ -58,6 +62,7 @@ class ClientConfigurationTest {
     }
 
     @Test
+    // Tests validation of multi-server constructor with null and empty server lists
     void testMultiServerConstructorValidation() {
         System.out.println("Testing multi-server constructor validation...");
         
@@ -75,6 +80,7 @@ class ClientConfigurationTest {
     // === MULTI-SERVER FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests parsing multiple server addresses and verifies correct configuration setup
     void testFromMultipleServersValidInput() {
         System.out.println("Testing fromMultipleServers with valid input...");
         ClientConfiguration config = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
@@ -89,6 +95,7 @@ class ClientConfigurationTest {
     }
 
     @Test
+    // Tests parsing mixed server addresses with and without explicit ports
     void testFromMultipleServersWithDefaultPorts() {
         System.out.println("Testing fromMultipleServers with mixed port specifications...");
         ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1,server2:8080,server3");
@@ -101,6 +108,7 @@ class ClientConfigurationTest {
     }
 
     @Test
+    // Tests edge cases for multiple server parsing including empty, null, and single server inputs
     void testFromMultipleServersEdgeCases() {
         System.out.println("Testing fromMultipleServers edge cases...");
         
@@ -125,6 +133,7 @@ class ClientConfigurationTest {
     // === INTEGRATION TESTS ===
 
     @Test
+    // Tests consistency between single and multi-server configuration methods
     void testConfigurationConsistency() {
         System.out.println("Testing configuration consistency...");
         ClientConfiguration singleConfig = ClientConfiguration.fromServerAddress("localhost:4567");

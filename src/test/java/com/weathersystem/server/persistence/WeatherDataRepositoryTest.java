@@ -76,6 +76,7 @@ class WeatherDataRepositoryTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests basic async save and load functionality with single and multiple weather stations
     void testBasicSaveAndLoad() {
         System.out.println("Testing basic save and load functionality...");
         
@@ -144,6 +145,7 @@ class WeatherDataRepositoryTest {
     }
 
     @Test
+    // Tests async operations and error handling including concurrent saves and null data
     void testAsyncOperationsAndErrorHandling() throws InterruptedException {
         System.out.println("Testing async operations and error handling...");
         
@@ -203,6 +205,7 @@ class WeatherDataRepositoryTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests file corruption and recovery including backup restoration
     void testFileCorruptionAndRecovery() throws IOException {
         System.out.println("Testing file corruption and recovery...");
         
@@ -262,6 +265,7 @@ class WeatherDataRepositoryTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests concurrent operations and large data persistence
     void testConcurrentOperationsAndLargeData() throws InterruptedException {
         System.out.println("Testing concurrent operations and large data...");
         
@@ -344,6 +348,7 @@ class WeatherDataRepositoryTest {
     }
 
     @Test
+    // Tests repository lifecycle and data integrity including shutdown and restart
     void testRepositoryLifecycleAndDataIntegrity() throws InterruptedException {
         System.out.println("Testing repository lifecycle and data integrity...");
         

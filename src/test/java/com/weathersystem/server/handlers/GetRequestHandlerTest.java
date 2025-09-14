@@ -72,6 +72,7 @@ class GetRequestHandlerTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests GET request handling when no weather data is available
     void testHandleGetWithNoData() throws Exception {
         System.out.println("Testing GET request with no weather data...");
         HttpRequest request = createHttpRequest("GET", 0, 5L);
@@ -88,6 +89,7 @@ class GetRequestHandlerTest {
     }
 
     @Test
+    // Tests GET request handling with weather data including single and multiple stations
     void testHandleGetWithWeatherData() throws Exception {
         System.out.println("Testing GET request with weather data...");
         
@@ -131,6 +133,7 @@ class GetRequestHandlerTest {
     }
 
     @Test
+    // Tests GET request handling after data update to verify latest data is returned
     void testHandleGetWithDataUpdate() throws Exception {
         System.out.println("Testing GET request after data update...");
         
@@ -162,6 +165,7 @@ class GetRequestHandlerTest {
     // === DATA SCENARIOS TESTS ===
 
     @Test
+    // Tests GET request handling with various data types including special characters and precision
     void testHandleGetWithVariousDataTypes() throws Exception {
         System.out.println("Testing GET request with various data types...");
         
@@ -231,6 +235,7 @@ class GetRequestHandlerTest {
     }
 
     @Test
+    // Tests GET request handling with Unicode characters and edge cases
     void testHandleGetWithUnicodeAndEdgeCases() throws Exception {
         System.out.println("Testing GET request with Unicode and edge cases...");
         
@@ -289,6 +294,7 @@ class GetRequestHandlerTest {
     // === RESPONSE FORMAT TESTS ===
 
     @Test
+    // Tests GET request response format including headers and JSON structure
     void testHandleGetResponseFormat() throws Exception {
         System.out.println("Testing GET request response format...");
         
@@ -320,6 +326,7 @@ class GetRequestHandlerTest {
     }
 
     @Test
+    // Tests GET request handling with multiple weather stations
     void testHandleGetWithMultipleStations() throws Exception {
         System.out.println("Testing GET request with multiple stations...");
         

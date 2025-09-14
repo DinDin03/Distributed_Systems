@@ -99,6 +99,7 @@ class PutRequestHandlerTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests PUT request handling with valid weather data including new and existing stations
     void testHandleValidWeatherData() throws Exception {
         System.out.println("Testing PUT request with valid weather data...");
         
@@ -144,6 +145,7 @@ class PutRequestHandlerTest {
     }
 
     @Test
+    // Tests PUT request handling with no content scenarios including zero and negative content length
     void testHandleNoContentScenarios() throws Exception {
         System.out.println("Testing PUT request with no content scenarios...");
         
@@ -191,6 +193,7 @@ class PutRequestHandlerTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests PUT request handling with invalid JSON data and error responses
     void testHandleInvalidJsonData() throws Exception {
         System.out.println("Testing PUT request with invalid JSON data...");
         
@@ -238,6 +241,7 @@ class PutRequestHandlerTest {
     }
 
     @Test
+    // Tests PUT request handling with validation errors including missing required fields
     void testHandleValidationErrors() throws Exception {
         System.out.println("Testing PUT request with validation errors...");
         
@@ -285,6 +289,7 @@ class PutRequestHandlerTest {
     }
 
     @Test
+    // Tests PUT request handling with IO errors and incomplete data
     void testHandleIOErrors() throws Exception {
         System.out.println("Testing PUT request with IO errors...");
         
@@ -322,6 +327,7 @@ class PutRequestHandlerTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests PUT request handling with special data scenarios including special characters and large data
     void testHandleSpecialDataScenarios() throws Exception {
         System.out.println("Testing PUT request with special data scenarios...");
         
@@ -396,6 +402,7 @@ class PutRequestHandlerTest {
     }
 
     @Test
+    // Tests PUT request handling with multiple weather stations
     void testHandleMultipleStations() throws Exception {
         System.out.println("Testing PUT request with multiple stations...");
         

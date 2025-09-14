@@ -33,6 +33,7 @@ class HttpResponseBuilderTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests building success HTTP responses including 200, 201, and 204 status codes
     void testSendSuccessResponses() {
         System.out.println("Testing success response building...");
         
@@ -69,6 +70,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests building JSON HTTP responses with proper headers and content
     void testSendJsonResponses() {
         System.out.println("Testing JSON response building...");
         
@@ -110,6 +112,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests building error HTTP responses including 400 and 500 status codes
     void testSendErrorResponses() {
         System.out.println("Testing error response building...");
         
@@ -148,6 +151,7 @@ class HttpResponseBuilderTest {
     // === EDGE CASES TESTS ===
 
     @Test
+    // Tests handling of special Lamport time values including zero, negative, and large values
     void testSpecialLamportTimes() {
         System.out.println("Testing special Lamport time values...");
         
@@ -178,6 +182,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests JSON responses with special data including Unicode characters and precision
     void testJsonResponseWithSpecialData() {
         System.out.println("Testing JSON responses with special data...");
         
@@ -222,6 +227,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests JSON responses with complex data structures including large arrays and nested objects
     void testJsonResponseWithComplexData() {
         System.out.println("Testing JSON responses with complex data structures...");
         
@@ -264,6 +270,7 @@ class HttpResponseBuilderTest {
     // === INTEGRATION TESTS ===
 
     @Test
+    // Tests HTTP response formatting including headers and proper structure
     void testResponseFormatting() {
         System.out.println("Testing HTTP response formatting...");
         
@@ -313,6 +320,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests response headers order and proper HTTP format
     void testResponseHeadersOrder() {
         System.out.println("Testing response headers order...");
         
@@ -346,6 +354,7 @@ class HttpResponseBuilderTest {
     }
 
     @Test
+    // Tests multiple responses to same PrintWriter and proper isolation
     void testMultipleResponses() {
         System.out.println("Testing multiple responses...");
         

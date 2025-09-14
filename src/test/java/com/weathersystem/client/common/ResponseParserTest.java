@@ -28,6 +28,7 @@ class ResponseParserTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests parsing of valid HTTP response with status code, headers, and content
     void testParseValidResponse() throws IOException {
         System.out.println("Testing parsing of valid HTTP response...");
         String responseData = "HTTP/1.1 200 OK\r\n" +
@@ -48,6 +49,7 @@ class ResponseParserTest {
     }
 
     @Test
+    // Tests parsing various HTTP response types including success, error, and no content responses
     void testParseDifferentResponseTypes() throws IOException {
         System.out.println("Testing parsing of different response types...");
         
@@ -89,6 +91,7 @@ class ResponseParserTest {
     }
 
     @Test
+    // Tests parsing HTTP response without Lamport time header and verifies default handling
     void testParseResponseWithoutLamportTime() throws IOException {
         System.out.println("Testing parsing response without Lamport time...");
         String responseData = "HTTP/1.1 200 OK\r\n" +
@@ -106,6 +109,7 @@ class ResponseParserTest {
     }
 
     @Test
+    // Tests that parsing response updates the Lamport clock with server timestamp
     void testParseResponseUpdatesLamportClock() throws IOException {
         System.out.println("Testing Lamport clock update from response...");
         lamportClock.tick(); // Set to 1
@@ -127,6 +131,7 @@ class ResponseParserTest {
     // === ERROR HANDLING TESTS ===
 
     @Test
+    // Tests error handling for various invalid HTTP response formats
     void testParseInvalidResponses() {
         System.out.println("Testing parsing of invalid responses...");
         
@@ -172,6 +177,7 @@ class ResponseParserTest {
     // === EDGE CASES AND ROBUSTNESS TESTS ===
 
     @Test
+    // Tests parsing response with malformed headers and verifies graceful handling
     void testParseResponseWithMalformedHeaders() throws IOException {
         System.out.println("Testing parsing with malformed headers...");
         String responseData = "HTTP/1.1 200 OK\r\n" +
@@ -190,6 +196,7 @@ class ResponseParserTest {
     }
 
     @Test
+    // Tests case insensitive header parsing for Content-Length and Lamport-Time
     void testParseResponseWithCaseInsensitiveHeaders() throws IOException {
         System.out.println("Testing case insensitive header parsing...");
         String responseData = "HTTP/1.1 200 OK\r\n" +
@@ -207,6 +214,7 @@ class ResponseParserTest {
     }
 
     @Test
+    // Tests HttpResponse isSuccess method with various HTTP status codes
     void testHttpResponseSuccessMethod() {
         System.out.println("Testing HttpResponse isSuccess method...");
         

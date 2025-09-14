@@ -29,6 +29,7 @@ class GETClientTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests GETClient constructor and initialization with different configurations
     void testConstructorAndInitialization() {
         System.out.println("Testing GETClient constructor and initialization...");
         assertNotNull(getClient, "GETClient should be created");
@@ -43,6 +44,7 @@ class GETClientTest {
     }
 
     @Test
+    // Tests weather data parsing from JSON response including valid, empty, and invalid data
     void testWeatherDataParsing() throws Exception {
         System.out.println("Testing weather data parsing functionality...");
         Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
@@ -88,6 +90,7 @@ class GETClientTest {
     }
 
     @Test
+    // Tests weather data display functionality for empty and populated data
     void testWeatherDataDisplay() throws Exception {
         System.out.println("Testing weather data display functionality...");
         
@@ -150,6 +153,7 @@ class GETClientTest {
     }
 
     @Test
+    // Tests weather data retrieval with retry mechanism and exponential backoff
     void testWeatherDataRetrievalWithRetry() {
         System.out.println("Testing weather data retrieval with retry mechanism...");
         
@@ -175,6 +179,7 @@ class GETClientTest {
     }
 
     @Test
+    // Tests retry delay calculation for exponential backoff algorithm
     void testRetryDelayCalculation() {
         System.out.println("Testing retry delay calculation...");
         
@@ -196,6 +201,7 @@ class GETClientTest {
     // === MULTI-SERVER SUPPORT TESTS ===
 
     @Test
+    // Tests multi-server configuration setup and validation
     void testMultiServerConfiguration() {
         System.out.println("Testing multi-server configuration...");
         
@@ -222,6 +228,7 @@ class GETClientTest {
     }
 
     @Test
+    // Tests multi-server failover behavior during weather data retrieval
     void testMultiServerFailover() {
         System.out.println("Testing multi-server failover behavior...");
         
@@ -248,6 +255,7 @@ class GETClientTest {
     // === MAIN METHOD TESTS ===
 
     @Test
+    // Tests main method argument handling and server address parsing
     void testMainMethodArgumentHandling() {
         System.out.println("Testing main method argument handling...");
         

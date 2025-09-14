@@ -35,6 +35,7 @@ class ContentServerTest {
     // === CORE FUNCTIONALITY TESTS ===
 
     @Test
+    // Tests ContentServer constructor and initialization with different configurations
     void testConstructorAndInitialization() {
         System.out.println("Testing ContentServer constructor and initialization...");
         assertNotNull(contentServer, "ContentServer should be created");
@@ -51,6 +52,7 @@ class ContentServerTest {
     }
 
     @Test
+    // Tests response validation logic for different HTTP status codes
     void testResponseValidation() throws Exception {
         System.out.println("Testing response validation logic...");
         Method validateMethod = ContentServer.class.getDeclaredMethod("validateResponse",
@@ -100,6 +102,7 @@ class ContentServerTest {
     }
 
     @Test
+    // Tests weather data publishing functionality with valid and invalid files
     void testWeatherDataPublishing() throws IOException {
         System.out.println("Testing weather data publishing functionality...");
         
@@ -139,6 +142,7 @@ class ContentServerTest {
     }
 
     @Test
+    // Tests Lamport clock integration during weather data publishing
     void testLamportClockIntegration() throws IOException {
         System.out.println("Testing Lamport clock integration...");
         
@@ -165,6 +169,7 @@ class ContentServerTest {
     // === RETRY MECHANISM TESTS ===
 
     @Test
+    // Tests retry mechanism with exponential backoff for failed connections
     void testRetryMechanismWithExponentialBackoff() throws IOException {
         System.out.println("Testing retry mechanism with exponential backoff...");
         
@@ -197,6 +202,7 @@ class ContentServerTest {
     }
 
     @Test
+    // Tests retry delay calculation for exponential backoff algorithm
     void testRetryDelayCalculation() {
         System.out.println("Testing retry delay calculation...");
         
@@ -218,6 +224,7 @@ class ContentServerTest {
     // === MULTI-SERVER SUPPORT TESTS ===
 
     @Test
+    // Tests multi-server configuration setup and validation
     void testMultiServerConfiguration() {
         System.out.println("Testing multi-server configuration...");
         
@@ -242,6 +249,7 @@ class ContentServerTest {
     }
 
     @Test
+    // Tests multi-server failover behavior during weather data publishing
     void testMultiServerFailover() throws IOException {
         System.out.println("Testing multi-server failover behavior...");
         
@@ -272,6 +280,7 @@ class ContentServerTest {
     // === MAIN METHOD TESTS ===
 
     @Test
+    // Tests main method argument handling and validation
     void testMainMethodArgumentHandling() {
         System.out.println("Testing main method argument handling...");
         
