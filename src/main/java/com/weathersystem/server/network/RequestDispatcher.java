@@ -32,27 +32,21 @@ public class RequestDispatcher {
 
     public void processRequest(TimestampedRequest request) {
         try {
-            // Parse the HTTP request from the timestamped request
-            HttpRequestParser parser = new HttpRequestParser();
-
-            // For already parsed requests, we need to reconstruct from method
-            // This is a bit of architectural debt - ideally we'd pass HttpRequest through
             String method = request.getMethod().toUpperCase();
 
             // Find appropriate handler
             RequestHandler handler = handlers.get(method);
 
+            // Check if handler exists - assignment requires 400 for unsupported methods
             if (handler == null) {
                 System.out.println("No handler found for method: " + method);
                 responseBuilder.sendErrorResponse(request.getOutputWriter(),
-                        HttpStatusCodes.METHOD_NOT_ALLOWED,
-                        HttpStatusCodes.METHOD_NOT_ALLOWED_TEXT,
+                        HttpStatusCodes.BAD_REQUEST,
+                        HttpStatusCodes.BAD_REQUEST_TEXT,
                         request.getLamportTime());
                 return;
             }
 
-            // Create a minimal HttpRequest for the handler
-            // This is a temporary solution - in a full refactor we'd pass HttpRequest objects
             HttpRequest httpRequest = createHttpRequestFromTimestampedRequest(request);
 
             System.out.println("Dispatching " + method + " request to " +
@@ -83,6 +77,7 @@ public class RequestDispatcher {
     public int getHandlerCount() {
         return handlers.size();
     }
+
 
     private HttpRequest createHttpRequestFromTimestampedRequest(TimestampedRequest request) {
         // Create minimal headers map

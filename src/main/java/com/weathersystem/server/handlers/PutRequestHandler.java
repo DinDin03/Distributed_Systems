@@ -26,10 +26,10 @@ public class PutRequestHandler implements RequestHandler {
     public void handle(HttpRequest httpRequest, BufferedReader inputReader,
                        PrintWriter outputWriter, long lamportTime) throws Exception {
 
-        // Validate request has content
+        // Handle no content case (assignment requirement: return 204)
         if (httpRequest.getContentLength() <= 0) {
-            System.out.println("PUT request has no content");
-            responseBuilder.sendErrorResponse(outputWriter, HttpStatusCodes.NO_CONTENT,
+            System.out.println("PUT request has no content - returning 204 No Content");
+            responseBuilder.sendSuccessResponse(outputWriter, HttpStatusCodes.NO_CONTENT,
                     HttpStatusCodes.NO_CONTENT_TEXT, lamportTime);
             return;
         }
@@ -45,6 +45,14 @@ public class PutRequestHandler implements RequestHandler {
             return;
         }
 
+        // Check for empty or whitespace-only content
+        if (jsonData.trim().isEmpty()) {
+            System.out.println("PUT request has empty content - returning 204 No Content");
+            responseBuilder.sendSuccessResponse(outputWriter, HttpStatusCodes.NO_CONTENT,
+                    HttpStatusCodes.NO_CONTENT_TEXT, lamportTime);
+            return;
+        }
+
         // Parse and validate JSON
         WeatherData weatherData;
         try {
@@ -52,8 +60,8 @@ public class PutRequestHandler implements RequestHandler {
             validateWeatherData(weatherData);
         } catch (Exception e) {
             System.out.println("Invalid JSON data: " + e.getMessage());
-            responseBuilder.sendErrorResponse(outputWriter, HttpStatusCodes.BAD_REQUEST,
-                    "Invalid JSON format", lamportTime);
+            responseBuilder.sendErrorResponse(outputWriter, HttpStatusCodes.INTERNAL_SERVER_ERROR,
+                    HttpStatusCodes.INTERNAL_SERVER_ERROR_TEXT, lamportTime);
             return;
         }
 
@@ -70,7 +78,7 @@ public class PutRequestHandler implements RequestHandler {
                 onDataChanged.run();
             }
 
-            // Send appropriate response
+            // Send appropriate response based on assignment requirements
             if (isNewStation) {
                 responseBuilder.sendSuccessResponse(outputWriter, HttpStatusCodes.CREATED,
                         HttpStatusCodes.CREATED_TEXT, lamportTime);
@@ -113,6 +121,5 @@ public class PutRequestHandler implements RequestHandler {
         if (weatherData.getName() == null || weatherData.getName().trim().isEmpty()) {
             throw new Exception("Weather data missing required 'name' field");
         }
-
     }
 }

@@ -36,8 +36,7 @@ public class ClientConfiguration {
             try {
                 port = Integer.parseInt(parts[1]);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid port in server address: " + parts[1] +
-                        ", using default: " + DEFAULT_PORT);
+                System.out.println("Invalid port in server address");
             }
         }
 

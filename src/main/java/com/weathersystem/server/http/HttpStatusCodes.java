@@ -16,9 +16,6 @@ public class HttpStatusCodes {
     public static final int BAD_REQUEST = 400;
     public static final String BAD_REQUEST_TEXT = "Bad Request";
 
-    public static final int METHOD_NOT_ALLOWED = 405;
-    public static final String METHOD_NOT_ALLOWED_TEXT = "Method Not Allowed";
-
     // Server error codes
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final String INTERNAL_SERVER_ERROR_TEXT = "Internal Server Error";
