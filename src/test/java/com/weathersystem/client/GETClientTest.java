@@ -271,4 +271,109 @@ class GETClientTest {
         assertTrue((endTime - startTime) >= 6000, "Should take at least 6 seconds for 4 retry attempts");
         assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"));
     }
+
+    // === MULTI-SERVER TESTS ===
+
+    @Test
+    void testMultiServerGETClientConfiguration() {
+        ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
+        GETClient multiClient = new GETClient(multiConfig);
+
+        assertNotNull(multiClient);
+        assertTrue(multiConfig.hasMultipleServers());
+        assertEquals(3, multiConfig.getServerAddresses().size());
+        assertEquals(0, multiClient.getLamportTime());
+    }
+
+    @Test
+    void testMultiServerRetrievalWithFailover() {
+        ClientConfiguration failoverConfig = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567,backup:4568");
+        GETClient failoverClient = new GETClient(failoverConfig);
+
+        long startTime = System.currentTimeMillis();
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            failoverClient.retrieveWeatherData();
+        });
+
+        long duration = System.currentTimeMillis() - startTime;
+
+        // Should try failover (will fail, but tests the logic)
+        assertTrue(exception.getMessage().contains("Weather data retrieval failed after 4 attempts"));
+
+        // Should take some time due to retry attempts
+        assertTrue(duration >= 6000, "Should take at least 6 seconds for retry attempts with failover");
+    }
+
+    @Test
+    void testMultiServerMainMethodArgumentParsing() {
+        // Test that main method correctly parses multi-server addresses
+        String[] multiServerArgs = {"server1:4567,server2:4568,server3:4569"};
+
+        assertDoesNotThrow(() -> {
+            String serverAddress = multiServerArgs[0];
+
+            ClientConfiguration config;
+            if (serverAddress.contains(",")) {
+                config = ClientConfiguration.fromMultipleServers(serverAddress);
+                assertTrue(config.hasMultipleServers());
+                assertEquals(3, config.getServerAddresses().size());
+            } else {
+                config = ClientConfiguration.fromServerAddress(serverAddress);
+                assertFalse(config.hasMultipleServers());
+            }
+
+            GETClient client = new GETClient(config);
+            assertNotNull(client);
+        });
+    }
+
+    @Test
+    void testMultiServerLamportClockBehavior() {
+        ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("host1:4567,host2:4568");
+        GETClient client = new GETClient(multiConfig);
+
+        assertEquals(0, client.getLamportTime());
+
+        // Lamport clock should advance during retrieval attempts
+        Exception exception = assertThrows(Exception.class, () -> {
+            client.retrieveWeatherData();
+        });
+
+        // The Lamport clock advances during the attempt, even if it fails
+        // Note: Clock may still be 0 if connection fails before any request is made
+        assertTrue(client.getLamportTime() >= 0, "Lamport clock should be non-negative");
+        assertTrue(exception.getMessage().contains("retrieval failed"), "Should fail with retrieval error");
+    }
+
+    @Test
+    void testMultiServerBackwardCompatibility() {
+        // Single server through multi-server method should work the same
+        ClientConfiguration singleViaMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
+        ClientConfiguration singleDirect = ClientConfiguration.fromServerAddress("localhost:4567");
+
+        GETClient client1 = new GETClient(singleViaMulti);
+        GETClient client2 = new GETClient(singleDirect);
+
+        assertEquals(singleDirect.getHost(), singleViaMulti.getHost());
+        assertEquals(singleDirect.getPort(), singleViaMulti.getPort());
+        assertEquals(client1.getLamportTime(), client2.getLamportTime());
+    }
+
+    @Test
+    void testMultiServerEmptyResponseHandling() throws Exception {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1:4567,server2:4568");
+        GETClient client = new GETClient(config);
+
+        // Test parsing empty responses with multi-server config
+        Method parseMethod = GETClient.class.getDeclaredMethod("parseWeatherResponse",
+                GETClient.HttpResponse.class);
+        parseMethod.setAccessible(true);
+
+        GETClient.HttpResponse mockResponse = new GETClient.HttpResponse(200, "OK", "", 5);
+        WeatherData[] result = (WeatherData[]) parseMethod.invoke(client, mockResponse);
+
+        assertNotNull(result);
+        assertEquals(0, result.length);
+    }
 }

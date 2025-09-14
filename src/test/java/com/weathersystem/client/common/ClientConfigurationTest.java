@@ -109,6 +109,104 @@ class ClientConfigurationTest {
         assertTrue(config.getReadTimeoutMs() > 0);
     }
 
+    // === MULTI-SERVER TESTS ===
+
+    @Test
+    void testFromMultipleServersWithValidAddresses() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
+
+        assertEquals(3, config.getServerAddresses().size());
+        assertEquals("localhost:4567", config.getServerAddresses().get(0));
+        assertEquals("localhost:4568", config.getServerAddresses().get(1));
+        assertEquals("localhost:4569", config.getServerAddresses().get(2));
+        assertTrue(config.hasMultipleServers());
+    }
+
+    @Test
+    void testFromMultipleServersWithDefaultPorts() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1,server2:8080,server3");
+
+        assertEquals(3, config.getServerAddresses().size());
+        assertEquals("server1:4567", config.getServerAddresses().get(0));
+        assertEquals("server2:8080", config.getServerAddresses().get(1));
+        assertEquals("server3:4567", config.getServerAddresses().get(2));
+    }
+
+    @Test
+    void testFromMultipleServersWithSpaces() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("  localhost:4567  ,  localhost:4568  ,  localhost:4569  ");
+
+        assertEquals(3, config.getServerAddresses().size());
+        assertEquals("localhost:4567", config.getServerAddresses().get(0));
+        assertEquals("localhost:4568", config.getServerAddresses().get(1));
+        assertEquals("localhost:4569", config.getServerAddresses().get(2));
+    }
+
+    @Test
+    void testFromMultipleServersWithEmptyString() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("");
+
+        assertEquals(1, config.getServerAddresses().size());
+        assertEquals("localhost:4567", config.getServerAddresses().get(0));
+        assertFalse(config.hasMultipleServers());
+    }
+
+    @Test
+    void testFromMultipleServersWithNullString() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers(null);
+
+        assertEquals(1, config.getServerAddresses().size());
+        assertEquals("localhost:4567", config.getServerAddresses().get(0));
+        assertFalse(config.hasMultipleServers());
+    }
+
+    @Test
+    void testFromMultipleServersWithSingleServer() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("example.com:8080");
+
+        assertEquals(1, config.getServerAddresses().size());
+        assertEquals("example.com:8080", config.getServerAddresses().get(0));
+        assertFalse(config.hasMultipleServers());
+    }
+
+    @Test
+    void testMultiServerConstructorValidation() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ClientConfiguration(null, "TestAgent/1.0", 5000, 10000);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ClientConfiguration(java.util.Collections.emptyList(), "TestAgent/1.0", 5000, 10000);
+        });
+    }
+
+    @Test
+    void testGetPrimaryServerAddress() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("primary:4567,backup1:4568,backup2:4569");
+
+        assertEquals("primary:4567", config.getPrimaryServerAddress());
+    }
+
+    @Test
+    void testMultiServerBackwardCompatibility() {
+        ClientConfiguration singleConfig = ClientConfiguration.fromServerAddress("localhost:4567");
+        ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567");
+
+        assertEquals(singleConfig.getHost(), multiConfig.getHost());
+        assertEquals(singleConfig.getPort(), multiConfig.getPort());
+        assertEquals(singleConfig.getServerUrl(), multiConfig.getServerUrl());
+    }
+
+    @Test
+    void testMultiServerToStringBehavior() {
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("server1:4567,server2:4568,server3:4569");
+
+        // Should use first server for backward compatibility
+        assertEquals("server1", config.getHost());
+        assertEquals(4567, config.getPort());
+        assertEquals("server1:4567", config.getServerUrl());
+    }
+
     @Test
     void testDefaultValues() {
         // Test that defaults are reasonable

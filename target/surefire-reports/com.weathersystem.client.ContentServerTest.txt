@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.weathersystem.client.ContentServerTest
--------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.16 s - in com.weathersystem.client.ContentServerTest

@@ -299,4 +299,70 @@ class ContentServerTest {
         assertTrue(contentServer instanceof com.weathersystem.client.common.HttpClientBase);
         assertNotNull(contentServer.getLamportTime());
     }
+
+    // === MULTI-SERVER TESTS ===
+
+    @Test
+    void testMultiServerConfiguration() {
+        ClientConfiguration multiConfig = ClientConfiguration.fromMultipleServers("localhost:4567,localhost:4568,localhost:4569");
+        ContentServer multiServer = new ContentServer(multiConfig);
+
+        assertNotNull(multiServer);
+        assertTrue(multiConfig.hasMultipleServers());
+        assertEquals(3, multiConfig.getServerAddresses().size());
+        assertEquals(0, multiServer.getLamportTime());
+    }
+
+    @Test
+    void testMultiServerFailoverConfiguration() {
+        ClientConfiguration failoverConfig = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567,backup.host:4568");
+        ContentServer failoverServer = new ContentServer(failoverConfig);
+
+        assertNotNull(failoverServer);
+        assertTrue(failoverConfig.hasMultipleServers());
+        assertEquals(3, failoverConfig.getServerAddresses().size());
+        assertEquals("invalid.host:9999", failoverConfig.getServerAddresses().get(0));
+        assertEquals("localhost:4567", failoverConfig.getServerAddresses().get(1));
+        assertEquals("backup.host:4568", failoverConfig.getServerAddresses().get(2));
+    }
+
+    @Test
+    void testMultiServerUploadWithFailover() throws IOException {
+        // Create test weather file
+        Path weatherFile = tempDir.resolve("multi-server-test.txt");
+        String weatherContent = "id:MULTI001\n" +
+                "name:Multi Server Test\n" +
+                "state:TEST\n" +
+                "lat:-35.0\n" +
+                "lon:138.0\n" +
+                "air_temp:20.0";
+        Files.write(weatherFile, weatherContent.getBytes());
+
+        // Configure with failover servers
+        ClientConfiguration config = ClientConfiguration.fromMultipleServers("invalid.host:9999,localhost:4567");
+        ContentServer server = new ContentServer(config);
+
+        long initialTime = server.getLamportTime();
+
+        // Should attempt failover (will timeout, but tests failover logic)
+        Exception exception = assertThrows(Exception.class, () -> {
+            server.publishWeatherData(weatherFile.toString());
+        });
+
+        assertTrue(exception.getMessage().contains("Weather data upload failed after 4 attempts"));
+
+        // Lamport clock should advance during attempts
+        assertTrue(server.getLamportTime() > initialTime);
+    }
+
+    @Test
+    void testSingleServerInMultiServerConfig() {
+        ClientConfiguration singleInMulti = ClientConfiguration.fromMultipleServers("localhost:4567");
+        ContentServer server = new ContentServer(singleInMulti);
+
+        assertNotNull(server);
+        assertFalse(singleInMulti.hasMultipleServers()); // Single server doesn't count as "multiple"
+        assertEquals(1, singleInMulti.getServerAddresses().size());
+        assertEquals("localhost:4567", singleInMulti.getPrimaryServerAddress());
+    }
 }

@@ -21,12 +21,48 @@ public abstract class HttpClientBase {
 
     // Creates a socket connection to the server with configured timeouts
     protected Socket createConnection() throws IOException {
+        if (config.hasMultipleServers()) {
+            return createConnectionWithFailover();
+        } else {
+            return createSingleConnection(config.getHost(), config.getPort());
+        }
+    }
+
+    // Creates connection with failover support - tries all configured servers
+    protected Socket createConnectionWithFailover() throws IOException {
+        IOException lastException = null;
+
+        for (String serverAddress : config.getServerAddresses()) {
+            String[] parts = serverAddress.split(":");
+            String host = parts[0];
+            int port = Integer.parseInt(parts[1]);
+
+            try {
+                Socket socket = createSingleConnection(host, port);
+                System.out.println("Connected to server at " + serverAddress + " (failover success)");
+                return socket;
+            } catch (IOException e) {
+                System.out.println("Failed to connect to " + serverAddress + ": " + e.getMessage());
+                lastException = e;
+                // Continue to next server
+            }
+        }
+
+        // All servers failed
+        throw new IOException("All servers failed to connect. Last error: " +
+                            (lastException != null ? lastException.getMessage() : "Unknown"));
+    }
+
+    // Creates a single connection to specified host:port
+    private Socket createSingleConnection(String host, int port) throws IOException {
         Socket socket = new Socket();
-        socket.connect(new java.net.InetSocketAddress(config.getHost(), config.getPort()),
+        socket.connect(new java.net.InetSocketAddress(host, port),
                 config.getConnectionTimeoutMs());
         socket.setSoTimeout(config.getReadTimeoutMs());
 
-        System.out.println("Connected to server at " + config.getServerUrl());
+        if (!config.hasMultipleServers()) {
+            System.out.println("Connected to server at " + host + ":" + port);
+        }
         return socket;
     }
 

@@ -1,0 +1,13 @@
+id:TEST001
+name:Test Weather Station
+state:SA
+lat:-35.0
+lon:138.0
+air_temp:25.0
+apparent_t:24.0
+cloud:Clear
+rel_hum:50
+wind_dir:N
+wind_spd_kmh:10
+press:1013.25
+local_date_time:2024-01-01T12:00:00

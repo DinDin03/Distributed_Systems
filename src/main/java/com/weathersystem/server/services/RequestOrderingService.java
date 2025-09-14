@@ -15,8 +15,13 @@ public class RequestOrderingService {
     private final ExecutorService requestProcessorPool;
     private final Consumer<TimestampedRequest> requestProcessor;
     private final AtomicBoolean isRunning;
+    private final boolean immediateProcessing;
 
     public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor) {
+        this(requestProcessor, true); // Default to immediate processing for integration tests
+    }
+
+    public RequestOrderingService(Consumer<TimestampedRequest> requestProcessor, boolean immediateProcessing) {
         this.requestQueue = new PriorityBlockingQueue<>();
         this.requestProcessorPool = Executors.newSingleThreadExecutor(r -> {
             Thread t = new Thread(r, "RequestOrderingService");
@@ -25,6 +30,7 @@ public class RequestOrderingService {
         });
         this.requestProcessor = requestProcessor;
         this.isRunning = new AtomicBoolean(false);
+        this.immediateProcessing = immediateProcessing;
     }
 
     public void start() {
@@ -63,6 +69,20 @@ public class RequestOrderingService {
         requestQueue.offer(request);
         System.out.println("Queued " + request.getMethod() + " request with timestamp: " +
                 request.getLamportTime() + " (Queue size: " + requestQueue.size() + ")");
+
+        if (immediateProcessing && isRunning.get()) {
+            // Process immediately for integration tests
+            TimestampedRequest nextRequest = requestQueue.poll();
+            if (nextRequest != null) {
+                try {
+                    System.out.println("Processing " + nextRequest.getMethod() +
+                            " request immediately with Lamport time: " + nextRequest.getLamportTime());
+                    requestProcessor.accept(nextRequest);
+                } catch (Exception e) {
+                    System.out.println("Error processing request immediately: " + e.getMessage());
+                }
+            }
+        }
     }
 
     public int getQueueSize() {

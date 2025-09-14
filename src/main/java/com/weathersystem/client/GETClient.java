@@ -17,7 +17,15 @@ public class GETClient extends HttpClientBase {
     public static void main(String[] args) {
         String serverAddress = args.length > 0 ? args[0] : "localhost:4567";
 
-        ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
+        // Support multiple servers: "localhost:4567,localhost:4568,localhost:4569"
+        ClientConfiguration config;
+        if (serverAddress.contains(",")) {
+            config = ClientConfiguration.fromMultipleServers(serverAddress);
+            System.out.println("Configured with multiple servers: " + config.getServerAddresses());
+        } else {
+            config = ClientConfiguration.fromServerAddress(serverAddress);
+        }
+
         GETClient getClient = new GETClient(config);
 
         System.out.println("GET Client starting...");

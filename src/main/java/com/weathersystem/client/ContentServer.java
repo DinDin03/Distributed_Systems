@@ -21,7 +21,15 @@ public class ContentServer extends HttpClientBase {
         String serverAddress = args[0];
         String weatherFile = args[1];
 
-        ClientConfiguration config = ClientConfiguration.fromServerAddress(serverAddress);
+        // Support multiple servers: "localhost:4567,localhost:4568,localhost:4569"
+        ClientConfiguration config;
+        if (serverAddress.contains(",")) {
+            config = ClientConfiguration.fromMultipleServers(serverAddress);
+            System.out.println("Configured with multiple servers: " + config.getServerAddresses());
+        } else {
+            config = ClientConfiguration.fromServerAddress(serverAddress);
+        }
+
         ContentServer contentServer = new ContentServer(config);
 
         System.out.println("\n=== Content Server Starting ===");
